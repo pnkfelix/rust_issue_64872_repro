@@ -9,15 +9,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "alloc_system"
-version = "0.0.0"
-dependencies = [
- "compiler_builtins 0.1.19 (registry+https://github.com/rust-lang/crates.io-index)",
- "core 0.0.0",
- "libc 0.2.62 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "backtrace"
 version = "0.3.38"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -256,7 +247,6 @@ name = "sysroot"
 version = "0.0.0"
 dependencies = [
  "alloc 0.0.0",
- "alloc_system 0.0.0",
  "compiler_builtins 0.1.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "core 0.0.0",
  "std 0.0.0",
