@@ -246,9 +246,6 @@ dependencies = [
 name = "sysroot"
 version = "0.0.0"
 dependencies = [
- "alloc 0.0.0",
- "compiler_builtins 0.1.19 (registry+https://github.com/rust-lang/crates.io-index)",
- "core 0.0.0",
  "std 0.0.0",
  "test 0.0.0",
 ]
