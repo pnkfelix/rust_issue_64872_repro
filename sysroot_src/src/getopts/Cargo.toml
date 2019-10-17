@@ -21,21 +21,6 @@ readme = "README.md"
 categories = ["command-line-interface"]
 license = "MIT/Apache-2.0"
 repository = "https://github.com/rust-lang/getopts"
-[dependencies.core]
-version = "1.0"
-optional = true
-package = "rustc-std-workspace-core"
 
 [dependencies.std]
-version = "1.0"
-optional = true
-package = "rustc-std-workspace-std"
-
-[dependencies.unicode-width]
-path = "../unicode-width"
-
-[dev-dependencies.log]
-version = "0.4"
-
-[features]
-rustc-dep-of-std = ["unicode-width/rustc-dep-of-std", "std", "core"]
+path = "../libstd"
