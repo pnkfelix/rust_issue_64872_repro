@@ -1,2 +1,2 @@
 #![crate_name = "test"]
-use getopts as _;
+extern crate getopts;
