@@ -127,7 +127,7 @@ pub mod prelude;
 pub mod intrinsics;
 pub mod mem;
 pub mod ptr;
-pub mod hint;
+// pub mod hint;
 
 /* Core language traits */
 
