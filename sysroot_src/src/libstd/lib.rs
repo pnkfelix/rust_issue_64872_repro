@@ -8,8 +8,6 @@
 
 #![default_lib_allocator]
 
-extern crate alloc as alloc_crate;
-
 mod uw {
     #![allow(non_camel_case_types)]
     pub type _Unwind_Action = ();
@@ -51,7 +49,7 @@ pub mod prelude {
     }
 }
 
-use alloc_crate::alloc::Layout;
+use core::alloc::Layout;
 
 #[alloc_error_handler]
 pub fn rust_oom(_layout: Layout) -> ! { loop { } }
