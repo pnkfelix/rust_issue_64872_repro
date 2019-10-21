@@ -2,7 +2,6 @@
 
 use crate::fmt;
 use crate::ops::Range;
-use crate::iter::FusedIterator;
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[derive(Clone)]
@@ -21,14 +20,6 @@ impl Iterator for EscapeDefault {
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
     fn last(mut self) -> Option<u8> { loop { } }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl DoubleEndedIterator for EscapeDefault {
-    fn next_back(&mut self) -> Option<u8> { loop { } }
-}
-#[stable(feature = "rust1", since = "1.0.0")]
-impl ExactSizeIterator for EscapeDefault {}
-#[stable(feature = "fused", since = "1.26.0")]
-impl FusedIterator for EscapeDefault {}
 
 #[stable(feature = "ascii_escape_display", since = "1.39.0")]
 impl fmt::Display for EscapeDefault {

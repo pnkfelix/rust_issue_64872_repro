@@ -4,11 +4,11 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use self::pattern::Pattern;
-use self::pattern::{ReverseSearcher, DoubleEndedSearcher};
+use self::pattern::{ReverseSearcher};
 
 use crate::char;
 use crate::fmt::{self};
-use crate::iter::{Map, Cloned, FusedIterator, TrustedLen, TrustedRandomAccess, Filter};
+use crate::iter::{Map, Cloned, FusedIterator, Filter};
 use crate::iter::{Flatten, FlatMap, Chain};
 use crate::slice::{self, SliceIndex, Split as SliceSplit};
 use crate::ops::Try;
@@ -110,11 +110,6 @@ fn unwrap_or_0(opt: Option<&u8>) -> u8 { loop { } }
 #[inline]
 pub fn next_code_point<'a, I: Iterator<Item = &'a u8>>(bytes: &mut I) -> Option<u32> { loop { } }
 
-#[inline]
-fn next_code_point_reverse<'a, I>(bytes: &mut I) -> Option<u32>
-    where I: DoubleEndedIterator<Item = &'a u8>,
-{ loop { } }
-
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<'a> Iterator for Chars<'a> {
     type Item = char;
@@ -136,15 +131,6 @@ impl<'a> Iterator for Chars<'a> {
 impl fmt::Debug for Chars<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a> DoubleEndedIterator for Chars<'a> {
-    #[inline]
-    fn next_back(&mut self) -> Option<char> { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl FusedIterator for Chars<'_> {}
 
 impl<'a> Chars<'a> {
     #[stable(feature = "iter_to_slice", since = "1.4.0")]
@@ -175,15 +161,6 @@ impl<'a> Iterator for CharIndices<'a> {
     #[inline]
     fn last(mut self) -> Option<(usize, char)> { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a> DoubleEndedIterator for CharIndices<'a> {
-    #[inline]
-    fn next_back(&mut self) -> Option<(usize, char)> { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl FusedIterator for CharIndices<'_> {}
 
 impl<'a> CharIndices<'a> {
     #[stable(feature = "iter_to_slice", since = "1.4.0")]
@@ -230,45 +207,6 @@ impl Iterator for Bytes<'_> {
         P: FnMut(Self::Item) -> bool
     { loop { } }
 
-    #[inline]
-    fn rposition<P>(&mut self, predicate: P) -> Option<usize> where
-        P: FnMut(Self::Item) -> bool
-    { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl DoubleEndedIterator for Bytes<'_> {
-    #[inline]
-    fn next_back(&mut self) -> Option<u8> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn rfind<P>(&mut self, predicate: P) -> Option<Self::Item> where
-        P: FnMut(&Self::Item) -> bool
-    { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl ExactSizeIterator for Bytes<'_> {
-    #[inline]
-    fn len(&self) -> usize { loop { } }
-
-    #[inline]
-    fn is_empty(&self) -> bool { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl FusedIterator for Bytes<'_> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl TrustedLen for Bytes<'_> {}
-
-#[doc(hidden)]
-unsafe impl TrustedRandomAccess for Bytes<'_> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> u8 { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
 }
 
 macro_rules! derive_pattern_clone {
@@ -280,126 +218,6 @@ macro_rules! derive_pattern_clone {
             fn clone(&self) -> Self { loop { } }
         }
     }
-}
-
-macro_rules! generate_pattern_iterators {
-    {
-        forward:
-            $(#[$forward_iterator_attribute:meta])*
-            struct $forward_iterator:ident;
-
-        reverse:
-            $(#[$reverse_iterator_attribute:meta])*
-            struct $reverse_iterator:ident;
-
-        stability:
-            $(#[$common_stability_attribute:meta])*
-
-        internal:
-            $internal_iterator:ident yielding ($iterty:ty);
-
-        delegate $($t:tt)*
-    } => {
-        $(#[$forward_iterator_attribute])*
-        $(#[$common_stability_attribute])*
-        pub struct $forward_iterator<'a, P: Pattern<'a>>($internal_iterator<'a, P>);
-
-        $(#[$common_stability_attribute])*
-        impl<'a, P> fmt::Debug for $forward_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: fmt::Debug>,
-        {
-            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-        }
-
-        $(#[$common_stability_attribute])*
-        impl<'a, P: Pattern<'a>> Iterator for $forward_iterator<'a, P> {
-            type Item = $iterty;
-
-            #[inline]
-            fn next(&mut self) -> Option<$iterty> { loop { } }
-        }
-
-        $(#[$common_stability_attribute])*
-        impl<'a, P> Clone for $forward_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: Clone>,
-        {
-            fn clone(&self) -> Self { loop { } }
-        }
-
-        $(#[$reverse_iterator_attribute])*
-        $(#[$common_stability_attribute])*
-        pub struct $reverse_iterator<'a, P: Pattern<'a>>($internal_iterator<'a, P>);
-
-        $(#[$common_stability_attribute])*
-        impl<'a, P> fmt::Debug for $reverse_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: fmt::Debug>,
-        {
-            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-        }
-
-        $(#[$common_stability_attribute])*
-        impl<'a, P> Iterator for $reverse_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-        {
-            type Item = $iterty;
-
-            #[inline]
-            fn next(&mut self) -> Option<$iterty> { loop { } }
-        }
-
-        $(#[$common_stability_attribute])*
-        impl<'a, P> Clone for $reverse_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: Clone>,
-        {
-            fn clone(&self) -> Self { loop { } }
-        }
-
-        #[stable(feature = "fused", since = "1.26.0")]
-        impl<'a, P: Pattern<'a>> FusedIterator for $forward_iterator<'a, P> {}
-
-        #[stable(feature = "fused", since = "1.26.0")]
-        impl<'a, P> FusedIterator for $reverse_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-        {}
-
-        generate_pattern_iterators!($($t)* with $(#[$common_stability_attribute])*,
-                                                $forward_iterator,
-                                                $reverse_iterator, $iterty);
-    };
-    {
-        double ended; with $(#[$common_stability_attribute:meta])*,
-                           $forward_iterator:ident,
-                           $reverse_iterator:ident, $iterty:ty
-    } => {
-        $(#[$common_stability_attribute])*
-        impl<'a, P> DoubleEndedIterator for $forward_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: DoubleEndedSearcher<'a>>,
-        {
-            #[inline]
-            fn next_back(&mut self) -> Option<$iterty> { loop { } }
-        }
-
-        $(#[$common_stability_attribute])*
-        impl<'a, P> DoubleEndedIterator for $reverse_iterator<'a, P>
-        where
-            P: Pattern<'a, Searcher: DoubleEndedSearcher<'a>>,
-        {
-            #[inline]
-            fn next_back(&mut self) -> Option<$iterty> { loop { } }
-        }
-    };
-    {
-        single ended; with $(#[$common_stability_attribute:meta])*,
-                           $forward_iterator:ident,
-                           $reverse_iterator:ident, $iterty:ty
-    } => {}
 }
 
 derive_pattern_clone!{
@@ -435,30 +253,6 @@ impl<'a, P: Pattern<'a>> SplitInternal<'a, P> {
     { loop { } }
 }
 
-generate_pattern_iterators! {
-    forward:
-        struct Split;
-    reverse:
-        struct RSplit;
-    stability:
-        #[stable(feature = "rust1", since = "1.0.0")]
-    internal:
-        SplitInternal yielding (&'a str);
-    delegate double ended;
-}
-
-generate_pattern_iterators! {
-    forward:
-        struct SplitTerminator;
-    reverse:
-        struct RSplitTerminator;
-    stability:
-        #[stable(feature = "rust1", since = "1.0.0")]
-    internal:
-        SplitInternal yielding (&'a str);
-    delegate double ended;
-}
-
 derive_pattern_clone!{
     clone SplitNInternal
     with |s| SplitNInternal { iter: s.iter.clone(), ..*s }
@@ -486,17 +280,6 @@ impl<'a, P: Pattern<'a>> SplitNInternal<'a, P> {
     { loop { } }
 }
 
-generate_pattern_iterators! {
-    forward:
-        struct SplitN;
-    reverse:
-        struct RSplitN;
-    stability:
-        #[stable(feature = "rust1", since = "1.0.0")]
-    internal:
-        SplitNInternal yielding (&'a str);
-    delegate single ended;
-}
 
 derive_pattern_clone!{
     clone MatchIndicesInternal
@@ -520,18 +303,6 @@ impl<'a, P: Pattern<'a>> MatchIndicesInternal<'a, P> {
     fn next_back(&mut self) -> Option<(usize, &'a str)>
         where P::Searcher: ReverseSearcher<'a>
     { loop { } }
-}
-
-generate_pattern_iterators! {
-    forward:
-        struct MatchIndices;
-    reverse:
-        struct RMatchIndices;
-    stability:
-        #[stable(feature = "str_match_indices", since = "1.5.0")]
-    internal:
-        MatchIndicesInternal yielding ((usize, &'a str));
-    delegate double ended;
 }
 
 derive_pattern_clone!{
@@ -558,21 +329,9 @@ impl<'a, P: Pattern<'a>> MatchesInternal<'a, P> {
     { loop { } }
 }
 
-generate_pattern_iterators! {
-    forward:
-        struct Matches;
-    reverse:
-        struct RMatches;
-    stability:
-        #[stable(feature = "str_matches", since = "1.2.0")]
-    internal:
-        MatchesInternal yielding (&'a str);
-    delegate double ended;
-}
-
 #[stable(feature = "rust1", since = "1.0.0")]
 #[derive(Clone, Debug)]
-pub struct Lines<'a>(Map<SplitTerminator<'a, char>, LinesAnyMap>);
+pub struct Lines<'a>(&'a ());
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<'a> Iterator for Lines<'a> {
@@ -587,15 +346,6 @@ impl<'a> Iterator for Lines<'a> {
     #[inline]
     fn last(mut self) -> Option<&'a str> { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a> DoubleEndedIterator for Lines<'a> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a str> { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl FusedIterator for Lines<'_> {}
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[rustc_deprecated(since = "1.4.0", reason = "use lines()/Lines instead now")]
@@ -621,17 +371,6 @@ impl<'a> Iterator for LinesAny<'a> {
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-#[allow(deprecated)]
-impl<'a> DoubleEndedIterator for LinesAny<'a> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a str> { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-#[allow(deprecated)]
-impl FusedIterator for LinesAny<'_> {}
 
 /*
 Section: UTF-8 validation
@@ -970,158 +709,6 @@ impl str {
         P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
     { loop { } }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn split<'a, P: Pattern<'a>>(&'a self, pat: P) -> Split<'a, P> { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn rsplit<'a, P>(&'a self, pat: P) -> RSplit<'a, P>
-    where
-        P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-    { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn split_terminator<'a, P: Pattern<'a>>(&'a self, pat: P) -> SplitTerminator<'a, P> { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn rsplit_terminator<'a, P>(&'a self, pat: P) -> RSplitTerminator<'a, P>
-    where
-        P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-    { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn splitn<'a, P: Pattern<'a>>(&'a self, n: usize, pat: P) -> SplitN<'a, P> { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn rsplitn<'a, P>(&'a self, n: usize, pat: P) -> RSplitN<'a, P>
-    where
-        P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-    { loop { } }
-
-    #[stable(feature = "str_matches", since = "1.2.0")]
-    #[inline]
-    pub fn matches<'a, P: Pattern<'a>>(&'a self, pat: P) -> Matches<'a, P> { loop { } }
-
-    #[stable(feature = "str_matches", since = "1.2.0")]
-    #[inline]
-    pub fn rmatches<'a, P>(&'a self, pat: P) -> RMatches<'a, P>
-    where
-        P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-    { loop { } }
-
-    #[stable(feature = "str_match_indices", since = "1.5.0")]
-    #[inline]
-    pub fn match_indices<'a, P: Pattern<'a>>(&'a self, pat: P) -> MatchIndices<'a, P> { loop { } }
-
-    #[stable(feature = "str_match_indices", since = "1.5.0")]
-    #[inline]
-    pub fn rmatch_indices<'a, P>(&'a self, pat: P) -> RMatchIndices<'a, P>
-    where
-        P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-    { loop { } }
-
-    #[must_use = "this returns the trimmed string as a slice, \
-                  without modifying the original"]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    pub fn trim(&self) -> &str { loop { } }
-
-    #[must_use = "this returns the trimmed string as a new slice, \
-                  without modifying the original"]
-    #[stable(feature = "trim_direction", since = "1.30.0")]
-    pub fn trim_start(&self) -> &str { loop { } }
-
-    #[must_use = "this returns the trimmed string as a new slice, \
-                  without modifying the original"]
-    #[stable(feature = "trim_direction", since = "1.30.0")]
-    pub fn trim_end(&self) -> &str { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
-        since = "1.33.0",
-        reason = "superseded by `trim_start`",
-        suggestion = "trim_start",
-    )]
-    pub fn trim_left(&self) -> &str { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
-        since = "1.33.0",
-        reason = "superseded by `trim_end`",
-        suggestion = "trim_end",
-    )]
-    pub fn trim_right(&self) -> &str { loop { } }
-
-    #[must_use = "this returns the trimmed string as a new slice, \
-                  without modifying the original"]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    pub fn trim_matches<'a, P>(&'a self, pat: P) -> &'a str
-    where
-        P: Pattern<'a, Searcher: DoubleEndedSearcher<'a>>,
-    { loop { } }
-
-    #[must_use = "this returns the trimmed string as a new slice, \
-                  without modifying the original"]
-    #[stable(feature = "trim_direction", since = "1.30.0")]
-    pub fn trim_start_matches<'a, P: Pattern<'a>>(&'a self, pat: P) -> &'a str { loop { } }
-
-    #[must_use = "this returns the trimmed string as a new slice, \
-                  without modifying the original"]
-    #[stable(feature = "trim_direction", since = "1.30.0")]
-    pub fn trim_end_matches<'a, P>(&'a self, pat: P) -> &'a str
-    where
-        P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-    { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
-        since = "1.33.0",
-        reason = "superseded by `trim_start_matches`",
-        suggestion = "trim_start_matches",
-    )]
-    pub fn trim_left_matches<'a, P: Pattern<'a>>(&'a self, pat: P) -> &'a str { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
-        since = "1.33.0",
-        reason = "superseded by `trim_end_matches`",
-        suggestion = "trim_end_matches",
-    )]
-    pub fn trim_right_matches<'a, P>(&'a self, pat: P) -> &'a str
-    where
-        P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
-    { loop { } }
-
-    #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    pub fn parse<F: FromStr>(&self) -> Result<F, F::Err> { loop { } }
-
-    #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
-    #[inline]
-    pub fn is_ascii(&self) -> bool { loop { } }
-
-    #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
-    #[inline]
-    pub fn eq_ignore_ascii_case(&self, other: &str) -> bool { loop { } }
-
-    #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
-    pub fn make_ascii_uppercase(&mut self) { loop { } }
-
-    #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
-    pub fn make_ascii_lowercase(&mut self) { loop { } }
-
-    #[stable(feature = "str_escape", since = "1.34.0")]
-    pub fn escape_debug(&self) -> EscapeDebug<'_> { loop { } }
-
-    #[stable(feature = "str_escape", since = "1.34.0")]
-    pub fn escape_default(&self) -> EscapeDefault<'_> { loop { } }
-
-    #[stable(feature = "str_escape", since = "1.34.0")]
-    pub fn escape_unicode(&self) -> EscapeUnicode<'_> { loop { } }
 }
 
 impl_fn_for_zst! {
@@ -1153,7 +740,7 @@ impl Default for &mut str {
 #[stable(feature = "split_whitespace", since = "1.1.0")]
 #[derive(Clone, Debug)]
 pub struct SplitWhitespace<'a> {
-    inner: Filter<Split<'a, IsWhitespace>, IsNotEmpty>,
+    inner: &'a (),
 }
 
 #[stable(feature = "split_ascii_whitespace", since = "1.34.0")]
@@ -1193,15 +780,6 @@ impl<'a> Iterator for SplitWhitespace<'a> {
     fn last(mut self) -> Option<&'a str> { loop { } }
 }
 
-#[stable(feature = "split_whitespace", since = "1.1.0")]
-impl<'a> DoubleEndedIterator for SplitWhitespace<'a> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a str> { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl FusedIterator for SplitWhitespace<'_> {}
-
 #[stable(feature = "split_ascii_whitespace", since = "1.34.0")]
 impl<'a> Iterator for SplitAsciiWhitespace<'a> {
     type Item = &'a str;
@@ -1215,15 +793,6 @@ impl<'a> Iterator for SplitAsciiWhitespace<'a> {
     #[inline]
     fn last(mut self) -> Option<&'a str> { loop { } }
 }
-
-#[stable(feature = "split_ascii_whitespace", since = "1.34.0")]
-impl<'a> DoubleEndedIterator for SplitAsciiWhitespace<'a> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a str> { loop { } }
-}
-
-#[stable(feature = "split_ascii_whitespace", since = "1.34.0")]
-impl FusedIterator for SplitAsciiWhitespace<'_> {}
 
 #[derive(Clone)]
 #[stable(feature = "encode_utf16", since = "1.8.0")]

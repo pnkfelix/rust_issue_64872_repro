@@ -1,7 +1,7 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use crate::fmt;
-use crate::iter::{FromIterator, FusedIterator, TrustedLen};
+use crate::iter::{FromIterator};
 use crate::ops::{self, Deref, DerefMut};
 
 #[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
@@ -247,21 +247,6 @@ impl<'a, T> Iterator for Iter<'a, T> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a T> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Iter<'_, T> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T> FusedIterator for Iter<'_, T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for Iter<'_, A> {}
-
-#[stable(feature = "rust1", since = "1.0.0")]
 impl<T> Clone for Iter<'_, T> {
     #[inline]
     fn clone(&self) -> Self { loop { } }
@@ -281,21 +266,6 @@ impl<'a, T> Iterator for IterMut<'a, T> {
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T> DoubleEndedIterator for IterMut<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut T> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for IterMut<'_, T> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T> FusedIterator for IterMut<'_, T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for IterMut<'_, A> {}
-
 #[derive(Clone, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct IntoIter<T> { inner: Option<T> }
@@ -309,22 +279,6 @@ impl<T> Iterator for IntoIter<T> {
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> DoubleEndedIterator for IntoIter<T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<T> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for IntoIter<T> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T> FusedIterator for IntoIter<T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for IntoIter<A> {}
-
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<A, E, V: FromIterator<A>> FromIterator<Result<A, E>> for Result<V, E> {

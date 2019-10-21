@@ -708,12 +708,6 @@ macro_rules! iterator {
                 P: FnMut(Self::Item) -> bool,
             { loop { } }
 
-            #[inline]
-            fn rposition<P>(&mut self, mut predicate: P) -> Option<usize> where
-                P: FnMut(Self::Item) -> bool,
-                Self: Sized + ExactSizeIterator + DoubleEndedIterator
-            { loop { } }
-
             $($extra)*
         }
 

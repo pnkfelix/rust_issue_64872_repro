@@ -1,6 +1,6 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use crate::iter::{FromIterator, FusedIterator, TrustedLen};
+use crate::iter::{FromIterator};
 use crate::{fmt, ops::{self, Deref, DerefMut}};
 
 
@@ -265,15 +265,6 @@ impl<A> Iterator for Item<A> {
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
-impl<A> DoubleEndedIterator for Item<A> {
-    #[inline]
-    fn next_back(&mut self) -> Option<A> { loop { } }
-}
-
-impl<A> ExactSizeIterator for Item<A> {}
-impl<A> FusedIterator for Item<A> {}
-unsafe impl<A> TrustedLen for Item<A> {}
-
 #[stable(feature = "rust1", since = "1.0.0")]
 #[derive(Debug)]
 pub struct Iter<'a, A: 'a> { inner: Item<&'a A> }
@@ -287,21 +278,6 @@ impl<'a, A> Iterator for Iter<'a, A> {
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, A> DoubleEndedIterator for Iter<'a, A> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a A> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A> ExactSizeIterator for Iter<'_, A> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<A> FusedIterator for Iter<'_, A> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for Iter<'_, A> {}
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<A> Clone for Iter<'_, A> {
@@ -323,20 +299,6 @@ impl<'a, A> Iterator for IterMut<'a, A> {
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, A> DoubleEndedIterator for IterMut<'a, A> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut A> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A> ExactSizeIterator for IterMut<'_, A> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<A> FusedIterator for IterMut<'_, A> {}
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for IterMut<'_, A> {}
-
 #[derive(Clone, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct IntoIter<A> { inner: Item<A> }
@@ -350,22 +312,6 @@ impl<A> Iterator for IntoIter<A> {
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A> DoubleEndedIterator for IntoIter<A> {
-    #[inline]
-    fn next_back(&mut self) -> Option<A> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A> ExactSizeIterator for IntoIter<A> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<A> FusedIterator for IntoIter<A> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for IntoIter<A> {}
-
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<A, V: FromIterator<A>> FromIterator<Option<A>> for Option<V> {

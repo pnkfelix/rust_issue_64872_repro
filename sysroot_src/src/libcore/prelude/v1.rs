@@ -6,19 +6,11 @@
 
 #![stable(feature = "core_prelude", since = "1.4.0")]
 
+
 // Re-exported core operators
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
-pub use crate::marker::{Copy, Send, Sized, Sync, Unpin};
-#[stable(feature = "core_prelude", since = "1.4.0")]
-#[doc(no_inline)]
-pub use crate::ops::{Drop, Fn, FnMut, FnOnce};
-
-// Re-exported functions
-#[stable(feature = "core_prelude", since = "1.4.0")]
-#[doc(no_inline)]
-pub use crate::mem::drop;
-
+pub use crate::marker::{Copy, Send, Sized, Sync, /*Unpin*/};
 // Re-exported types and traits
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
@@ -26,32 +18,55 @@ pub use crate::clone::Clone;
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
 pub use crate::cmp::{PartialEq, PartialOrd, Eq, Ord};
-#[stable(feature = "core_prelude", since = "1.4.0")]
+#[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[doc(no_inline)]
-pub use crate::convert::{AsRef, AsMut, Into, From};
+pub use crate::hash::macros::Hash;
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
 pub use crate::default::Default;
+#[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
+#[doc(no_inline)]
+pub use crate::fmt::macros::Debug;
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
-pub use crate::iter::{Iterator, Extend, IntoIterator};
-#[stable(feature = "core_prelude", since = "1.4.0")]
-#[doc(no_inline)]
-pub use crate::iter::{DoubleEndedIterator, ExactSizeIterator};
+pub use crate::iter::{Iterator, /*
+oExtend, */IntoIterator};
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
 pub use crate::option::Option::{self, Some, None};
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
 pub use crate::result::Result::{self, Ok, Err};
+#[stable(feature = "core_prelude", since = "1.4.0")]
+#[doc(no_inline)]
+pub use crate::convert::{AsRef, AsMut, Into, From};
+#[stable(feature = "core_prelude", since = "1.4.0")]
+#[doc(no_inline)]
+pub use crate::ops::{Drop, Fn, FnMut, FnOnce};
+#[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
+#[doc(no_inline)]
+pub use crate::{
+    assert,
+    cfg,
+    concat,
+    format_args,
+    stringify,
+};
+/*
+
+// Re-exported functions
+#[stable(feature = "core_prelude", since = "1.4.0")]
+#[doc(no_inline)]
+pub use crate::mem::drop;
+
+#[stable(feature = "core_prelude", since = "1.4.0")]
+#[doc(no_inline)]
+pub use crate::iter::{Iterator, Extend, IntoIterator};
+#[stable(feature = "core_prelude", since = "1.4.0")]
+#[doc(no_inline)]
+pub use crate::iter::{DoubleEndedIterator, ExactSizeIterator};
 
 // Re-exported built-in macros
-#[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
-#[doc(no_inline)]
-pub use crate::fmt::macros::Debug;
-#[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
-#[doc(no_inline)]
-pub use crate::hash::macros::Hash;
 
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[doc(no_inline)]
@@ -75,7 +90,6 @@ pub use crate::{
     log_syntax,
     module_path,
     option_env,
-    stringify,
     trace_macros,
 };
 
@@ -90,3 +104,5 @@ pub use crate::macros::builtin::{
     test,
     test_case,
 };
+
+ */

@@ -101,18 +101,14 @@ macro_rules! impl_fn_for_zst {
                 extern "rust-call" fn call_mut(
                     &mut self,
                     ($( $arg, )*): ($( $ArgTy, )*)
-                ) -> $ReturnTy {
-                    Fn::call(&*self, ($( $arg, )*))
-                }
+                ) -> $ReturnTy { loop { } }
             }
 
             impl $( <$( $lifetime ),+> )? FnOnce<($( $ArgTy, )*)> for $Name {
                 type Output = $ReturnTy;
 
                 #[inline]
-                extern "rust-call" fn call_once(self, ($( $arg, )*): ($( $ArgTy, )*)) -> $ReturnTy {
-                    Fn::call(&self, ($( $arg, )*))
-                }
+                extern "rust-call" fn call_once(self, ($( $arg, )*): ($( $ArgTy, )*)) -> $ReturnTy { loop { } }
             }
         )+
     }

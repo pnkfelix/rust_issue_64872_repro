@@ -3,7 +3,7 @@ use crate::ops::{Try};
 
 use super::super::{Chain, Cycle, Copied, Cloned, Enumerate, Filter, FilterMap, Fuse};
 use super::super::{Flatten, FlatMap};
-use super::super::{Inspect, Map, Peekable, Scan, Skip, SkipWhile, StepBy, Take, TakeWhile, Rev};
+use super::super::{Inspect, Map, Peekable, Scan, Skip, SkipWhile, StepBy, Take, TakeWhile};
 use super::super::{Zip, Sum, Product, FromIterator};
 
 fn _assert_is_object_safe(_: &dyn Iterator<Item=()>) {}
@@ -205,20 +205,6 @@ pub trait Iterator {
     #[must_use = "if you really need to exhaust the iterator, consider `.for_each(drop)` instead"]
     fn collect<B: FromIterator<Self::Item>>(self) -> B where Self: Sized { loop { } }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
-    fn partition<B, F>(self, f: F) -> (B, B) where
-        Self: Sized,
-        B: Default + Extend<Self::Item>,
-        F: FnMut(&Self::Item) -> bool
-    { loop { } }
-
-    #[unstable(feature = "iter_partition_in_place", reason = "new API", issue = "62543")]
-    fn partition_in_place<'a, T: 'a, P>(mut self, ref mut predicate: P) -> usize
-    where
-        Self: Sized + DoubleEndedIterator<Item = &'a mut T>,
-        P: FnMut(&T) -> bool,
-    { loop { } }
-
     #[unstable(feature = "iter_is_partitioned", reason = "new API", issue = "62544")]
     fn is_partitioned<P>(mut self, mut predicate: P) -> bool
     where
@@ -280,13 +266,6 @@ pub trait Iterator {
 
     #[inline]
     #[stable(feature = "rust1", since = "1.0.0")]
-    fn rposition<P>(&mut self, predicate: P) -> Option<usize> where
-        P: FnMut(Self::Item) -> bool,
-        Self: Sized + ExactSizeIterator + DoubleEndedIterator
-    { loop { } }
-
-    #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
     fn max(self) -> Option<Self::Item> where Self: Sized, Self::Item: Ord
     { loop { } }
 
@@ -319,17 +298,6 @@ pub trait Iterator {
         where Self: Sized, F: FnMut(&Self::Item, &Self::Item) -> Ordering,
     { loop { } }
 
-
-    #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    fn rev(self) -> Rev<Self> where Self: Sized + DoubleEndedIterator { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    fn unzip<A, B, FromA, FromB>(self) -> (FromA, FromB) where
-        FromA: Default + Extend<A>,
-        FromB: Default + Extend<B>,
-        Self: Sized + Iterator<Item=(A, B)>,
-    { loop { } }
 
     #[stable(feature = "iter_copied", since = "1.36.0")]
     fn copied<'a, T: 'a>(self) -> Copied<Self>
