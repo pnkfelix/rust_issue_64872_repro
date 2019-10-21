@@ -29,51 +29,10 @@
         issue = "0"
     )
 )]
+pub mod probestack {
+    #![cfg(not(windows))] // Windows already has builtins to do this
 
-// We disable #[no_mangle] for tests so that we can verify the test results
-// against the native compiler-rt implementations of the builtins.
-
-// NOTE cfg(all(feature = "c", ..)) indicate that compiler-rt provides an arch optimized
-// implementation of that intrinsic and we'll prefer to use that
-
-// NOTE(aapcs, aeabi, arm) ARM targets use intrinsics named __aeabi_* instead of the intrinsics
-// that follow "x86 naming convention" (e.g. addsf3). Those aeabi intrinsics must adhere to the
-// AAPCS calling convention (`extern "aapcs"`) because that's how LLVM will call them.
-
-#[cfg(test)]
-extern crate core;
-
-fn abort() -> ! {
-    unsafe { core::intrinsics::abort() }
+    #[naked]
+    #[no_mangle]
+    pub unsafe extern "C" fn __rust_probestack() { }
 }
-
-#[macro_use]
-mod macros;
-
-pub mod float;
-pub mod int;
-
-#[cfg(any(
-    all(target_arch = "wasm32", target_os = "unknown"),
-    all(target_arch = "arm", target_os = "none"),
-    all(target_vendor = "fortanix", target_env = "sgx")
-))]
-pub mod math;
-pub mod mem;
-
-#[cfg(target_arch = "arm")]
-pub mod arm;
-
-#[cfg(all(kernel_user_helpers, target_os = "linux", target_arch = "arm"))]
-pub mod arm_linux;
-
-#[cfg(any(target_arch = "riscv32"))]
-pub mod riscv32;
-
-#[cfg(target_arch = "x86")]
-pub mod x86;
-
-#[cfg(target_arch = "x86_64")]
-pub mod x86_64;
-
-pub mod probestack;

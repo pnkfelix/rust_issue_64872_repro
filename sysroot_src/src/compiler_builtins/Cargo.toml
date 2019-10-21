@@ -14,7 +14,7 @@
 name = "compiler_builtins"
 version = "0.1.19"
 authors = ["Jorge Aparicio <japaricious@gmail.com>"]
-links = "compiler-rt"
+# links = "compiler-rt"
 include = ["/Cargo.toml", "/build.rs", "/src/*", "/examples/*", "/LICENSE.txt", "/README.md", "/compiler-rt/*", "/libm/src/math/*"]
 description = "Compiler intrinsics used by the Rust compiler. Also available for other targets\nif necessary!\n"
 homepage = "https://github.com/rust-lang-nursery/compiler-builtins"
