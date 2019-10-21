@@ -32,11 +32,9 @@ panic = "abort"
 [lib]
 test = false
 
-[dependencies.core]
-version = "1.0.0"
-optional = true
-package = "rustc-std-workspace-core"
+[dependencies]
+core = { path = "../libcore" }
 
 [features]
 compiler-builtins = []
-default = ["compiler-builtins", "core"]
+default = ["compiler-builtins"]
