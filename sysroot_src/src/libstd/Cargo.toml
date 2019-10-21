@@ -17,4 +17,4 @@ crate-type = ["dylib", "rlib"]
 alloc = { path = "../liballoc" }
 
 core = { path = "../libcore" }
-compiler_builtins = { path = "../compiler_builtins", features = ['rustc-dep-of-std'] }
+compiler_builtins = { path = "../compiler_builtins" }

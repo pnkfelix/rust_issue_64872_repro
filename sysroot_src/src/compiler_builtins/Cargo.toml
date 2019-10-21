@@ -39,5 +39,4 @@ package = "rustc-std-workspace-core"
 
 [features]
 compiler-builtins = []
-default = ["compiler-builtins"]
-rustc-dep-of-std = ["compiler-builtins", "core"]
+default = ["compiler-builtins", "core"]
