@@ -145,7 +145,7 @@ impl<T: fmt::UpperHex> fmt::UpperHex for Wrapping<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-pub mod flt2dec;
+// pub mod flt2dec;
 pub mod dec2flt;
 pub mod bignum;
 pub mod diy_float;

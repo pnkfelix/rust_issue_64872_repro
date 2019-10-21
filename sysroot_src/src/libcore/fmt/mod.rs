@@ -3,7 +3,7 @@
 
 use crate::cell::{UnsafeCell, Cell, RefCell, Ref, RefMut};
 use crate::marker::PhantomData;
-use crate::num::flt2dec;
+// use crate::num::flt2dec;
 use crate::result;
 use crate::slice;
 use crate::str;
@@ -277,9 +277,9 @@ impl<'a> Formatter<'a> {
         default: rt::v1::Alignment
     ) -> result::Result<PostPadding, Error> { loop { } }
 
-    fn pad_formatted_parts(&mut self, formatted: &flt2dec::Formatted<'_>) -> Result { loop { } }
+    fn pad_formatted_parts(&mut self, formatted: &impl Sized) -> Result { loop { } }
 
-    fn write_formatted_parts(&mut self, formatted: &flt2dec::Formatted<'_>) -> Result { loop { } }
+    fn write_formatted_parts(&mut self, formatted: &impl Sized) -> Result { loop { } }
 
     #[stable(feature = "rust1", since = "1.0.0")]
     pub fn write_str(&mut self, data: &str) -> Result { loop { } }
