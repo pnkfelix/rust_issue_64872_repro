@@ -18,11 +18,6 @@ pub use self::convert::CharTryFromError;
 #[stable(feature = "decode_utf16", since = "1.9.0")]
 pub use self::decode::{decode_utf16, DecodeUtf16, DecodeUtf16Error};
 
-#[unstable(feature = "unicode_version", issue = "49726")]
-pub use crate::unicode::tables::UNICODE_VERSION;
-#[unstable(feature = "unicode_version", issue = "49726")]
-pub use crate::unicode::version::UnicodeVersion;
-
 use crate::fmt::{self};
 
 const TAG_CONT: u8     = 0b1000_0000;

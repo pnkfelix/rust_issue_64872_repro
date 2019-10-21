@@ -162,7 +162,7 @@ pub mod hash;
 pub mod fmt;
 pub mod time;
 
-pub mod unicode;
+// pub mod unicode;
 
 // /* Async */
 // pub mod future;
