@@ -4,10 +4,10 @@ name = "sysroot"
 version = "0.0.0"
 
 [dependencies]
-std = { path = "./sysroot_src/src/libstd", features = ["panic_unwind"] }
+# getopts = { path = "./sysroot_src/src/getopts" }
 test = { path = "./sysroot_src/src/libtest" }
 
 [patch.crates-io]
 rustc-std-workspace-core = { path = "./sysroot_src/src/tools/rustc-std-workspace-core" }
-rustc-std-workspace-alloc = { path = "./sysroot_src/src/tools/rustc-std-workspace-alloc" }
+# rustc-std-workspace-alloc = { path = "./sysroot_src/src/tools/rustc-std-workspace-alloc" }
 # rustc-std-workspace-std = { path = "./sysroot_src/src/tools/rustc-std-workspace-std" }
