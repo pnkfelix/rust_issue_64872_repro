@@ -2,10 +2,7 @@
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use crate::cell::UnsafeCell;
-use crate::cmp;
 use crate::hash::Hash;
-use crate::hash::Hasher;
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[rustc_on_unimplemented(
@@ -110,7 +107,7 @@ macro_rules! impls{
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct PhantomData<T:?Sized>;
 
-impls! { PhantomData }
+// impls! { PhantomData }
 
 mod impls {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -122,7 +119,6 @@ mod impls {
 #[lang = "freeze"]
 pub(crate) unsafe auto trait Freeze {}
 
-impl<T: ?Sized> !Freeze for UnsafeCell<T> {}
 unsafe impl<T: ?Sized> Freeze for PhantomData<T> {}
 unsafe impl<T: ?Sized> Freeze for *const T {}
 unsafe impl<T: ?Sized> Freeze for *mut T {}

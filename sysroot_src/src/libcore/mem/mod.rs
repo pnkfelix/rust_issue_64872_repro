@@ -100,7 +100,8 @@ pub fn drop<T>(_x: T) { loop { } }
 #[stable(feature = "rust1", since = "1.0.0")]
 pub unsafe fn transmute_copy<T, U>(src: &T) -> U { loop { } }
 
-#[stable(feature = "discriminant_value", since = "1.21.0")]
+/*(
+// #[stable(feature = "discriminant_value", since = "1.21.0")]
 pub struct Discriminant<T>(u64, PhantomData<fn() -> T>);
 
 
@@ -132,3 +133,4 @@ impl<T> fmt::Debug for Discriminant<T> {
 
 #[stable(feature = "discriminant_value", since = "1.21.0")]
 pub fn discriminant<T>(v: &T) -> Discriminant<T> { loop { } }
+*/

@@ -152,7 +152,7 @@ pub mod panicking;
 // pub mod pin;
 pub mod iter;
 pub mod option;
-pub mod raw;
+// pub mod raw;
 pub mod result;
 pub mod ffi;
 
@@ -160,7 +160,7 @@ pub mod slice;
 pub mod str;
 pub mod hash;
 pub mod fmt;
-pub mod time;
+// pub mod time;
 
 // pub mod unicode;
 
@@ -172,9 +172,9 @@ pub mod time;
 #[allow(missing_docs)]
 pub mod alloc;
 
-mod bool;
-mod tuple;
-mod unit;
+// mod bool;
+// mod tuple;
+// mod unit;
 
 // #[path = "../stdarch/crates/core_arch/src/mod.rs"]
 // #[allow(missing_docs, missing_debug_implementations, dead_code, unused_imports)]
