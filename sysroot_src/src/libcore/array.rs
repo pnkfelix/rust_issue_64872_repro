@@ -1,8 +1,4 @@
 //! Implementations of things like `Eq` for fixed-length arrays
-//! up to a certain length. Eventually we should able to generalize
-//! to all lengths.
-//!
-//! *[See also the array primitive type](../../std/primitive.array.html).*
 
 #![stable(feature = "core_array", since = "1.36.0")]
 
@@ -14,28 +10,10 @@ use crate::hash::{Hash, self};
 use crate::marker::Unsize;
 use crate::slice::{Iter, IterMut};
 
-/// Utility trait implemented only on arrays of fixed size
-///
-/// This trait can be used to implement other traits on fixed-size arrays
-/// without causing much metadata bloat.
-///
-/// The trait is marked unsafe in order to restrict implementors to fixed-size
-/// arrays. User of this trait can assume that implementors have the exact
-/// layout in memory of a fixed size array (for example, for unsafe
-/// initialization).
-///
-/// Note that the traits [`AsRef`] and [`AsMut`] provide similar methods for types that
-/// may not be fixed-size arrays. Implementors should prefer those traits
-/// instead.
-///
-/// [`AsRef`]: ../convert/trait.AsRef.html
-/// [`AsMut`]: ../convert/trait.AsMut.html
 #[unstable(feature = "fixed_size_array", issue = "27778")]
 pub unsafe trait FixedSizeArray<T> {
-    /// Converts the array to immutable slice
     #[unstable(feature = "fixed_size_array", issue = "27778")]
     fn as_slice(&self) -> &[T];
-    /// Converts the array to mutable slice
     #[unstable(feature = "fixed_size_array", issue = "27778")]
     fn as_mut_slice(&mut self) -> &mut [T];
 }
@@ -43,16 +21,11 @@ pub unsafe trait FixedSizeArray<T> {
 #[unstable(feature = "fixed_size_array", issue = "27778")]
 unsafe impl<T, A: Unsize<[T]>> FixedSizeArray<T> for A {
     #[inline]
-    fn as_slice(&self) -> &[T] {
-        self
-    }
+    fn as_slice(&self) -> &[T] { loop { } }
     #[inline]
-    fn as_mut_slice(&mut self) -> &mut [T] {
-        self
-    }
+    fn as_mut_slice(&mut self) -> &mut [T] { loop { } }
 }
 
-/// The error type returned when a conversion from a slice to an array fails.
 #[stable(feature = "try_from", since = "1.34.0")]
 #[derive(Debug, Copy, Clone)]
 pub struct TryFromSliceError(());
@@ -60,9 +33,7 @@ pub struct TryFromSliceError(());
 #[stable(feature = "core_array", since = "1.36.0")]
 impl fmt::Display for TryFromSliceError {
     #[inline]
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Display::fmt(self.__description(), f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 impl TryFromSliceError {
@@ -72,16 +43,12 @@ impl TryFromSliceError {
            issue = "0")]
     #[inline]
     #[doc(hidden)]
-    pub fn __description(&self) -> &str {
-        "could not convert slice to array"
-    }
+    pub fn __description(&self) -> &str { loop { } }
 }
 
 #[stable(feature = "try_from_slice_error", since = "1.36.0")]
 impl From<Infallible> for TryFromSliceError {
-    fn from(x: Infallible) -> TryFromSliceError {
-        match x {}
-    }
+    fn from(x: Infallible) -> TryFromSliceError { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -90,9 +57,7 @@ where
     [T; N]: LengthAtMost32,
 {
     #[inline]
-    fn as_ref(&self) -> &[T] {
-        &self[..]
-    }
+    fn as_ref(&self) -> &[T] { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -101,9 +66,7 @@ where
     [T; N]: LengthAtMost32,
 {
     #[inline]
-    fn as_mut(&mut self) -> &mut [T] {
-        &mut self[..]
-    }
+    fn as_mut(&mut self) -> &mut [T] { loop { } }
 }
 
 #[stable(feature = "array_borrow", since = "1.4.0")]
@@ -111,9 +74,7 @@ impl<T, const N: usize> Borrow<[T]> for [T; N]
 where
     [T; N]: LengthAtMost32,
 {
-    fn borrow(&self) -> &[T] {
-        self
-    }
+    fn borrow(&self) -> &[T] { loop { } }
 }
 
 #[stable(feature = "array_borrow", since = "1.4.0")]
@@ -121,9 +82,7 @@ impl<T, const N: usize> BorrowMut<[T]> for [T; N]
 where
     [T; N]: LengthAtMost32,
 {
-    fn borrow_mut(&mut self) -> &mut [T] {
-        self
-    }
+    fn borrow_mut(&mut self) -> &mut [T] { loop { } }
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
@@ -134,9 +93,7 @@ where
 {
     type Error = TryFromSliceError;
 
-    fn try_from(slice: &[T]) -> Result<[T; N], TryFromSliceError> {
-        <&Self>::try_from(slice).map(|r| *r)
-    }
+    fn try_from(slice: &[T]) -> Result<[T; N], TryFromSliceError> { loop { } }
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
@@ -146,14 +103,7 @@ where
 {
     type Error = TryFromSliceError;
 
-    fn try_from(slice: &[T]) -> Result<&[T; N], TryFromSliceError> {
-        if slice.len() == N {
-            let ptr = slice.as_ptr() as *const [T; N];
-            unsafe { Ok(&*ptr) }
-        } else {
-            Err(TryFromSliceError(()))
-        }
-    }
+    fn try_from(slice: &[T]) -> Result<&[T; N], TryFromSliceError> { loop { } }
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
@@ -163,14 +113,7 @@ where
 {
     type Error = TryFromSliceError;
 
-    fn try_from(slice: &mut [T]) -> Result<&mut [T; N], TryFromSliceError> {
-        if slice.len() == N {
-            let ptr = slice.as_mut_ptr() as *mut [T; N];
-            unsafe { Ok(&mut *ptr) }
-        } else {
-            Err(TryFromSliceError(()))
-        }
-    }
+    fn try_from(slice: &mut [T]) -> Result<&mut [T; N], TryFromSliceError> { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -178,9 +121,7 @@ impl<T: Hash, const N: usize> Hash for [T; N]
 where
     [T; N]: LengthAtMost32,
 {
-    fn hash<H: hash::Hasher>(&self, state: &mut H) {
-        Hash::hash(&self[..], state)
-    }
+    fn hash<H: hash::Hasher>(&self, state: &mut H) { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -188,9 +129,7 @@ impl<T: fmt::Debug, const N: usize> fmt::Debug for [T; N]
 where
     [T; N]: LengthAtMost32,
 {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Debug::fmt(&&self[..], f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -201,9 +140,7 @@ where
     type Item = &'a T;
     type IntoIter = Iter<'a, T>;
 
-    fn into_iter(self) -> Iter<'a, T> {
-        self.iter()
-    }
+    fn into_iter(self) -> Iter<'a, T> { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -214,9 +151,7 @@ where
     type Item = &'a mut T;
     type IntoIter = IterMut<'a, T>;
 
-    fn into_iter(self) -> IterMut<'a, T> {
-        self.iter_mut()
-    }
+    fn into_iter(self) -> IterMut<'a, T> { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -227,13 +162,9 @@ where
     [B; N]: LengthAtMost32,
 {
     #[inline]
-    fn eq(&self, other: &[B; N]) -> bool {
-        self[..] == other[..]
-    }
+    fn eq(&self, other: &[B; N]) -> bool { loop { } }
     #[inline]
-    fn ne(&self, other: &[B; N]) -> bool {
-        self[..] != other[..]
-    }
+    fn ne(&self, other: &[B; N]) -> bool { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -243,13 +174,9 @@ where
     [A; N]: LengthAtMost32,
 {
     #[inline]
-    fn eq(&self, other: &[B]) -> bool {
-        self[..] == other[..]
-    }
+    fn eq(&self, other: &[B]) -> bool { loop { } }
     #[inline]
-    fn ne(&self, other: &[B]) -> bool {
-        self[..] != other[..]
-    }
+    fn ne(&self, other: &[B]) -> bool { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -259,13 +186,9 @@ where
     [A; N]: LengthAtMost32,
 {
     #[inline]
-    fn eq(&self, other: &[A; N]) -> bool {
-        self[..] == other[..]
-    }
+    fn eq(&self, other: &[A; N]) -> bool { loop { } }
     #[inline]
-    fn ne(&self, other: &[A; N]) -> bool {
-        self[..] != other[..]
-    }
+    fn ne(&self, other: &[A; N]) -> bool { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -275,13 +198,9 @@ where
     [A; N]: LengthAtMost32,
 {
     #[inline]
-    fn eq(&self, other: &&'b [B]) -> bool {
-        self[..] == other[..]
-    }
+    fn eq(&self, other: &&'b [B]) -> bool { loop { } }
     #[inline]
-    fn ne(&self, other: &&'b [B]) -> bool {
-        self[..] != other[..]
-    }
+    fn ne(&self, other: &&'b [B]) -> bool { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -291,13 +210,9 @@ where
     [A; N]: LengthAtMost32,
 {
     #[inline]
-    fn eq(&self, other: &[A; N]) -> bool {
-        self[..] == other[..]
-    }
+    fn eq(&self, other: &[A; N]) -> bool { loop { } }
     #[inline]
-    fn ne(&self, other: &[A; N]) -> bool {
-        self[..] != other[..]
-    }
+    fn ne(&self, other: &[A; N]) -> bool { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -307,13 +222,9 @@ where
     [A; N]: LengthAtMost32,
 {
     #[inline]
-    fn eq(&self, other: &&'b mut [B]) -> bool {
-        self[..] == other[..]
-    }
+    fn eq(&self, other: &&'b mut [B]) -> bool { loop { } }
     #[inline]
-    fn ne(&self, other: &&'b mut [B]) -> bool {
-        self[..] != other[..]
-    }
+    fn ne(&self, other: &&'b mut [B]) -> bool { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -323,18 +234,11 @@ where
     [A; N]: LengthAtMost32,
 {
     #[inline]
-    fn eq(&self, other: &[A; N]) -> bool {
-        self[..] == other[..]
-    }
+    fn eq(&self, other: &[A; N]) -> bool { loop { } }
     #[inline]
-    fn ne(&self, other: &[A; N]) -> bool {
-        self[..] != other[..]
-    }
+    fn ne(&self, other: &[A; N]) -> bool { loop { } }
 }
 
-// NOTE: some less important impls are omitted to reduce code bloat
-// __impl_slice_eq2! { [A; $N], &'b [B; $N] }
-// __impl_slice_eq2! { [A; $N], &'b mut [B; $N] }
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<T: Eq, const N: usize> Eq for [T; N] where [T; N]: LengthAtMost32 {}
@@ -345,25 +249,15 @@ where
     [T; N]: LengthAtMost32,
 {
     #[inline]
-    fn partial_cmp(&self, other: &[T; N]) -> Option<Ordering> {
-        PartialOrd::partial_cmp(&&self[..], &&other[..])
-    }
+    fn partial_cmp(&self, other: &[T; N]) -> Option<Ordering> { loop { } }
     #[inline]
-    fn lt(&self, other: &[T; N]) -> bool {
-        PartialOrd::lt(&&self[..], &&other[..])
-    }
+    fn lt(&self, other: &[T; N]) -> bool { loop { } }
     #[inline]
-    fn le(&self, other: &[T; N]) -> bool {
-        PartialOrd::le(&&self[..], &&other[..])
-    }
+    fn le(&self, other: &[T; N]) -> bool { loop { } }
     #[inline]
-    fn ge(&self, other: &[T; N]) -> bool {
-        PartialOrd::ge(&&self[..], &&other[..])
-    }
+    fn ge(&self, other: &[T; N]) -> bool { loop { } }
     #[inline]
-    fn gt(&self, other: &[T; N]) -> bool {
-        PartialOrd::gt(&&self[..], &&other[..])
-    }
+    fn gt(&self, other: &[T; N]) -> bool { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -372,12 +266,9 @@ where
     [T; N]: LengthAtMost32,
 {
     #[inline]
-    fn cmp(&self, other: &[T; N]) -> Ordering {
-        Ord::cmp(&&self[..], &&other[..])
-    }
+    fn cmp(&self, other: &[T; N]) -> Ordering { loop { } }
 }
 
-/// Implemented for lengths where trait impls are allowed on arrays in core/std
 #[rustc_on_unimplemented(
     message="arrays only have std trait implementations for lengths 0..=32",
 )]
@@ -401,23 +292,19 @@ array_impls! {
     30 31 32
 }
 
-// The Default impls cannot be generated using the array_impls! macro because
-// they require array literals.
 
 macro_rules! array_impl_default {
     {$n:expr, $t:ident $($ts:ident)*} => {
         #[stable(since = "1.4.0", feature = "array_default")]
         impl<T> Default for [T; $n] where T: Default {
-            fn default() -> [T; $n] {
-                [$t::default(), $($ts::default()),*]
-            }
+            fn default() -> [T; $n] { loop { } }
         }
         array_impl_default!{($n - 1), $($ts)*}
     };
     {$n:expr,} => {
         #[stable(since = "1.4.0", feature = "array_default")]
         impl<T> Default for [T; $n] {
-            fn default() -> [T; $n] { [] }
+            fn default() -> [T; $n] { loop { } }
         }
     };
 }

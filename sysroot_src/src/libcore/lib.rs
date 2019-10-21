@@ -10,6 +10,7 @@
        test(attr(allow(dead_code, deprecated, unused_variables, unused_mut))))]
 #![no_core]
 
+#![allow(unused_variables)]
 #![warn(deprecated_in_future)]
 #![warn(missing_debug_implementations)]
 #![deny(intra_doc_link_resolution_failure)] // rustdoc is run without -D warnings
@@ -149,7 +150,7 @@ pub mod cell;
 pub mod char;
 pub mod panic;
 pub mod panicking;
-pub mod pin;
+// pub mod pin;
 pub mod iter;
 pub mod option;
 pub mod raw;
@@ -164,9 +165,9 @@ pub mod time;
 
 pub mod unicode;
 
-/* Async */
-pub mod future;
-pub mod task;
+// /* Async */
+// pub mod future;
+// pub mod task;
 
 /* Heap memory allocator trait */
 #[allow(missing_docs)]

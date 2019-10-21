@@ -1,6 +1,5 @@
 // ignore-tidy-filelength
 
-//! Numeric traits and functions for the built-in numeric types.
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
@@ -17,9 +16,7 @@ macro_rules! impl_nonzero_fmt {
             #[$stability]
             impl fmt::$Trait for $Ty {
                 #[inline]
-                fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-                    self.get().fmt(f)
-                }
+                fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
             }
         )+
     }
@@ -55,29 +52,16 @@ assert_eq!(size_of::<Option<core::num::", stringify!($Ty), ">>(), size_of::<", s
             }
 
             impl $Ty {
-                /// Creates a non-zero without checking the value.
-                ///
-                /// # Safety
-                ///
-                /// The value must not be zero.
                 #[$stability]
                 #[inline]
                 pub const unsafe fn new_unchecked(n: $Int) -> Self {
                     $Ty(n)
                 }
 
-                /// Creates a non-zero if the given value is not zero.
                 #[$stability]
                 #[inline]
-                pub fn new(n: $Int) -> Option<Self> {
-                    if n != 0 {
-                        Some(unsafe { $Ty(n) })
-                    } else {
-                        None
-                    }
-                }
+                pub fn new(n: $Int) -> Option<Self> { loop { } }
 
-                /// Returns the value as a primitive type.
                 #[$stability]
                 #[inline]
                 pub const fn get(self) -> $Int {
@@ -88,9 +72,7 @@ assert_eq!(size_of::<Option<core::num::", stringify!($Ty), ">>(), size_of::<", s
 
             #[stable(feature = "from_nonzero", since = "1.31.0")]
             impl From<$Ty> for $Int {
-                fn from(nonzero: $Ty) -> Self {
-                    nonzero.0
-                }
+                fn from(nonzero: $Ty) -> Self { loop { } }
             }
 
             impl_nonzero_fmt! {
@@ -120,12 +102,7 @@ macro_rules! from_str_radix_nzint_impl {
         #[stable(feature = "nonzero_parse", since = "1.35.0")]
         impl FromStr for $t {
             type Err = ParseIntError;
-            fn from_str(src: &str) -> Result<Self, Self::Err> {
-                Self::new(from_str_radix(src, 10)?)
-                    .ok_or(ParseIntError {
-                        kind: IntErrorKind::Zero
-                    })
-            }
+            fn from_str(src: &str) -> Result<Self, Self::Err> { loop { } }
         }
     )*}
 }
@@ -133,32 +110,6 @@ macro_rules! from_str_radix_nzint_impl {
 from_str_radix_nzint_impl! { NonZeroU8 NonZeroU16 NonZeroU32 NonZeroU64 NonZeroU128 NonZeroUsize
                              NonZeroI8 NonZeroI16 NonZeroI32 NonZeroI64 NonZeroI128 NonZeroIsize }
 
-/// Provides intentionally-wrapped arithmetic on `T`.
-///
-/// Operations like `+` on `u32` values is intended to never overflow,
-/// and in some debug configurations overflow is detected and results
-/// in a panic. While most arithmetic falls into this category, some
-/// code explicitly expects and relies upon modular arithmetic (e.g.,
-/// hashing).
-///
-/// Wrapping arithmetic can be achieved either through methods like
-/// `wrapping_add`, or through the `Wrapping<T>` type, which says that
-/// all standard arithmetic operations on the underlying value are
-/// intended to have wrapping semantics.
-///
-/// The underlying value can be retrieved through the `.0` index of the
-/// `Wrapping` tuple.
-///
-/// # Examples
-///
-/// ```
-/// use std::num::Wrapping;
-///
-/// let zero = Wrapping(0u32);
-/// let one = Wrapping(1u32);
-///
-/// assert_eq!(std::u32::MAX, (zero - one).0);
-/// ```
 #[stable(feature = "rust1", since = "1.0.0")]
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default, Hash)]
 #[repr(transparent)]
@@ -167,47 +118,34 @@ pub struct Wrapping<T>(#[stable(feature = "rust1", since = "1.0.0")]
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<T: fmt::Debug> fmt::Debug for Wrapping<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "wrapping_display", since = "1.10.0")]
 impl<T: fmt::Display> fmt::Display for Wrapping<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "wrapping_fmt", since = "1.11.0")]
 impl<T: fmt::Binary> fmt::Binary for Wrapping<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "wrapping_fmt", since = "1.11.0")]
 impl<T: fmt::Octal> fmt::Octal for Wrapping<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "wrapping_fmt", since = "1.11.0")]
 impl<T: fmt::LowerHex> fmt::LowerHex for Wrapping<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "wrapping_fmt", since = "1.11.0")]
 impl<T: fmt::UpperHex> fmt::UpperHex for Wrapping<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-// All these modules are technically private and only exposed for coretests:
 pub mod flt2dec;
 pub mod dec2flt;
 pub mod bignum;
@@ -234,7 +172,6 @@ depending on the target pointer size.
 "}
 }
 
-// `Int` + `SignedInt` implemented for signed integers
 macro_rules! int_impl {
     ($SelfT:ty, $ActualT:ident, $UnsignedT:ty, $BITS:expr, $Min:expr, $Max:expr, $Feature:expr,
      $EndFeature:expr, $rot:expr, $rot_op:expr, $rot_result:expr, $swap_op:expr, $swapped:expr,
@@ -302,9 +239,7 @@ Basic usage:
 $EndFeature, "
 ```"),
             #[stable(feature = "rust1", since = "1.0.0")]
-            pub fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError> {
-                from_str_radix(src, radix)
-            }
+            pub fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError> { loop { } }
         }
 
         doc_comment! {
@@ -650,10 +585,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_sub(self, rhs: Self) -> Option<Self> {
-                let (a, b) = self.overflowing_sub(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_sub(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -674,10 +606,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_mul(self, rhs: Self) -> Option<Self> {
-                let (a, b) = self.overflowing_mul(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_mul(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -699,13 +628,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_div(self, rhs: Self) -> Option<Self> {
-                if rhs == 0 || (self == Self::min_value() && rhs == -1) {
-                    None
-                } else {
-                    Some(unsafe { intrinsics::unchecked_div(self, rhs) })
-                }
-            }
+            pub fn checked_div(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -726,13 +649,7 @@ assert_eq!((1", stringify!($SelfT), ").checked_div_euclid(0), None);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_div_euclid(self, rhs: Self) -> Option<Self> {
-                if rhs == 0 || (self == Self::min_value() && rhs == -1) {
-                    None
-                } else {
-                    Some(self.div_euclid(rhs))
-                }
-            }
+            pub fn checked_div_euclid(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -755,13 +672,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_rem(self, rhs: Self) -> Option<Self> {
-                if rhs == 0 || (self == Self::min_value() && rhs == -1) {
-                    None
-                } else {
-                    Some(unsafe { intrinsics::unchecked_rem(self, rhs) })
-                }
-            }
+            pub fn checked_rem(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -783,13 +694,7 @@ assert_eq!(", stringify!($SelfT), "::MIN.checked_rem_euclid(-1), None);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_rem_euclid(self, rhs: Self) -> Option<Self> {
-                if rhs == 0 || (self == Self::min_value() && rhs == -1) {
-                    None
-                } else {
-                    Some(self.rem_euclid(rhs))
-                }
-            }
+            pub fn checked_rem_euclid(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -808,10 +713,7 @@ $EndFeature, "
 ```"),
             #[stable(feature = "wrapping", since = "1.7.0")]
             #[inline]
-            pub fn checked_neg(self) -> Option<Self> {
-                let (a, b) = self.overflowing_neg();
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_neg(self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -831,10 +733,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_shl(self, rhs: u32) -> Option<Self> {
-                let (a, b) = self.overflowing_shl(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_shl(self, rhs: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -854,10 +753,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_shr(self, rhs: u32) -> Option<Self> {
-                let (a, b) = self.overflowing_shr(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_shr(self, rhs: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -877,13 +773,7 @@ $EndFeature, "
 ```"),
             #[stable(feature = "no_panic_abs", since = "1.13.0")]
             #[inline]
-            pub fn checked_abs(self) -> Option<Self> {
-                if self.is_negative() {
-                    self.checked_neg()
-                } else {
-                    Some(self)
-                }
-            }
+            pub fn checked_abs(self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -904,27 +794,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_pow(self, mut exp: u32) -> Option<Self> {
-                let mut base = self;
-                let mut acc: Self = 1;
-
-                while exp > 1 {
-                    if (exp & 1) == 1 {
-                        acc = acc.checked_mul(base)?;
-                    }
-                    exp /= 2;
-                    base = base.checked_mul(base)?;
-                }
-
-                // Deal with the final bit of the exponent separately, since
-                // squaring the base afterwards is not necessary and may cause a
-                // needless overflow.
-                if exp == 1 {
-                    acc = acc.checked_mul(base)?;
-                }
-
-                Some(acc)
-            }
+            pub fn checked_pow(self, mut exp: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -1001,9 +871,7 @@ $EndFeature, "
 
             #[unstable(feature = "saturating_neg", issue = "59983")]
             #[inline]
-            pub fn saturating_neg(self) -> Self {
-                intrinsics::saturating_sub(0, self)
-            }
+            pub fn saturating_neg(self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1027,13 +895,7 @@ $EndFeature, "
 
             #[unstable(feature = "saturating_neg", issue = "59983")]
             #[inline]
-            pub fn saturating_abs(self) -> Self {
-                if self.is_negative() {
-                    self.saturating_neg()
-                } else {
-                    self
-                }
-            }
+            pub fn saturating_abs(self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1056,15 +918,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn saturating_mul(self, rhs: Self) -> Self {
-                self.checked_mul(rhs).unwrap_or_else(|| {
-                    if (self < 0) == (rhs < 0) {
-                        Self::max_value()
-                    } else {
-                        Self::min_value()
-                    }
-                })
-            }
+            pub fn saturating_mul(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1087,13 +941,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn saturating_pow(self, exp: u32) -> Self {
-                match self.checked_pow(exp) {
-                    Some(x) => x,
-                    None if self < 0 && exp % 2 == 1 => Self::min_value(),
-                    None => Self::max_value(),
-                }
-            }
+            pub fn saturating_pow(self, exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1114,9 +962,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub const fn wrapping_add(self, rhs: Self) -> Self {
-                intrinsics::wrapping_add(self, rhs)
-            }
+            pub const fn wrapping_add(self, rhs: Self) -> Self { self }
         }
 
         doc_comment! {
@@ -1137,9 +983,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub const fn wrapping_sub(self, rhs: Self) -> Self {
-                intrinsics::wrapping_sub(self, rhs)
-            }
+            pub const fn wrapping_sub(self, rhs: Self) -> Self { self }
         }
 
         doc_comment! {
@@ -1159,9 +1003,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub const fn wrapping_mul(self, rhs: Self) -> Self {
-                intrinsics::wrapping_mul(self, rhs)
-            }
+            pub const fn wrapping_mul(self, rhs: Self) -> Self { self }
         }
 
         doc_comment! {
@@ -1189,9 +1031,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_div(self, rhs: Self) -> Self {
-                self.overflowing_div(rhs).0
-            }
+            pub fn wrapping_div(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1218,9 +1058,7 @@ assert_eq!((-128i8).wrapping_div_euclid(-1), -128);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_div_euclid(self, rhs: Self) -> Self {
-                self.overflowing_div_euclid(rhs).0
-            }
+            pub fn wrapping_div_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1248,9 +1086,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_rem(self, rhs: Self) -> Self {
-                self.overflowing_rem(rhs).0
-            }
+            pub fn wrapping_rem(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1276,9 +1112,7 @@ assert_eq!((-128i8).wrapping_rem_euclid(-1), 0);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_rem_euclid(self, rhs: Self) -> Self {
-                self.overflowing_rem_euclid(rhs).0
-            }
+            pub fn wrapping_rem_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1387,15 +1221,7 @@ $EndFeature, "
             #[stable(feature = "no_panic_abs", since = "1.13.0")]
             #[inline]
             pub const fn wrapping_abs(self) -> Self {
-                // sign is -1 (all ones) for negative numbers, 0 otherwise.
                 let sign = self >> ($BITS - 1);
-                // For positive self, sign == 0 so the expression is simply
-                // (self ^ 0).wrapping_sub(0) == self == abs(self).
-                //
-                // For negative self, self ^ sign == self ^ all_ones.
-                // But all_ones ^ self == all_ones - self == -1 - self.
-                // So for negative numbers, (self ^ sign).wrapping_sub(sign) is
-                // (-1 - self).wrapping_sub(-1) == -self == abs(self).
                 (self ^ sign).wrapping_sub(sign)
             }
         }
@@ -1418,27 +1244,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_pow(self, mut exp: u32) -> Self {
-                let mut base = self;
-                let mut acc: Self = 1;
-
-                while exp > 1 {
-                    if (exp & 1) == 1 {
-                        acc = acc.wrapping_mul(base);
-                    }
-                    exp /= 2;
-                    base = base.wrapping_mul(base);
-                }
-
-                // Deal with the final bit of the exponent separately, since
-                // squaring the base afterwards is not necessary and may cause a
-                // needless overflow.
-                if exp == 1 {
-                    acc = acc.wrapping_mul(base);
-                }
-
-                acc
-            }
+            pub fn wrapping_pow(self, mut exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1546,13 +1352,7 @@ $EndFeature, "
             #[stable(feature = "wrapping", since = "1.7.0")]
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
-            pub fn overflowing_div(self, rhs: Self) -> (Self, bool) {
-                if self == Self::min_value() && rhs == -1 {
-                    (self, true)
-                } else {
-                    (self / rhs, false)
-                }
-            }
+            pub fn overflowing_div(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -1580,13 +1380,7 @@ assert_eq!(", stringify!($SelfT), "::MIN.overflowing_div_euclid(-1), (", stringi
             #[stable(feature = "euclidean_division", since = "1.38.0")]
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
-            pub fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool) {
-                if self == Self::min_value() && rhs == -1 {
-                    (self, true)
-                } else {
-                    (self.div_euclid(rhs), false)
-                }
-            }
+            pub fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -1614,13 +1408,7 @@ $EndFeature, "
             #[stable(feature = "wrapping", since = "1.7.0")]
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
-            pub fn overflowing_rem(self, rhs: Self) -> (Self, bool) {
-                if self == Self::min_value() && rhs == -1 {
-                    (0, true)
-                } else {
-                    (self % rhs, false)
-                }
-            }
+            pub fn overflowing_rem(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
 
@@ -1648,13 +1436,7 @@ assert_eq!(", stringify!($SelfT), "::MIN.overflowing_rem_euclid(-1), (0, true));
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn overflowing_rem_euclid(self, rhs: Self) -> (Self, bool) {
-                if self == Self::min_value() && rhs == -1 {
-                    (0, true)
-                } else {
-                    (self.rem_euclid(rhs), false)
-                }
-            }
+            pub fn overflowing_rem_euclid(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
 
@@ -1778,36 +1560,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn overflowing_pow(self, mut exp: u32) -> (Self, bool) {
-                let mut base = self;
-                let mut acc: Self = 1;
-                let mut overflown = false;
-                // Scratch space for storing results of overflowing_mul.
-                let mut r;
-
-                while exp > 1 {
-                    if (exp & 1) == 1 {
-                        r = acc.overflowing_mul(base);
-                        acc = r.0;
-                        overflown |= r.1;
-                    }
-                    exp /= 2;
-                    r = base.overflowing_mul(base);
-                    base = r.0;
-                    overflown |= r.1;
-                }
-
-                // Deal with the final bit of the exponent separately, since
-                // squaring the base afterwards is not necessary and may cause a
-                // needless overflow.
-                if exp == 1 {
-                    r = acc.overflowing_mul(base);
-                    acc = r.0;
-                    overflown |= r.1;
-                }
-
-                (acc, overflown)
-            }
+            pub fn overflowing_pow(self, mut exp: u32) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -1828,27 +1581,7 @@ $EndFeature, "
                           without modifying the original"]
             #[inline]
             #[rustc_inherit_overflow_checks]
-            pub fn pow(self, mut exp: u32) -> Self {
-                let mut base = self;
-                let mut acc = 1;
-
-                while exp > 1 {
-                    if (exp & 1) == 1 {
-                        acc = acc * base;
-                    }
-                    exp /= 2;
-                    base = base * base;
-                }
-
-                // Deal with the final bit of the exponent separately, since
-                // squaring the base afterwards is not necessary and may cause a
-                // needless overflow.
-                if exp == 1 {
-                    acc = acc * base;
-                }
-
-                acc
-            }
+            pub fn pow(self, mut exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1884,13 +1617,7 @@ assert_eq!((-a).div_euclid(-b), 2); // -7 >= -4 * 2
                           without modifying the original"]
             #[inline]
             #[rustc_inherit_overflow_checks]
-            pub fn div_euclid(self, rhs: Self) -> Self {
-                let q = self / rhs;
-                if self % rhs < 0 {
-                    return if rhs > 0 { q - 1 } else { q + 1 }
-                }
-                q
-            }
+            pub fn div_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
 
@@ -1923,18 +1650,7 @@ assert_eq!((-a).rem_euclid(-b), 1);
                           without modifying the original"]
             #[inline]
             #[rustc_inherit_overflow_checks]
-            pub fn rem_euclid(self, rhs: Self) -> Self {
-                let r = self % rhs;
-                if r < 0 {
-                    if rhs < 0 {
-                        r - rhs
-                    } else {
-                        r + rhs
-                    }
-                } else {
-                    r
-                }
-            }
+            pub fn rem_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1960,23 +1676,8 @@ $EndFeature, "
             #[inline]
             #[rustc_inherit_overflow_checks]
             pub const fn abs(self) -> Self {
-                // Note that the #[inline] above means that the overflow
-                // semantics of the subtraction depend on the crate we're being
-                // inlined into.
 
-                // sign is -1 (all ones) for negative numbers, 0 otherwise.
                 let sign = self >> ($BITS - 1);
-                // For positive self, sign == 0 so the expression is simply
-                // (self ^ 0) - 0 == self == abs(self).
-                //
-                // For negative self, self ^ sign == self ^ all_ones.
-                // But all_ones ^ self == all_ones - self == -1 - self.
-                // So for negative numbers, (self ^ sign) - sign is
-                // (-1 - self) - -1 == -self == abs(self).
-                //
-                // The subtraction overflows when self is min_value(), because
-                // (-1 - min_value()) - -1 is max_value() - -1 which overflows.
-                // This is exactly when we want self.abs() to overflow.
                 (self ^ sign) - sign
             }
         }
@@ -2001,9 +1702,7 @@ $EndFeature, "
             #[stable(feature = "rust1", since = "1.0.0")]
             #[rustc_const_unstable(feature = "const_int_sign")]
             #[inline]
-            pub const fn signum(self) -> Self {
-                (self > 0) as Self - (self < 0) as Self
-            }
+            pub const fn signum(self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -2293,7 +1992,6 @@ impl isize {
          usize_isize_to_xe_bytes_doc!(), usize_isize_from_xe_bytes_doc!() }
 }
 
-// `Int` + `UnsignedInt` implemented for unsigned integers
 macro_rules! uint_impl {
     ($SelfT:ty, $ActualT:ty, $BITS:expr, $MaxV:expr, $Feature:expr, $EndFeature:expr,
         $rot:expr, $rot_op:expr, $rot_result:expr, $swap_op:expr, $swapped:expr,
@@ -2357,9 +2055,7 @@ Basic usage:
 $EndFeature, "
 ```"),
             #[stable(feature = "rust1", since = "1.0.0")]
-            pub fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError> {
-                from_str_radix(src, radix)
-            }
+            pub fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError> { loop { } }
         }
 
         doc_comment! {
@@ -2679,10 +2375,7 @@ assert_eq!((", stringify!($SelfT), "::max_value() - 2).checked_add(3), None);", 
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_add(self, rhs: Self) -> Option<Self> {
-                let (a, b) = self.overflowing_add(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_add(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2701,10 +2394,7 @@ assert_eq!(0", stringify!($SelfT), ".checked_sub(1), None);", $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_sub(self, rhs: Self) -> Option<Self> {
-                let (a, b) = self.overflowing_sub(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_sub(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2723,10 +2413,7 @@ assert_eq!(", stringify!($SelfT), "::max_value().checked_mul(2), None);", $EndFe
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_mul(self, rhs: Self) -> Option<Self> {
-                let (a, b) = self.overflowing_mul(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_mul(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2745,12 +2432,7 @@ assert_eq!(1", stringify!($SelfT), ".checked_div(0), None);", $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_div(self, rhs: Self) -> Option<Self> {
-                match rhs {
-                    0 => None,
-                    rhs => Some(unsafe { intrinsics::unchecked_div(self, rhs) }),
-                }
-            }
+            pub fn checked_div(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2769,13 +2451,7 @@ assert_eq!(1", stringify!($SelfT), ".checked_div_euclid(0), None);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_div_euclid(self, rhs: Self) -> Option<Self> {
-                if rhs == 0 {
-                    None
-                } else {
-                    Some(self.div_euclid(rhs))
-                }
-            }
+            pub fn checked_div_euclid(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
 
@@ -2795,13 +2471,7 @@ assert_eq!(5", stringify!($SelfT), ".checked_rem(0), None);", $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_rem(self, rhs: Self) -> Option<Self> {
-                if rhs == 0 {
-                    None
-                } else {
-                    Some(unsafe { intrinsics::unchecked_rem(self, rhs) })
-                }
-            }
+            pub fn checked_rem(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2820,13 +2490,7 @@ assert_eq!(5", stringify!($SelfT), ".checked_rem_euclid(0), None);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_rem_euclid(self, rhs: Self) -> Option<Self> {
-                if rhs == 0 {
-                    None
-                } else {
-                    Some(self.rem_euclid(rhs))
-                }
-            }
+            pub fn checked_rem_euclid(self, rhs: Self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2845,10 +2509,7 @@ assert_eq!(1", stringify!($SelfT), ".checked_neg(), None);", $EndFeature, "
 ```"),
             #[stable(feature = "wrapping", since = "1.7.0")]
             #[inline]
-            pub fn checked_neg(self) -> Option<Self> {
-                let (a, b) = self.overflowing_neg();
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_neg(self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2867,10 +2528,7 @@ assert_eq!(0x10", stringify!($SelfT), ".checked_shl(129), None);", $EndFeature, 
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_shl(self, rhs: u32) -> Option<Self> {
-                let (a, b) = self.overflowing_shl(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_shl(self, rhs: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2889,10 +2547,7 @@ assert_eq!(0x10", stringify!($SelfT), ".checked_shr(129), None);", $EndFeature, 
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_shr(self, rhs: u32) -> Option<Self> {
-                let (a, b) = self.overflowing_shr(rhs);
-                if b {None} else {Some(a)}
-            }
+            pub fn checked_shr(self, rhs: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2911,27 +2566,7 @@ assert_eq!(", stringify!($SelfT), "::max_value().checked_pow(2), None);", $EndFe
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_pow(self, mut exp: u32) -> Option<Self> {
-                let mut base = self;
-                let mut acc: Self = 1;
-
-                while exp > 1 {
-                    if (exp & 1) == 1 {
-                        acc = acc.checked_mul(base)?;
-                    }
-                    exp /= 2;
-                    base = base.checked_mul(base)?;
-                }
-
-                // Deal with the final bit of the exponent separately, since
-                // squaring the base afterwards is not necessary and may cause a
-                // needless overflow.
-                if exp == 1 {
-                    acc = acc.checked_mul(base)?;
-                }
-
-                Some(acc)
-            }
+            pub fn checked_pow(self, mut exp: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2998,9 +2633,7 @@ assert_eq!((", stringify!($SelfT), "::MAX).saturating_mul(10), ", stringify!($Se
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn saturating_mul(self, rhs: Self) -> Self {
-                self.checked_mul(rhs).unwrap_or(Self::max_value())
-            }
+            pub fn saturating_mul(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3022,12 +2655,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn saturating_pow(self, exp: u32) -> Self {
-                match self.checked_pow(exp) {
-                    Some(x) => x,
-                    None => Self::max_value(),
-                }
-            }
+            pub fn saturating_pow(self, exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3074,20 +2702,6 @@ $EndFeature, "
             }
         }
 
-        /// Wrapping (modular) multiplication. Computes `self *
-        /// rhs`, wrapping around at the boundary of the type.
-        ///
-        /// # Examples
-        ///
-        /// Basic usage:
-        ///
-        /// Please note that this example is shared between integer types.
-        /// Which explains why `u8` is used here.
-        ///
-        /// ```
-        /// assert_eq!(10u8.wrapping_mul(12), 120);
-        /// assert_eq!(25u8.wrapping_mul(12), 44);
-        /// ```
         #[stable(feature = "rust1", since = "1.0.0")]
         #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
@@ -3114,9 +2728,7 @@ Basic usage:
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_div(self, rhs: Self) -> Self {
-                self / rhs
-            }
+            pub fn wrapping_div(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3140,9 +2752,7 @@ assert_eq!(100", stringify!($SelfT), ".wrapping_div_euclid(10), 10);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_div_euclid(self, rhs: Self) -> Self {
-                self / rhs
-            }
+            pub fn wrapping_div_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3164,9 +2774,7 @@ Basic usage:
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_rem(self, rhs: Self) -> Self {
-                self % rhs
-            }
+            pub fn wrapping_rem(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3191,32 +2799,9 @@ assert_eq!(100", stringify!($SelfT), ".wrapping_rem_euclid(10), 0);
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_rem_euclid(self, rhs: Self) -> Self {
-                self % rhs
-            }
+            pub fn wrapping_rem_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
-        /// Wrapping (modular) negation. Computes `-self`,
-        /// wrapping around at the boundary of the type.
-        ///
-        /// Since unsigned types do not have negative equivalents
-        /// all applications of this function will wrap (except for `-0`).
-        /// For values smaller than the corresponding signed type's maximum
-        /// the result is the same as casting the corresponding signed value.
-        /// Any larger values are equivalent to `MAX + 1 - (val - MAX - 1)` where
-        /// `MAX` is the corresponding signed type's maximum.
-        ///
-        /// # Examples
-        ///
-        /// Basic usage:
-        ///
-        /// Please note that this example is shared between integer types.
-        /// Which explains why `i8` is used here.
-        ///
-        /// ```
-        /// assert_eq!(100i8.wrapping_neg(), -100);
-        /// assert_eq!((-128i8).wrapping_neg(), -128);
-        /// ```
         #[stable(feature = "num_wrapping", since = "1.2.0")]
         #[inline]
         pub const fn wrapping_neg(self) -> Self {
@@ -3301,27 +2886,7 @@ assert_eq!(3u8.wrapping_pow(6), 217);", $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_pow(self, mut exp: u32) -> Self {
-                let mut base = self;
-                let mut acc: Self = 1;
-
-                while exp > 1 {
-                    if (exp & 1) == 1 {
-                        acc = acc.wrapping_mul(base);
-                    }
-                    exp /= 2;
-                    base = base.wrapping_mul(base);
-                }
-
-                // Deal with the final bit of the exponent separately, since
-                // squaring the base afterwards is not necessary and may cause a
-                // needless overflow.
-                if exp == 1 {
-                    acc = acc.wrapping_mul(base);
-                }
-
-                acc
-            }
+            pub fn wrapping_pow(self, mut exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3379,23 +2944,6 @@ $EndFeature, "
             }
         }
 
-        /// Calculates the multiplication of `self` and `rhs`.
-        ///
-        /// Returns a tuple of the multiplication along with a boolean
-        /// indicating whether an arithmetic overflow would occur. If an
-        /// overflow would have occurred then the wrapped value is returned.
-        ///
-        /// # Examples
-        ///
-        /// Basic usage:
-        ///
-        /// Please note that this example is shared between integer types.
-        /// Which explains why `u32` is used here.
-        ///
-        /// ```
-        /// assert_eq!(5u32.overflowing_mul(2), (10, false));
-        /// assert_eq!(1_000_000_000u32.overflowing_mul(10), (1410065408, true));
-        /// ```
         #[stable(feature = "wrapping", since = "1.7.0")]
         #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
@@ -3428,9 +2976,7 @@ Basic usage
             #[stable(feature = "wrapping", since = "1.7.0")]
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
-            pub fn overflowing_div(self, rhs: Self) -> (Self, bool) {
-                (self / rhs, false)
-            }
+            pub fn overflowing_div(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -3459,9 +3005,7 @@ assert_eq!(5", stringify!($SelfT), ".overflowing_div_euclid(2), (2, false));
             #[stable(feature = "euclidean_division", since = "1.38.0")]
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
-            pub fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool) {
-                (self / rhs, false)
-            }
+            pub fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -3487,9 +3031,7 @@ Basic usage
             #[stable(feature = "wrapping", since = "1.7.0")]
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
-            pub fn overflowing_rem(self, rhs: Self) -> (Self, bool) {
-                (self % rhs, false)
-            }
+            pub fn overflowing_rem(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -3518,9 +3060,7 @@ assert_eq!(5", stringify!($SelfT), ".overflowing_rem_euclid(2), (1, false));
             #[stable(feature = "euclidean_division", since = "1.38.0")]
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
-            pub fn overflowing_rem_euclid(self, rhs: Self) -> (Self, bool) {
-                (self % rhs, false)
-            }
+            pub fn overflowing_rem_euclid(self, rhs: Self) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -3617,36 +3157,7 @@ assert_eq!(3u8.overflowing_pow(6), (217, true));", $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn overflowing_pow(self, mut exp: u32) -> (Self, bool) {
-                let mut base = self;
-                let mut acc: Self = 1;
-                let mut overflown = false;
-                // Scratch space for storing results of overflowing_mul.
-                let mut r;
-
-                while exp > 1 {
-                    if (exp & 1) == 1 {
-                        r = acc.overflowing_mul(base);
-                        acc = r.0;
-                        overflown |= r.1;
-                    }
-                    exp /= 2;
-                    r = base.overflowing_mul(base);
-                    base = r.0;
-                    overflown |= r.1;
-                }
-
-                // Deal with the final bit of the exponent separately, since
-                // squaring the base afterwards is not necessary and may cause a
-                // needless overflow.
-                if exp == 1 {
-                    r = acc.overflowing_mul(base);
-                    acc = r.0;
-                    overflown |= r.1;
-                }
-
-                (acc, overflown)
-            }
+            pub fn overflowing_pow(self, mut exp: u32) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -3664,27 +3175,7 @@ Basic usage:
                           without modifying the original"]
         #[inline]
         #[rustc_inherit_overflow_checks]
-        pub fn pow(self, mut exp: u32) -> Self {
-            let mut base = self;
-            let mut acc = 1;
-
-            while exp > 1 {
-                if (exp & 1) == 1 {
-                    acc = acc * base;
-                }
-                exp /= 2;
-                base = base * base;
-            }
-
-            // Deal with the final bit of the exponent separately, since
-            // squaring the base afterwards is not necessary and may cause a
-            // needless overflow.
-            if exp == 1 {
-                acc = acc * base;
-            }
-
-            acc
-        }
+            pub fn pow(self, mut exp: u32) -> Self { loop { } }
     }
 
             doc_comment! {
@@ -3706,9 +3197,7 @@ assert_eq!(7", stringify!($SelfT), ".div_euclid(4), 1); // or any other integer 
                           without modifying the original"]
             #[inline]
             #[rustc_inherit_overflow_checks]
-            pub fn div_euclid(self, rhs: Self) -> Self {
-                self / rhs
-            }
+                pub fn div_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
 
@@ -3731,9 +3220,7 @@ assert_eq!(7", stringify!($SelfT), ".rem_euclid(4), 3); // or any other integer 
                           without modifying the original"]
             #[inline]
             #[rustc_inherit_overflow_checks]
-            pub fn rem_euclid(self, rhs: Self) -> Self {
-                self % rhs
-            }
+            pub fn rem_euclid(self, rhs: Self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3749,32 +3236,11 @@ assert!(!10", stringify!($SelfT), ".is_power_of_two());", $EndFeature, "
 ```"),
             #[stable(feature = "rust1", since = "1.0.0")]
             #[inline]
-            pub fn is_power_of_two(self) -> bool {
-                (self.wrapping_sub(1)) & self == 0 && !(self == 0)
-            }
+            pub fn is_power_of_two(self) -> bool { loop { } }
         }
 
-        // Returns one less than next power of two.
-        // (For 8u8 next power of two is 8u8 and for 6u8 it is 8u8)
-        //
-        // 8u8.one_less_than_next_power_of_two() == 7
-        // 6u8.one_less_than_next_power_of_two() == 7
-        //
-        // This method cannot overflow, as in the `next_power_of_two`
-        // overflow cases it instead ends up returning the maximum value
-        // of the type, and can return 0 for 0.
         #[inline]
-        fn one_less_than_next_power_of_two(self) -> Self {
-            if self <= 1 { return 0; }
-
-            // Because `p > 0`, it cannot consist entirely of leading zeros.
-            // That means the shift is always in-bounds, and some processors
-            // (such as intel pre-haswell) have more efficient ctlz
-            // intrinsics when the argument is non-zero.
-            let p = self - 1;
-            let z = unsafe { intrinsics::ctlz_nonzero(p) };
-            <$SelfT>::max_value() >> z
-        }
+        fn one_less_than_next_power_of_two(self) -> Self { loop { } }
 
         doc_comment! {
             concat!("Returns the smallest power of two greater than or equal to `self`.
@@ -3793,10 +3259,7 @@ assert_eq!(3", stringify!($SelfT), ".next_power_of_two(), 4);", $EndFeature, "
 ```"),
             #[stable(feature = "rust1", since = "1.0.0")]
             #[inline]
-            pub fn next_power_of_two(self) -> Self {
-                // Call the trait to get overflow checks
-                ops::Add::add(self.one_less_than_next_power_of_two(), 1)
-            }
+            pub fn next_power_of_two(self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3817,9 +3280,7 @@ $EndFeature, "
 ```"),
             #[inline]
             #[stable(feature = "rust1", since = "1.0.0")]
-            pub fn checked_next_power_of_two(self) -> Option<Self> {
-                self.one_less_than_next_power_of_two().checked_add(1)
-            }
+            pub fn checked_next_power_of_two(self) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -3841,9 +3302,7 @@ $EndFeature, "
 ```"),
             #[unstable(feature = "wrapping_next_power_of_two", issue = "32463",
                        reason = "needs decision on wrapping behaviour")]
-            pub fn wrapping_next_power_of_two(self) -> Self {
-                self.one_less_than_next_power_of_two().wrapping_add(1)
-            }
+            pub fn wrapping_next_power_of_two(self) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -4037,517 +3496,69 @@ impl u8 {
         "[0x12]", "", "" }
 
 
-    /// Checks if the value is within the ASCII range.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let ascii = 97u8;
-    /// let non_ascii = 150u8;
-    ///
-    /// assert!(ascii.is_ascii());
-    /// assert!(!non_ascii.is_ascii());
-    /// ```
     #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
     #[inline]
-    pub fn is_ascii(&self) -> bool {
-        *self & 128 == 0
-    }
+    pub fn is_ascii(&self) -> bool { loop { } }
 
-    /// Makes a copy of the value in its ASCII upper case equivalent.
-    ///
-    /// ASCII letters 'a' to 'z' are mapped to 'A' to 'Z',
-    /// but non-ASCII letters are unchanged.
-    ///
-    /// To uppercase the value in-place, use [`make_ascii_uppercase`].
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let lowercase_a = 97u8;
-    ///
-    /// assert_eq!(65, lowercase_a.to_ascii_uppercase());
-    /// ```
-    ///
-    /// [`make_ascii_uppercase`]: #method.make_ascii_uppercase
     #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
     #[inline]
-    pub fn to_ascii_uppercase(&self) -> u8 {
-        // Unset the fith bit if this is a lowercase letter
-        *self & !((self.is_ascii_lowercase() as u8) << 5)
-    }
+    pub fn to_ascii_uppercase(&self) -> u8 { loop { } }
 
-    /// Makes a copy of the value in its ASCII lower case equivalent.
-    ///
-    /// ASCII letters 'A' to 'Z' are mapped to 'a' to 'z',
-    /// but non-ASCII letters are unchanged.
-    ///
-    /// To lowercase the value in-place, use [`make_ascii_lowercase`].
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = 65u8;
-    ///
-    /// assert_eq!(97, uppercase_a.to_ascii_lowercase());
-    /// ```
-    ///
-    /// [`make_ascii_lowercase`]: #method.make_ascii_lowercase
     #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
     #[inline]
-    pub fn to_ascii_lowercase(&self) -> u8 {
-        // Set the fith bit if this is an uppercase letter
-        *self | ((self.is_ascii_uppercase() as u8) << 5)
-    }
+    pub fn to_ascii_lowercase(&self) -> u8 { loop { } }
 
-    /// Checks that two values are an ASCII case-insensitive match.
-    ///
-    /// This is equivalent to `to_ascii_lowercase(a) == to_ascii_lowercase(b)`.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let lowercase_a = 97u8;
-    /// let uppercase_a = 65u8;
-    ///
-    /// assert!(lowercase_a.eq_ignore_ascii_case(&uppercase_a));
-    /// ```
     #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
     #[inline]
-    pub fn eq_ignore_ascii_case(&self, other: &u8) -> bool {
-        self.to_ascii_lowercase() == other.to_ascii_lowercase()
-    }
+    pub fn eq_ignore_ascii_case(&self, other: &u8) -> bool { loop { } }
 
-    /// Converts this value to its ASCII upper case equivalent in-place.
-    ///
-    /// ASCII letters 'a' to 'z' are mapped to 'A' to 'Z',
-    /// but non-ASCII letters are unchanged.
-    ///
-    /// To return a new uppercased value without modifying the existing one, use
-    /// [`to_ascii_uppercase`].
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let mut byte = b'a';
-    ///
-    /// byte.make_ascii_uppercase();
-    ///
-    /// assert_eq!(b'A', byte);
-    /// ```
-    ///
-    /// [`to_ascii_uppercase`]: #method.to_ascii_uppercase
     #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
     #[inline]
-    pub fn make_ascii_uppercase(&mut self) {
-        *self = self.to_ascii_uppercase();
-    }
+    pub fn make_ascii_uppercase(&mut self) { loop { } }
 
-    /// Converts this value to its ASCII lower case equivalent in-place.
-    ///
-    /// ASCII letters 'A' to 'Z' are mapped to 'a' to 'z',
-    /// but non-ASCII letters are unchanged.
-    ///
-    /// To return a new lowercased value without modifying the existing one, use
-    /// [`to_ascii_lowercase`].
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let mut byte = b'A';
-    ///
-    /// byte.make_ascii_lowercase();
-    ///
-    /// assert_eq!(b'a', byte);
-    /// ```
-    ///
-    /// [`to_ascii_lowercase`]: #method.to_ascii_lowercase
     #[stable(feature = "ascii_methods_on_intrinsics", since = "1.23.0")]
     #[inline]
-    pub fn make_ascii_lowercase(&mut self) {
-        *self = self.to_ascii_lowercase();
-    }
+    pub fn make_ascii_lowercase(&mut self) { loop { } }
 
-    /// Checks if the value is an ASCII alphabetic character:
-    ///
-    /// - U+0041 'A' ..= U+005A 'Z', or
-    /// - U+0061 'a' ..= U+007A 'z'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(uppercase_a.is_ascii_alphabetic());
-    /// assert!(uppercase_g.is_ascii_alphabetic());
-    /// assert!(a.is_ascii_alphabetic());
-    /// assert!(g.is_ascii_alphabetic());
-    /// assert!(!zero.is_ascii_alphabetic());
-    /// assert!(!percent.is_ascii_alphabetic());
-    /// assert!(!space.is_ascii_alphabetic());
-    /// assert!(!lf.is_ascii_alphabetic());
-    /// assert!(!esc.is_ascii_alphabetic());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_alphabetic(&self) -> bool {
-        match *self {
-            b'A'..=b'Z' | b'a'..=b'z' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_alphabetic(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII uppercase character:
-    /// U+0041 'A' ..= U+005A 'Z'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(uppercase_a.is_ascii_uppercase());
-    /// assert!(uppercase_g.is_ascii_uppercase());
-    /// assert!(!a.is_ascii_uppercase());
-    /// assert!(!g.is_ascii_uppercase());
-    /// assert!(!zero.is_ascii_uppercase());
-    /// assert!(!percent.is_ascii_uppercase());
-    /// assert!(!space.is_ascii_uppercase());
-    /// assert!(!lf.is_ascii_uppercase());
-    /// assert!(!esc.is_ascii_uppercase());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_uppercase(&self) -> bool {
-        match *self {
-            b'A'..=b'Z' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_uppercase(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII lowercase character:
-    /// U+0061 'a' ..= U+007A 'z'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(!uppercase_a.is_ascii_lowercase());
-    /// assert!(!uppercase_g.is_ascii_lowercase());
-    /// assert!(a.is_ascii_lowercase());
-    /// assert!(g.is_ascii_lowercase());
-    /// assert!(!zero.is_ascii_lowercase());
-    /// assert!(!percent.is_ascii_lowercase());
-    /// assert!(!space.is_ascii_lowercase());
-    /// assert!(!lf.is_ascii_lowercase());
-    /// assert!(!esc.is_ascii_lowercase());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_lowercase(&self) -> bool {
-        match *self {
-            b'a'..=b'z' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_lowercase(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII alphanumeric character:
-    ///
-    /// - U+0041 'A' ..= U+005A 'Z', or
-    /// - U+0061 'a' ..= U+007A 'z', or
-    /// - U+0030 '0' ..= U+0039 '9'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(uppercase_a.is_ascii_alphanumeric());
-    /// assert!(uppercase_g.is_ascii_alphanumeric());
-    /// assert!(a.is_ascii_alphanumeric());
-    /// assert!(g.is_ascii_alphanumeric());
-    /// assert!(zero.is_ascii_alphanumeric());
-    /// assert!(!percent.is_ascii_alphanumeric());
-    /// assert!(!space.is_ascii_alphanumeric());
-    /// assert!(!lf.is_ascii_alphanumeric());
-    /// assert!(!esc.is_ascii_alphanumeric());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_alphanumeric(&self) -> bool {
-        match *self {
-            b'0'..=b'9' | b'A'..=b'Z' | b'a'..=b'z' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_alphanumeric(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII decimal digit:
-    /// U+0030 '0' ..= U+0039 '9'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(!uppercase_a.is_ascii_digit());
-    /// assert!(!uppercase_g.is_ascii_digit());
-    /// assert!(!a.is_ascii_digit());
-    /// assert!(!g.is_ascii_digit());
-    /// assert!(zero.is_ascii_digit());
-    /// assert!(!percent.is_ascii_digit());
-    /// assert!(!space.is_ascii_digit());
-    /// assert!(!lf.is_ascii_digit());
-    /// assert!(!esc.is_ascii_digit());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_digit(&self) -> bool {
-        match *self {
-            b'0'..=b'9' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_digit(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII hexadecimal digit:
-    ///
-    /// - U+0030 '0' ..= U+0039 '9', or
-    /// - U+0041 'A' ..= U+0046 'F', or
-    /// - U+0061 'a' ..= U+0066 'f'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(uppercase_a.is_ascii_hexdigit());
-    /// assert!(!uppercase_g.is_ascii_hexdigit());
-    /// assert!(a.is_ascii_hexdigit());
-    /// assert!(!g.is_ascii_hexdigit());
-    /// assert!(zero.is_ascii_hexdigit());
-    /// assert!(!percent.is_ascii_hexdigit());
-    /// assert!(!space.is_ascii_hexdigit());
-    /// assert!(!lf.is_ascii_hexdigit());
-    /// assert!(!esc.is_ascii_hexdigit());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_hexdigit(&self) -> bool {
-        match *self {
-            b'0'..=b'9' | b'A'..=b'F' | b'a'..=b'f' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_hexdigit(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII punctuation character:
-    ///
-    /// - U+0021 ..= U+002F `! " # $ % & ' ( ) * + , - . /`, or
-    /// - U+003A ..= U+0040 `: ; < = > ? @`, or
-    /// - U+005B ..= U+0060 ``[ \ ] ^ _ ` ``, or
-    /// - U+007B ..= U+007E `{ | } ~`
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(!uppercase_a.is_ascii_punctuation());
-    /// assert!(!uppercase_g.is_ascii_punctuation());
-    /// assert!(!a.is_ascii_punctuation());
-    /// assert!(!g.is_ascii_punctuation());
-    /// assert!(!zero.is_ascii_punctuation());
-    /// assert!(percent.is_ascii_punctuation());
-    /// assert!(!space.is_ascii_punctuation());
-    /// assert!(!lf.is_ascii_punctuation());
-    /// assert!(!esc.is_ascii_punctuation());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_punctuation(&self) -> bool {
-        match *self {
-            b'!'..=b'/' | b':'..=b'@' | b'['..=b'`' | b'{'..=b'~' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_punctuation(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII graphic character:
-    /// U+0021 '!' ..= U+007E '~'.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(uppercase_a.is_ascii_graphic());
-    /// assert!(uppercase_g.is_ascii_graphic());
-    /// assert!(a.is_ascii_graphic());
-    /// assert!(g.is_ascii_graphic());
-    /// assert!(zero.is_ascii_graphic());
-    /// assert!(percent.is_ascii_graphic());
-    /// assert!(!space.is_ascii_graphic());
-    /// assert!(!lf.is_ascii_graphic());
-    /// assert!(!esc.is_ascii_graphic());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_graphic(&self) -> bool {
-        match *self {
-            b'!'..=b'~' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_graphic(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII whitespace character:
-    /// U+0020 SPACE, U+0009 HORIZONTAL TAB, U+000A LINE FEED,
-    /// U+000C FORM FEED, or U+000D CARRIAGE RETURN.
-    ///
-    /// Rust uses the WhatWG Infra Standard's [definition of ASCII
-    /// whitespace][infra-aw]. There are several other definitions in
-    /// wide use. For instance, [the POSIX locale][pct] includes
-    /// U+000B VERTICAL TAB as well as all the above characters,
-    /// but—from the very same specification—[the default rule for
-    /// "field splitting" in the Bourne shell][bfs] considers *only*
-    /// SPACE, HORIZONTAL TAB, and LINE FEED as whitespace.
-    ///
-    /// If you are writing a program that will process an existing
-    /// file format, check what that format's definition of whitespace is
-    /// before using this function.
-    ///
-    /// [infra-aw]: https://infra.spec.whatwg.org/#ascii-whitespace
-    /// [pct]: http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html#tag_07_03_01
-    /// [bfs]: http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_05
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(!uppercase_a.is_ascii_whitespace());
-    /// assert!(!uppercase_g.is_ascii_whitespace());
-    /// assert!(!a.is_ascii_whitespace());
-    /// assert!(!g.is_ascii_whitespace());
-    /// assert!(!zero.is_ascii_whitespace());
-    /// assert!(!percent.is_ascii_whitespace());
-    /// assert!(space.is_ascii_whitespace());
-    /// assert!(lf.is_ascii_whitespace());
-    /// assert!(!esc.is_ascii_whitespace());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_whitespace(&self) -> bool {
-        match *self {
-            b'\t' | b'\n' | b'\x0C' | b'\r' | b' ' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_whitespace(&self) -> bool { loop { } }
 
-    /// Checks if the value is an ASCII control character:
-    /// U+0000 NUL ..= U+001F UNIT SEPARATOR, or U+007F DELETE.
-    /// Note that most ASCII whitespace characters are control
-    /// characters, but SPACE is not.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let uppercase_a = b'A';
-    /// let uppercase_g = b'G';
-    /// let a = b'a';
-    /// let g = b'g';
-    /// let zero = b'0';
-    /// let percent = b'%';
-    /// let space = b' ';
-    /// let lf = b'\n';
-    /// let esc = 0x1b_u8;
-    ///
-    /// assert!(!uppercase_a.is_ascii_control());
-    /// assert!(!uppercase_g.is_ascii_control());
-    /// assert!(!a.is_ascii_control());
-    /// assert!(!g.is_ascii_control());
-    /// assert!(!zero.is_ascii_control());
-    /// assert!(!percent.is_ascii_control());
-    /// assert!(!space.is_ascii_control());
-    /// assert!(lf.is_ascii_control());
-    /// assert!(esc.is_ascii_control());
-    /// ```
     #[stable(feature = "ascii_ctype_on_intrinsics", since = "1.24.0")]
     #[inline]
-    pub fn is_ascii_control(&self) -> bool {
-        match *self {
-            b'\0'..=b'\x1F' | b'\x7F' => true,
-            _ => false
-        }
-    }
+    pub fn is_ascii_control(&self) -> bool { loop { } }
 }
 
 #[lang = "u16"]
@@ -4608,52 +3619,21 @@ impl usize {
         usize_isize_to_xe_bytes_doc!(), usize_isize_from_xe_bytes_doc!() }
 }
 
-/// A classification of floating point numbers.
-///
-/// This `enum` is used as the return type for [`f32::classify`] and [`f64::classify`]. See
-/// their documentation for more.
-///
-/// [`f32::classify`]: ../../std/primitive.f32.html#method.classify
-/// [`f64::classify`]: ../../std/primitive.f64.html#method.classify
-///
-/// # Examples
-///
-/// ```
-/// use std::num::FpCategory;
-/// use std::f32;
-///
-/// let num = 12.4_f32;
-/// let inf = f32::INFINITY;
-/// let zero = 0f32;
-/// let sub: f32 = 1.1754942e-38;
-/// let nan = f32::NAN;
-///
-/// assert_eq!(num.classify(), FpCategory::Normal);
-/// assert_eq!(inf.classify(), FpCategory::Infinite);
-/// assert_eq!(zero.classify(), FpCategory::Zero);
-/// assert_eq!(nan.classify(), FpCategory::Nan);
-/// assert_eq!(sub.classify(), FpCategory::Subnormal);
-/// ```
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub enum FpCategory {
-    /// "Not a Number", often obtained by dividing by zero.
     #[stable(feature = "rust1", since = "1.0.0")]
     Nan,
 
-    /// Positive or negative infinity.
     #[stable(feature = "rust1", since = "1.0.0")]
     Infinite,
 
-    /// Positive or negative zero.
     #[stable(feature = "rust1", since = "1.0.0")]
     Zero,
 
-    /// De-normalized floating point representation (less precise than `Normal`).
     #[stable(feature = "rust1", since = "1.0.0")]
     Subnormal,
 
-    /// A regular floating point number.
     #[stable(feature = "rust1", since = "1.0.0")]
     Normal,
 }
@@ -4663,15 +3643,12 @@ macro_rules! from_str_radix_int_impl {
         #[stable(feature = "rust1", since = "1.0.0")]
         impl FromStr for $t {
             type Err = ParseIntError;
-            fn from_str(src: &str) -> Result<Self, ParseIntError> {
-                from_str_radix(src, 10)
-            }
+            fn from_str(src: &str) -> Result<Self, ParseIntError> { loop { } }
         }
     )*}
 }
 from_str_radix_int_impl! { isize i8 i16 i32 i64 i128 usize u8 u16 u32 u64 u128 }
 
-/// The error type returned when a checked integral type conversion fails.
 #[stable(feature = "try_from", since = "1.34.0")]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct TryFromIntError(());
@@ -4682,117 +3659,68 @@ impl TryFromIntError {
                          not be exposed publicly",
                issue = "0")]
     #[doc(hidden)]
-    pub fn __description(&self) -> &str {
-        "out of range integral type conversion attempted"
-    }
+    pub fn __description(&self) -> &str { loop { } }
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
 impl fmt::Display for TryFromIntError {
-    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.__description().fmt(fmt)
-    }
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
 impl From<Infallible> for TryFromIntError {
-    fn from(x: Infallible) -> TryFromIntError {
-        match x {}
-    }
+    fn from(x: Infallible) -> TryFromIntError { loop { } }
 }
 
 #[unstable(feature = "never_type", issue = "35121")]
 impl From<!> for TryFromIntError {
-    fn from(never: !) -> TryFromIntError {
-        // Match rather than coerce to make sure that code like
-        // `From<Infallible> for TryFromIntError` above will keep working
-        // when `Infallible` becomes an alias to `!`.
-        match never {}
-    }
+    fn from(never: !) -> TryFromIntError { loop { } }
 }
 
-// no possible bounds violation
 macro_rules! try_from_unbounded {
     ($source:ty, $($target:ty),*) => {$(
         #[stable(feature = "try_from", since = "1.34.0")]
         impl TryFrom<$source> for $target {
             type Error = TryFromIntError;
 
-            /// Try to create the target number type from a source
-            /// number type. This returns an error if the source value
-            /// is outside of the range of the target type.
             #[inline]
-            fn try_from(value: $source) -> Result<Self, Self::Error> {
-                Ok(value as $target)
-            }
+            fn try_from(value: $source) -> Result<Self, Self::Error> { loop { } }
         }
     )*}
 }
 
-// only negative bounds
 macro_rules! try_from_lower_bounded {
     ($source:ty, $($target:ty),*) => {$(
         #[stable(feature = "try_from", since = "1.34.0")]
         impl TryFrom<$source> for $target {
             type Error = TryFromIntError;
 
-            /// Try to create the target number type from a source
-            /// number type. This returns an error if the source value
-            /// is outside of the range of the target type.
             #[inline]
-            fn try_from(u: $source) -> Result<$target, TryFromIntError> {
-                if u >= 0 {
-                    Ok(u as $target)
-                } else {
-                    Err(TryFromIntError(()))
-                }
-            }
+            fn try_from(u: $source) -> Result<$target, TryFromIntError> { loop { } }
         }
     )*}
 }
 
-// unsigned to signed (only positive bound)
 macro_rules! try_from_upper_bounded {
     ($source:ty, $($target:ty),*) => {$(
         #[stable(feature = "try_from", since = "1.34.0")]
         impl TryFrom<$source> for $target {
             type Error = TryFromIntError;
 
-            /// Try to create the target number type from a source
-            /// number type. This returns an error if the source value
-            /// is outside of the range of the target type.
             #[inline]
-            fn try_from(u: $source) -> Result<$target, TryFromIntError> {
-                if u > (<$target>::max_value() as $source) {
-                    Err(TryFromIntError(()))
-                } else {
-                    Ok(u as $target)
-                }
-            }
+            fn try_from(u: $source) -> Result<$target, TryFromIntError> { loop { } }
         }
     )*}
 }
 
-// all other cases
 macro_rules! try_from_both_bounded {
     ($source:ty, $($target:ty),*) => {$(
         #[stable(feature = "try_from", since = "1.34.0")]
         impl TryFrom<$source> for $target {
             type Error = TryFromIntError;
 
-            /// Try to create the target number type from a source
-            /// number type. This returns an error if the source value
-            /// is outside of the range of the target type.
             #[inline]
-            fn try_from(u: $source) -> Result<$target, TryFromIntError> {
-                let min = <$target>::min_value() as $source;
-                let max = <$target>::max_value() as $source;
-                if u < min || u > max {
-                    Err(TryFromIntError(()))
-                } else {
-                    Ok(u as $target)
-                }
-            }
+            fn try_from(u: $source) -> Result<$target, TryFromIntError> { loop { } }
         }
     )*}
 }
@@ -4803,7 +3731,6 @@ macro_rules! rev {
     )*}
 }
 
-// intra-sign conversions
 try_from_upper_bounded!(u16, u8);
 try_from_upper_bounded!(u32, u16, u8);
 try_from_upper_bounded!(u64, u32, u16, u8);
@@ -4814,14 +3741,12 @@ try_from_both_bounded!(i32, i16, i8);
 try_from_both_bounded!(i64, i32, i16, i8);
 try_from_both_bounded!(i128, i64, i32, i16, i8);
 
-// unsigned-to-signed
 try_from_upper_bounded!(u8, i8);
 try_from_upper_bounded!(u16, i8, i16);
 try_from_upper_bounded!(u32, i8, i16, i32);
 try_from_upper_bounded!(u64, i8, i16, i32, i64);
 try_from_upper_bounded!(u128, i8, i16, i32, i64, i128);
 
-// signed-to-unsigned
 try_from_lower_bounded!(i8, u8, u16, u32, u64, u128);
 try_from_lower_bounded!(i16, u16, u32, u64, u128);
 try_from_lower_bounded!(i32, u32, u64, u128);
@@ -4832,7 +3757,6 @@ try_from_both_bounded!(i32, u16, u8);
 try_from_both_bounded!(i64, u32, u16, u8);
 try_from_both_bounded!(i128, u64, u32, u16, u8);
 
-// usize/isize
 try_from_upper_bounded!(usize, isize);
 try_from_lower_bounded!(isize, usize);
 
@@ -4924,114 +3848,28 @@ trait FromStrRadixHelper: PartialOrd + Copy {
 macro_rules! doit {
     ($($t:ty)*) => ($(impl FromStrRadixHelper for $t {
         #[inline]
-        fn min_value() -> Self { Self::min_value() }
+        fn min_value() -> Self { loop { } }
         #[inline]
-        fn max_value() -> Self { Self::max_value() }
+        fn max_value() -> Self { loop { } }
         #[inline]
-        fn from_u32(u: u32) -> Self { u as Self }
+        fn from_u32(u: u32) -> Self { loop { } }
         #[inline]
-        fn checked_mul(&self, other: u32) -> Option<Self> {
-            Self::checked_mul(*self, other as Self)
-        }
+        fn checked_mul(&self, other: u32) -> Option<Self> { loop { } }
         #[inline]
-        fn checked_sub(&self, other: u32) -> Option<Self> {
-            Self::checked_sub(*self, other as Self)
-        }
+        fn checked_sub(&self, other: u32) -> Option<Self> { loop { } }
         #[inline]
-        fn checked_add(&self, other: u32) -> Option<Self> {
-            Self::checked_add(*self, other as Self)
-        }
+        fn checked_add(&self, other: u32) -> Option<Self> { loop { } }
     })*)
 }
 doit! { i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize }
 
-fn from_str_radix<T: FromStrRadixHelper>(src: &str, radix: u32) -> Result<T, ParseIntError> {
-    use self::IntErrorKind::*;
-    use self::ParseIntError as PIE;
 
-    assert!(radix >= 2 && radix <= 36,
-           "from_str_radix_int: must lie in the range `[2, 36]` - found {}",
-           radix);
-
-    if src.is_empty() {
-        return Err(PIE { kind: Empty });
-    }
-
-    let is_signed_ty = T::from_u32(0) > T::min_value();
-
-    // all valid digits are ascii, so we will just iterate over the utf8 bytes
-    // and cast them to chars. .to_digit() will safely return None for anything
-    // other than a valid ascii digit for the given radix, including the first-byte
-    // of multi-byte sequences
-    let src = src.as_bytes();
-
-    let (is_positive, digits) = match src[0] {
-        b'+' => (true, &src[1..]),
-        b'-' if is_signed_ty => (false, &src[1..]),
-        _ => (true, src),
-    };
-
-    if digits.is_empty() {
-        return Err(PIE { kind: Empty });
-    }
-
-    let mut result = T::from_u32(0);
-    if is_positive {
-        // The number is positive
-        for &c in digits {
-            let x = match (c as char).to_digit(radix) {
-                Some(x) => x,
-                None => return Err(PIE { kind: InvalidDigit }),
-            };
-            result = match result.checked_mul(radix) {
-                Some(result) => result,
-                None => return Err(PIE { kind: Overflow }),
-            };
-            result = match result.checked_add(x) {
-                Some(result) => result,
-                None => return Err(PIE { kind: Overflow }),
-            };
-        }
-    } else {
-        // The number is negative
-        for &c in digits {
-            let x = match (c as char).to_digit(radix) {
-                Some(x) => x,
-                None => return Err(PIE { kind: InvalidDigit }),
-            };
-            result = match result.checked_mul(radix) {
-                Some(result) => result,
-                None => return Err(PIE { kind: Underflow }),
-            };
-            result = match result.checked_sub(x) {
-                Some(result) => result,
-                None => return Err(PIE { kind: Underflow }),
-            };
-        }
-    }
-    Ok(result)
-}
-
-/// An error which can be returned when parsing an integer.
-///
-/// This error is used as the error type for the `from_str_radix()` functions
-/// on the primitive integer types, such as [`i8::from_str_radix`].
-///
-/// # Potential causes
-///
-/// Among other causes, `ParseIntError` can be thrown because of leading or trailing whitespace
-/// in the string e.g., when it is obtained from the standard input.
-/// Using the [`str.trim()`] method ensures that no whitespace remains before parsing.
-///
-/// [`str.trim()`]: ../../std/primitive.str.html#method.trim
-/// [`i8::from_str_radix`]: ../../std/primitive.i8.html#method.from_str_radix
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct ParseIntError {
     kind: IntErrorKind,
 }
 
-/// Enum to store the various types of errors that can cause parsing an integer to fail.
 #[unstable(feature = "int_error_matching",
            reason = "it can be useful to match errors when making error messages \
                      for integer parsing",
@@ -5039,73 +3877,42 @@ pub struct ParseIntError {
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum IntErrorKind {
-    /// Value being parsed is empty.
-    ///
-    /// Among other causes, this variant will be constructed when parsing an empty string.
     Empty,
-    /// Contains an invalid digit.
-    ///
-    /// Among other causes, this variant will be constructed when parsing a string that
-    /// contains a letter.
     InvalidDigit,
-    /// Integer is too large to store in target integer type.
     Overflow,
-    /// Integer is too small to store in target integer type.
     Underflow,
-    /// Value was Zero
-    ///
-    /// This variant will be emitted when the parsing string has a value of zero, which
-    /// would be illegal for non-zero types.
     Zero,
 }
 
 impl ParseIntError {
-    /// Outputs the detailed cause of parsing an integer failing.
     #[unstable(feature = "int_error_matching",
                reason = "it can be useful to match errors when making error messages \
                          for integer parsing",
                issue = "22639")]
-    pub fn kind(&self) -> &IntErrorKind {
-        &self.kind
-    }
+    pub fn kind(&self) -> &IntErrorKind { loop { } }
     #[unstable(feature = "int_error_internals",
                reason = "available through Error trait and this method should \
                          not be exposed publicly",
                issue = "0")]
     #[doc(hidden)]
-    pub fn __description(&self) -> &str {
-        match self.kind {
-            IntErrorKind::Empty => "cannot parse integer from empty string",
-            IntErrorKind::InvalidDigit => "invalid digit found in string",
-            IntErrorKind::Overflow => "number too large to fit in target type",
-            IntErrorKind::Underflow => "number too small to fit in target type",
-            IntErrorKind::Zero => "number would be zero for non-zero type",
-        }
-    }
+    pub fn __description(&self) -> &str { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl fmt::Display for ParseIntError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.__description().fmt(f)
-    }
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
 pub use crate::num::dec2flt::ParseFloatError;
 
-// Conversion traits for primitive integer and float types
-// Conversions T -> T are covered by a blanket impl and therefore excluded
-// Some conversions from and to usize/isize are not implemented due to portability concerns
 macro_rules! impl_from {
     ($Small: ty, $Large: ty, #[$attr:meta], $doc: expr) => {
         #[$attr]
         #[doc = $doc]
         impl From<$Small> for $Large {
             #[inline]
-            fn from(small: $Small) -> $Large {
-                small as $Large
-            }
+            fn from(small: $Small) -> $Large { loop { } }
         }
     };
     ($Small: ty, $Large: ty, #[$attr:meta]) => {
@@ -5135,7 +3942,6 @@ assert_eq!(", stringify!($target), "::from(false), 0);
     };
 }
 
-// Bool -> Any
 impl_from_bool! { u8, #[stable(feature = "from_bool", since = "1.28.0")] }
 impl_from_bool! { u16, #[stable(feature = "from_bool", since = "1.28.0")] }
 impl_from_bool! { u32, #[stable(feature = "from_bool", since = "1.28.0")] }
@@ -5149,7 +3955,6 @@ impl_from_bool! { i64, #[stable(feature = "from_bool", since = "1.28.0")] }
 impl_from_bool! { i128, #[stable(feature = "from_bool", since = "1.28.0")] }
 impl_from_bool! { isize, #[stable(feature = "from_bool", since = "1.28.0")] }
 
-// Unsigned -> Unsigned
 impl_from! { u8, u16, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
 impl_from! { u8, u32, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
 impl_from! { u8, u64, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
@@ -5162,7 +3967,6 @@ impl_from! { u32, u64, #[stable(feature = "lossless_int_conv", since = "1.5.0")]
 impl_from! { u32, u128, #[stable(feature = "i128", since = "1.26.0")] }
 impl_from! { u64, u128, #[stable(feature = "i128", since = "1.26.0")] }
 
-// Signed -> Signed
 impl_from! { i8, i16, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
 impl_from! { i8, i32, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
 impl_from! { i8, i64, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
@@ -5175,7 +3979,6 @@ impl_from! { i32, i64, #[stable(feature = "lossless_int_conv", since = "1.5.0")]
 impl_from! { i32, i128, #[stable(feature = "i128", since = "1.26.0")] }
 impl_from! { i64, i128, #[stable(feature = "i128", since = "1.26.0")] }
 
-// Unsigned -> Signed
 impl_from! { u8, i16, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
 impl_from! { u8, i32, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
 impl_from! { u8, i64, #[stable(feature = "lossless_int_conv", since = "1.5.0")] }
@@ -5187,37 +3990,24 @@ impl_from! { u32, i64, #[stable(feature = "lossless_int_conv", since = "1.5.0")]
 impl_from! { u32, i128, #[stable(feature = "i128", since = "1.26.0")] }
 impl_from! { u64, i128, #[stable(feature = "i128", since = "1.26.0")] }
 
-// The C99 standard defines bounds on INTPTR_MIN, INTPTR_MAX, and UINTPTR_MAX
-// which imply that pointer-sized integers must be at least 16 bits:
-// https://port70.net/~nsz/c/c99/n1256.html#7.18.2.4
 impl_from! { u16, usize, #[stable(feature = "lossless_iusize_conv", since = "1.26.0")] }
 impl_from! { u8, isize, #[stable(feature = "lossless_iusize_conv", since = "1.26.0")] }
 impl_from! { i16, isize, #[stable(feature = "lossless_iusize_conv", since = "1.26.0")] }
 
-// RISC-V defines the possibility of a 128-bit address space (RV128).
-
-// CHERI proposes 256-bit “capabilities”. Unclear if this would be relevant to usize/isize.
-// https://www.cl.cam.ac.uk/research/security/ctsrd/pdfs/20171017a-cheri-poster.pdf
-// http://www.csl.sri.com/users/neumann/2012resolve-cheri.pdf
 
 
-// Note: integers can only be represented with full precision in a float if
-// they fit in the significand, which is 24 bits in f32 and 53 bits in f64.
-// Lossy float conversions are not implemented at this time.
 
-// Signed -> Float
+
 impl_from! { i8, f32, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { i8, f64, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { i16, f32, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { i16, f64, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { i32, f64, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 
-// Unsigned -> Float
 impl_from! { u8, f32, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { u8, f64, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { u16, f32, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { u16, f64, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 impl_from! { u32, f64, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }
 
-// Float -> Float
 impl_from! { f32, f64, #[stable(feature = "lossless_float_conv", since = "1.6.0")] }

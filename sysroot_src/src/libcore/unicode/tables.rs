@@ -5,8 +5,6 @@
 use crate::unicode::version::UnicodeVersion;
 use crate::unicode::bool_trie::{BoolTrie, SmallBoolTrie};
 
-/// The version of [Unicode](http://www.unicode.org/) that the Unicode parts of
-/// `char` and `str` methods are based on.
 #[unstable(feature = "unicode_version", issue = "49726")]
 pub const UNICODE_VERSION: UnicodeVersion = UnicodeVersion {
     major: 12,
@@ -24,9 +22,7 @@ pub(crate) mod general_category {
         ],
     };
 
-    pub fn Cc(c: char) -> bool {
-        Cc_table.lookup(c)
-    }
+    pub fn Cc(c: char) -> bool { loop { } }
 
     const N_table: &super::BoolTrie = &super::BoolTrie {
         r1: [
@@ -135,9 +131,7 @@ pub(crate) mod general_category {
         ],
     };
 
-    pub fn N(c: char) -> bool {
-        N_table.lookup(c)
-    }
+    pub fn N(c: char) -> bool { loop { } }
 
 }
 
@@ -323,9 +317,7 @@ pub(crate) mod derived_property {
         ],
     };
 
-    pub fn Alphabetic(c: char) -> bool {
-        Alphabetic_table.lookup(c)
-    }
+    pub fn Alphabetic(c: char) -> bool { loop { } }
 
     const Case_Ignorable_table: &super::BoolTrie = &super::BoolTrie {
         r1: [
@@ -460,9 +452,7 @@ pub(crate) mod derived_property {
         ],
     };
 
-    pub fn Case_Ignorable(c: char) -> bool {
-        Case_Ignorable_table.lookup(c)
-    }
+    pub fn Case_Ignorable(c: char) -> bool { loop { } }
 
     const Cased_table: &super::BoolTrie = &super::BoolTrie {
         r1: [
@@ -561,9 +551,7 @@ pub(crate) mod derived_property {
         ],
     };
 
-    pub fn Cased(c: char) -> bool {
-        Cased_table.lookup(c)
-    }
+    pub fn Cased(c: char) -> bool { loop { } }
 
     const Grapheme_Extend_table: &super::BoolTrie = &super::BoolTrie {
         r1: [
@@ -685,9 +673,7 @@ pub(crate) mod derived_property {
         ],
     };
 
-    pub fn Grapheme_Extend(c: char) -> bool {
-        Grapheme_Extend_table.lookup(c)
-    }
+    pub fn Grapheme_Extend(c: char) -> bool { loop { } }
 
     const Lowercase_table: &super::BoolTrie = &super::BoolTrie {
         r1: [
@@ -785,9 +771,7 @@ pub(crate) mod derived_property {
         ],
     };
 
-    pub fn Lowercase(c: char) -> bool {
-        Lowercase_table.lookup(c)
-    }
+    pub fn Lowercase(c: char) -> bool { loop { } }
 
     const Uppercase_table: &super::BoolTrie = &super::BoolTrie {
         r1: [
@@ -886,9 +870,7 @@ pub(crate) mod derived_property {
         ],
     };
 
-    pub fn Uppercase(c: char) -> bool {
-        Uppercase_table.lookup(c)
-    }
+    pub fn Uppercase(c: char) -> bool { loop { } }
 
 }
 
@@ -909,30 +891,16 @@ pub(crate) mod property {
         ],
     };
 
-    pub fn White_Space(c: char) -> bool {
-        White_Space_table.lookup(c)
-    }
+    pub fn White_Space(c: char) -> bool { loop { } }
 
 }
 
 pub(crate) mod conversions {
-    pub fn to_lower(c: char) -> [char; 3] {
-        match bsearch_case_table(c, to_lowercase_table) {
-            None        => [c, '\0', '\0'],
-            Some(index) => to_lowercase_table[index].1,
-        }
-    }
+    pub fn to_lower(c: char) -> [char; 3] { loop { } }
 
-    pub fn to_upper(c: char) -> [char; 3] {
-        match bsearch_case_table(c, to_uppercase_table) {
-            None        => [c, '\0', '\0'],
-            Some(index) => to_uppercase_table[index].1,
-        }
-    }
+    pub fn to_upper(c: char) -> [char; 3] { loop { } }
 
-    fn bsearch_case_table(c: char, table: &[(char, [char; 3])]) -> Option<usize> {
-        table.binary_search_by(|&(key, _)| key.cmp(&c)).ok()
-    }
+    fn bsearch_case_table(c: char, table: &[(char, [char; 3])]) -> Option<usize> { loop { } }
 
     const to_lowercase_table: &[(char, [char; 3])] = &[
         ('\u{41}', ['\u{61}', '\0', '\0']), ('\u{42}', ['\u{62}', '\0', '\0']), ('\u{43}',

@@ -149,7 +149,7 @@ mod bit;
 mod deref;
 mod drop;
 mod function;
-mod generator;
+// mod generator;
 mod index;
 mod range;
 mod r#try;
@@ -189,8 +189,8 @@ pub use self::range::{RangeInclusive, RangeToInclusive, RangeBounds, Bound};
 #[unstable(feature = "try_trait", issue = "42327")]
 pub use self::r#try::Try;
 
-#[unstable(feature = "generator_trait", issue = "43122")]
-pub use self::generator::{Generator, GeneratorState};
+// #[unstable(feature = "generator_trait", issue = "43122")]
+// pub use self::generator::{Generator, GeneratorState};
 
 #[unstable(feature = "coerce_unsized", issue = "27732")]
 pub use self::unsize::CoerceUnsized;
