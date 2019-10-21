@@ -7,7 +7,6 @@ use crate::convert::{TryFrom, Infallible};
 use crate::fmt;
 use crate::intrinsics;
 use crate::mem;
-use crate::ops;
 use crate::str::FromStr;
 
 macro_rules! impl_nonzero_fmt {
@@ -794,7 +793,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_pow(self, mut exp: u32) -> Option<Self> { loop { } }
+            pub fn checked_pow(self, exp: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -1244,7 +1243,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_pow(self, mut exp: u32) -> Self { loop { } }
+            pub fn wrapping_pow(self, exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -1560,7 +1559,7 @@ $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn overflowing_pow(self, mut exp: u32) -> (Self, bool) { loop { } }
+            pub fn overflowing_pow(self, exp: u32) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -1581,7 +1580,7 @@ $EndFeature, "
                           without modifying the original"]
             #[inline]
             #[rustc_inherit_overflow_checks]
-            pub fn pow(self, mut exp: u32) -> Self { loop { } }
+            pub fn pow(self, exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -2566,7 +2565,7 @@ assert_eq!(", stringify!($SelfT), "::max_value().checked_pow(2), None);", $EndFe
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn checked_pow(self, mut exp: u32) -> Option<Self> { loop { } }
+            pub fn checked_pow(self, exp: u32) -> Option<Self> { loop { } }
         }
 
         doc_comment! {
@@ -2886,7 +2885,7 @@ assert_eq!(3u8.wrapping_pow(6), 217);", $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn wrapping_pow(self, mut exp: u32) -> Self { loop { } }
+            pub fn wrapping_pow(self, exp: u32) -> Self { loop { } }
         }
 
         doc_comment! {
@@ -3157,7 +3156,7 @@ assert_eq!(3u8.overflowing_pow(6), (217, true));", $EndFeature, "
             #[must_use = "this returns the result of the operation, \
                           without modifying the original"]
             #[inline]
-            pub fn overflowing_pow(self, mut exp: u32) -> (Self, bool) { loop { } }
+            pub fn overflowing_pow(self, exp: u32) -> (Self, bool) { loop { } }
         }
 
         doc_comment! {
@@ -3175,7 +3174,7 @@ Basic usage:
                           without modifying the original"]
         #[inline]
         #[rustc_inherit_overflow_checks]
-            pub fn pow(self, mut exp: u32) -> Self { loop { } }
+            pub fn pow(self, exp: u32) -> Self { loop { } }
     }
 
             doc_comment! {

@@ -3,7 +3,6 @@
 use crate::fmt;
 use crate::ops::Range;
 use crate::iter::FusedIterator;
-use crate::str::from_utf8_unchecked;
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[derive(Clone)]

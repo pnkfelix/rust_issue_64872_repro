@@ -4,14 +4,13 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use self::pattern::Pattern;
-use self::pattern::{Searcher, ReverseSearcher, DoubleEndedSearcher};
+use self::pattern::{ReverseSearcher, DoubleEndedSearcher};
 
 use crate::char;
-use crate::fmt::{self, Write};
+use crate::fmt::{self};
 use crate::iter::{Map, Cloned, FusedIterator, TrustedLen, TrustedRandomAccess, Filter};
 use crate::iter::{Flatten, FlatMap, Chain};
 use crate::slice::{self, SliceIndex, Split as SliceSplit};
-use crate::mem;
 use crate::ops::Try;
 use crate::option;
 
@@ -679,7 +678,7 @@ Section: Trait implementations
 mod traits {
     use crate::cmp::Ordering;
     use crate::ops;
-    use crate::slice::{self, SliceIndex};
+    use crate::slice::{SliceIndex};
 
     #[stable(feature = "rust1", since = "1.0.0")]
     impl Ord for str {

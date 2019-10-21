@@ -1,7 +1,5 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use self::Ordering::*;
-
 #[lang = "eq"]
 #[stable(feature = "rust1", since = "1.0.0")]
 #[doc(alias = "==")]
@@ -209,7 +207,7 @@ pub fn max_by<T, F: FnOnce(&T, &T) -> Ordering>(v1: T, v2: T, compare: F) -> T {
 pub fn max_by_key<T, F: FnMut(&T) -> K, K: Ord>(v1: T, v2: T, mut f: F) -> T { loop { } }
 
 mod impls {
-    use crate::cmp::Ordering::{self, Less, Greater, Equal};
+    use crate::cmp::Ordering::{self};
 
     macro_rules! partial_eq_impl {
         ($($t:ty)*) => ($(

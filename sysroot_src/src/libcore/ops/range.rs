@@ -224,8 +224,6 @@ pub trait RangeBounds<T: ?Sized> {
     { loop { } }
 }
 
-use self::Bound::{Excluded, Included, Unbounded};
-
 #[stable(feature = "collections_range", since = "1.28.0")]
 impl<T: ?Sized> RangeBounds<T> for RangeFull {
     fn start_bound(&self) -> Bound<&T> { loop { } }

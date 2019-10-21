@@ -3,9 +3,7 @@
 
 use crate::cell::{UnsafeCell, Cell, RefCell, Ref, RefMut};
 use crate::marker::PhantomData;
-use crate::mem;
 use crate::num::flt2dec;
-use crate::ops::Deref;
 use crate::result;
 use crate::slice;
 use crate::str;

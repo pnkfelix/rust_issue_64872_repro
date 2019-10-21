@@ -1,6 +1,4 @@
 //! Validating and decomposing a decimal string of the form:
-use super::num;
-use self::ParseResult::{Valid, ShortcutToInf, ShortcutToZero, Invalid};
 
 #[derive(Debug)]
 pub enum Sign {

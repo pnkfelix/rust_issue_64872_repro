@@ -1,13 +1,10 @@
 //! Bit fiddling on positive IEEE 754 floats. Negative numbers aren't and needn't be handled.
-use crate::cmp::Ordering::{Less, Equal, Greater};
-use crate::convert::{TryFrom, TryInto};
+use crate::convert::{TryFrom};
 use crate::ops::{Add, Mul, Div, Neg};
 use crate::fmt::{Debug, LowerExp};
 use crate::num::diy_float::Fp;
-use crate::num::FpCategory::{Infinite, Zero, Subnormal, Normal, Nan};
 use crate::num::FpCategory;
-use crate::num::dec2flt::num::{self, Big};
-use crate::num::dec2flt::table;
+use crate::num::dec2flt::num::{Big};
 
 #[derive(Copy, Clone, Debug)]
 pub struct Unpacked {

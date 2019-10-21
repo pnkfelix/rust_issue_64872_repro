@@ -1,8 +1,5 @@
 // Original implementation taken from rust-memchr.
 
-use crate::cmp;
-use crate::mem;
-
 const LO_U64: u64 = 0x0101010101010101;
 const HI_U64: u64 = 0x8080808080808080;
 

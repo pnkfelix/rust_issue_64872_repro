@@ -1,11 +1,8 @@
-use crate::cmp;
 use crate::fmt;
-use crate::ops::{Add, AddAssign, Try};
+use crate::ops::{Try};
 use crate::usize;
-use crate::intrinsics;
 
 use super::{Iterator, DoubleEndedIterator, ExactSizeIterator, FusedIterator, TrustedLen};
-use super::{LoopState, from_fn};
 
 mod chain;
 mod flatten;

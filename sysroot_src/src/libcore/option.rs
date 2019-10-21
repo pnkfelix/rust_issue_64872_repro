@@ -1,7 +1,7 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use crate::iter::{FromIterator, FusedIterator, TrustedLen};
-use crate::{convert, fmt, hint, mem, ops::{self, Deref, DerefMut}};
+use crate::{fmt, ops::{self, Deref, DerefMut}};
 
 
 #[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]

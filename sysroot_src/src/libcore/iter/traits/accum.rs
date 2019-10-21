@@ -1,6 +1,4 @@
-use crate::ops::{Mul, Add};
 use crate::num::Wrapping;
-use crate::iter;
 
 #[stable(feature = "iter_arith_traits", since = "1.12.0")]
 pub trait Sum<A = Self>: Sized {

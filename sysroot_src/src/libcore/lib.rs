@@ -10,9 +10,8 @@
        test(attr(allow(dead_code, deprecated, unused_variables, unused_mut))))]
 #![no_core]
 
-#![allow(unused_variables)]
+#![allow(unused_variables, unused_mut, dead_code)]
 #![warn(deprecated_in_future)]
-#![warn(missing_debug_implementations)]
 #![deny(intra_doc_link_resolution_failure)] // rustdoc is run without -D warnings
 #![allow(explicit_outlives_requirements)]
 #![allow(incomplete_features)]

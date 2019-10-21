@@ -1,9 +1,5 @@
 //! Slice sorting
 
-use crate::cmp;
-use crate::mem::{self, MaybeUninit};
-use crate::ptr;
-
 struct CopyOnDrop<T> {
     src: *mut T,
     dest: *mut T,

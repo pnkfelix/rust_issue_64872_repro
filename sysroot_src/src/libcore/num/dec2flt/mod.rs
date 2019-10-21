@@ -8,8 +8,7 @@
 use crate::fmt;
 use crate::str::FromStr;
 
-use self::parse::{parse_decimal, Decimal, Sign, ParseResult};
-use self::num::digits_to_big;
+use self::parse::{Decimal, Sign};
 use self::rawfp::RawFloat;
 
 mod algorithm;

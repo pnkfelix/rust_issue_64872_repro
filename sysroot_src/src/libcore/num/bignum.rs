@@ -6,9 +6,6 @@
             issue = "0")]
 #![macro_use]
 
-use crate::mem;
-use crate::intrinsics;
-
 pub trait FullOps: Sized {
     fn full_add(self, other: Self, carry: bool) -> (bool /* carry */, Self);
 

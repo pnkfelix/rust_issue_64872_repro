@@ -86,14 +86,6 @@ impl<T> From<T> for T {
     fn from(_t: T) -> T { loop { } }
 }
 
-#[stable(feature = "convert_infallible", since = "1.34.0")]
-#[cfg(not(bootstrap))]
-#[rustc_reservation_impl="permitting this impl would forbid us from adding \
-`impl<T> From<!> for T` later; see rust-lang/rust#64715 for details"]
-impl<T> From<!> for T {
-    fn from(_t: !) -> T { loop { } }
-}
-
 #[stable(feature = "try_from", since = "1.34.0")]
 impl<T, U> TryInto<U> for T where U: TryFrom<T>
 {

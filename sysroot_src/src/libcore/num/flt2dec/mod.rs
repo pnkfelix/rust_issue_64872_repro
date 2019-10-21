@@ -61,12 +61,12 @@ pub enum Sign {
 
 fn determine_sign(sign: Sign, decoded: &FullDecoded, negative: bool) -> &'static [u8] { loop { } }
 
-pub fn to_shortest_str<'a, T, F>(mut format_shortest: F, v: T,
+pub fn to_shortest_str<'a, T, F>(format_shortest: F, v: T,
                                  sign: Sign, frac_digits: usize, _upper: bool,
                                  buf: &'a mut [u8], parts: &'a mut [Part<'a>]) -> Formatted<'a>
 where T: DecodableFloat, F: FnMut(&Decoded, &mut [u8]) -> (usize, i16) { loop { } }
 
-pub fn to_shortest_exp_str<'a, T, F>(mut format_shortest: F, v: T,
+pub fn to_shortest_exp_str<'a, T, F>(format_shortest: F, v: T,
                                      sign: Sign, dec_bounds: (i16, i16), upper: bool,
                                      buf: &'a mut [u8], parts: &'a mut [Part<'a>]) -> Formatted<'a>
 where T: DecodableFloat, F: FnMut(&Decoded, &mut [u8]) -> (usize, i16) { loop { } }

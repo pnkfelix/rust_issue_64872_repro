@@ -1,19 +1,13 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 
-use crate::cmp::Ordering::{self, Less, Equal, Greater};
-use crate::cmp;
+use crate::cmp::Ordering::{self};
 use crate::fmt;
-use crate::intrinsics::{assume, exact_div, unchecked_sub, is_aligned_and_not_null};
 use crate::isize;
 use crate::iter::*;
 use crate::ops::{FnMut, self};
 use crate::option::Option;
-use crate::option::Option::{None, Some};
 use crate::result::Result;
-use crate::result::Result::{Ok, Err};
-use crate::ptr;
-use crate::mem;
 use crate::marker::{Copy, Send, Sync, Sized, self};
 
 #[unstable(feature = "slice_internals", issue = "0",
@@ -660,24 +654,6 @@ impl<'a, T> IntoIterator for &'a mut [T] {
 #[inline(always)]
 fn size_from_ptr<T>(_: *const T) -> usize { loop { } }
 
-macro_rules! is_empty {
-    ($self: ident) => {$self.ptr == $self.end}
-}
-macro_rules! len {
-    ($self: ident) => {{
-        #![allow(unused_unsafe)] // we're sometimes used within an unsafe block
-
-        let start = $self.ptr;
-        let size = size_from_ptr(start);
-        if size == 0 {
-            ($self.end as usize).wrapping_sub(start as usize)
-        } else {
-            let diff = unsafe { unchecked_sub($self.end as usize, start as usize) };
-            unsafe { exact_div(diff, size) }
-        }
-    }}
-}
-
 macro_rules! iterator {
     (
         struct $name:ident -> $ptr:ty,
@@ -686,20 +662,6 @@ macro_rules! iterator {
         {$( $mut_:tt )*},
         {$($extra:tt)*}
     ) => {
-        macro_rules! next_unchecked {
-            ($self: ident) => {& $( $mut_ )* *$self.post_inc_start(1)}
-        }
-
-        macro_rules! next_back_unchecked {
-            ($self: ident) => {& $( $mut_ )* *$self.pre_dec_end(1)}
-        }
-
-        macro_rules! zst_shrink {
-            ($self: ident, $n: ident) => {
-                $self.end = ($self.end as * $raw_mut u8).wrapping_offset(-$n) as * $raw_mut T;
-            }
-        }
-
         impl<'a, T> $name<'a, T> {
             #[inline(always)]
             fn make_slice(&self) -> &'a [T] { loop { } }

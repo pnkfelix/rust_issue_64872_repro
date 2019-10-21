@@ -145,9 +145,6 @@ impl<H> PartialEq for BuildHasherDefault<H> {
 impl<H> Eq for BuildHasherDefault<H> {}
 
 mod impls {
-    use crate::mem;
-    use crate::slice;
-
     use super::*;
 
     macro_rules! impl_write {

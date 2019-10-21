@@ -2,11 +2,9 @@
 
 #![stable(feature = "alloc_module", since = "1.28.0")]
 
-use crate::cmp;
 use crate::fmt;
-use crate::mem;
 use crate::usize;
-use crate::ptr::{self, NonNull};
+use crate::ptr::{NonNull};
 use crate::num::NonZeroUsize;
 
 #[unstable(feature = "allocator_api", issue = "32838")]
