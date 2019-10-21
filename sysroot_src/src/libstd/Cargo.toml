@@ -16,6 +16,6 @@ crate-type = ["dylib", "rlib"]
 [dependencies]
 alloc = { path = "../liballoc" }
 
-cfg-if = { version = "0.1.8", features = ['rustc-dep-of-std'] }
+# cfg-if = { version = "0.1.8", features = ['rustc-dep-of-std'] }
 core = { path = "../libcore" }
 compiler_builtins = { version = "0.1.16" }
