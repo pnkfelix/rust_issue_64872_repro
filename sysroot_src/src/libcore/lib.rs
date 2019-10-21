@@ -176,10 +176,10 @@ mod bool;
 mod tuple;
 mod unit;
 
-#[path = "../stdarch/crates/core_arch/src/mod.rs"]
-#[allow(missing_docs, missing_debug_implementations, dead_code, unused_imports)]
-#[unstable(feature = "stdsimd", issue = "48556")]
-mod core_arch;
+// #[path = "../stdarch/crates/core_arch/src/mod.rs"]
+// #[allow(missing_docs, missing_debug_implementations, dead_code, unused_imports)]
+// #[unstable(feature = "stdsimd", issue = "48556")]
+// mod core_arch;
 
-#[stable(feature = "simd_arch", since = "1.27.0")]
-pub use core_arch::arch;
+// #[stable(feature = "simd_arch", since = "1.27.0")]
+// pub use core_arch::arch;
