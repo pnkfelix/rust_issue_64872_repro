@@ -44,7 +44,6 @@
 #![feature(simd_ffi)]
 #![feature(specialization)]
 #![feature(staged_api)]
-#![feature(std_internals)]
 #![feature(stmt_expr_attributes)]
 #![feature(transparent_unions)]
 #![feature(unboxed_closures)]
@@ -78,7 +77,28 @@
 use prelude::v1::*;
 
 pub mod ops;
-pub mod panic;
+pub mod panic {
+    #![unstable(feature = "core_panic_info",
+                reason = "newly available in libcore",
+                issue = "44489")]
+
+    #[lang = "panic_info"]
+    #[stable(feature = "panic_hooks", since = "1.10.0")]
+    #[derive(Debug)]
+    pub struct PanicInfo<'a> {
+        payload: &'a (dyn crate::any::Any),
+        message: Option<&'a crate::fmt::Arguments<'a>>,
+        location: Location<'a>,
+    }
+
+    #[derive(Debug)]
+    #[stable(feature = "panic_hooks", since = "1.10.0")]
+    pub struct Location<'a> {
+        file: &'a str,
+        line: u32,
+        col: u32,
+    }
+}
 pub mod fmt
 {
     #![stable(feature = "rust1", since = "1.0.0")]
