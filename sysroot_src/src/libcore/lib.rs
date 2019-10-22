@@ -1,31 +1,15 @@
-//! # The Rust Core Library
-
-#![cfg(not(test))]
-
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/",
-       html_playground_url = "https://play.rust-lang.org/",
-       issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/",
-       test(no_crate_inject, attr(deny(warnings))),
-       test(attr(allow(dead_code, deprecated, unused_variables, unused_mut))))]
 #![no_core]
 
 #![allow(unused_variables, unused_mut, dead_code)]
-#![warn(deprecated_in_future)]
-#![deny(intra_doc_link_resolution_failure)] // rustdoc is run without -D warnings
-#![allow(explicit_outlives_requirements)]
-#![allow(incomplete_features)]
 
-#![feature(allow_internal_unstable)]
 #![feature(decl_macro)]
 #![feature(fundamental)]
-#![feature(intrinsics)]
 #![feature(lang_items)]
 #![feature(no_core)]
 #![feature(optin_builtin_traits)]
 #![feature(prelude_import)]
 #![feature(rustc_attrs)]
 #![feature(unboxed_closures)]
-#![feature(structural_match)]
 
 #[prelude_import]
 #[allow(unused)]
@@ -123,11 +107,9 @@ pub mod fmt
 
     pub(crate) mod macros {
         #[rustc_builtin_macro]
-        #[allow_internal_unstable(core_intrinsics)]
         pub macro Debug($item:item) { /* compiler built-in */ }
     }
 
-    #[allow(missing_debug_implementations)]
     pub struct Formatter<'a> {
         inner: &'a (),
     }
@@ -168,31 +150,14 @@ pub mod fmt
 
 pub mod prelude {
     pub mod v1 {
-
-        // Re-exported core operators
-        #[doc(no_inline)]
         pub use crate::marker::{Sized};
-        #[doc(no_inline)]
         pub use crate::fmt::macros::Debug;
-        #[doc(no_inline)]
         pub use crate::result::Result::{self, Ok, Err};
     }
 }
 
-pub mod intrinsics {
-    extern "rust-intrinsic" {
-        pub fn transmute<T, U>(e: T) -> U;
-        pub fn size_of<T>() -> usize;
-        pub fn min_align_of<T>() -> usize;
-        pub fn needs_drop<T>() -> bool;
-    }
-}
-
-pub mod ptr {
-    #[lang = "drop_in_place"]
-    #[allow(unconditional_recursion)]
-    unsafe fn real_drop_in_place<T: ?Sized>(to_drop: &mut T) { loop { } }
-}
+#[lang = "drop_in_place"]
+unsafe fn real_drop_in_place<T: ?Sized>(to_drop: &mut T) { loop { } }
 
 pub mod marker {
     #[lang = "copy"]
@@ -203,61 +168,12 @@ pub mod marker {
     unsafe impl<T: ?Sized> Freeze for &T {}
     unsafe impl<T: ?Sized> Freeze for &mut T {}
 
-    #[lang = "phantom_data"]
-    #[structural_match]
-    pub struct PhantomData<T:?Sized>;
-
-    pub unsafe auto trait Send { }
-
     #[lang = "sized"]
     #[fundamental] // for Default, for example, which requires that `[T]: !Default` be evaluatable
     pub trait Sized { }
 
-    #[lang = "sync"]
-    pub unsafe auto trait Sync { }
-
     #[lang = "unsize"]
     pub trait Unsize<T: ?Sized> { }
-}
-
-
-
-pub mod any {
-    use crate::fmt;
-
-    pub trait Any: 'static {
-        fn type_id(&self) -> TypeId;
-    }
-
-    impl fmt::Debug for dyn Any {
-        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-    }
-
-    pub struct TypeId {
-
-    }
-}
-
-pub mod panicking {
-    #![allow(dead_code, missing_docs)]
-
-    use crate::fmt;
-
-    #[cold]
-    #[cfg_attr(not(feature="panic_immediate_abort"),inline(never))]
-    #[lang = "panic"]
-    pub fn panic(expr_file_line_col: &(&'static str, &'static str, u32, u32)) -> ! { loop { } }
-
-    #[cold]
-    #[cfg_attr(not(feature="panic_immediate_abort"),inline(never))]
-    #[lang = "panic_bounds_check"]
-    fn panic_bounds_check(file_line_col: &(&'static str, u32, u32),
-                          index: usize, len: usize) -> ! { loop { } }
-
-    #[cold]
-    #[cfg_attr(not(feature="panic_immediate_abort"),inline(never))]
-    #[cfg_attr(    feature="panic_immediate_abort" ,inline)]
-    pub fn panic_fmt(fmt: fmt::Arguments<'_>, file_line_col: &(&'static str, u32, u32)) -> ! { loop { } }
 }
 
 pub mod result {
