@@ -76,7 +76,103 @@
 #[allow(unused)]
 use prelude::v1::*;
 
-pub mod ops;
+pub mod ops {
+    #![stable(feature = "rust1", since = "1.0.0")]
+
+    mod deref {
+        #[lang = "receiver"]
+        #[unstable(feature = "receiver_trait", issue = "0")]
+        #[doc(hidden)]
+        pub trait Receiver { }
+
+        #[unstable(feature = "receiver_trait", issue = "0")]
+        impl<T: ?Sized> Receiver for &T {}
+
+        #[unstable(feature = "receiver_trait", issue = "0")]
+        impl<T: ?Sized> Receiver for &mut T {}
+    }
+
+    mod function {
+        #[lang = "fn"]
+        #[stable(feature = "rust1", since = "1.0.0")]
+        #[rustc_paren_sugar]
+        #[fundamental] // so that regex can rely that `&str: !FnMut`
+        #[must_use = "closures are lazy and do nothing unless called"]
+        pub trait Fn<Args> : FnMut<Args> {
+            #[unstable(feature = "fn_traits", issue = "29625")]
+            extern "rust-call" fn call(&self, args: Args) -> Self::Output;
+        }
+
+        #[lang = "fn_mut"]
+        #[stable(feature = "rust1", since = "1.0.0")]
+        #[rustc_paren_sugar]
+        #[fundamental] // so that regex can rely that `&str: !FnMut`
+        #[must_use = "closures are lazy and do nothing unless called"]
+        pub trait FnMut<Args> : FnOnce<Args> {
+            #[unstable(feature = "fn_traits", issue = "29625")]
+            extern "rust-call" fn call_mut(&mut self, args: Args) -> Self::Output;
+        }
+
+        #[lang = "fn_once"]
+        #[stable(feature = "rust1", since = "1.0.0")]
+        #[rustc_paren_sugar]
+        #[fundamental] // so that regex can rely that `&str: !FnMut`
+        #[must_use = "closures are lazy and do nothing unless called"]
+        pub trait FnOnce<Args> {
+            #[stable(feature = "fn_once_output", since = "1.12.0")]
+            type Output;
+
+            #[unstable(feature = "fn_traits", issue = "29625")]
+            extern "rust-call" fn call_once(self, args: Args) -> Self::Output;
+        }
+    }
+    mod unsize {
+        use crate::marker::Unsize;
+
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        #[lang = "coerce_unsized"]
+        pub trait CoerceUnsized<T: ?Sized> { }
+
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a mut U> for &'a mut T {}
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b mut T {}
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*mut U> for &'a mut T {}
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for &'a mut T {}
+
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b T {}
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for &'a T {}
+
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*mut U> for *mut T {}
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for *mut T {}
+
+        #[unstable(feature = "coerce_unsized", issue = "27732")]
+        impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for *const T {}
+
+        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
+        #[lang = "dispatch_from_dyn"]
+        pub trait DispatchFromDyn<T> { }
+
+        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
+        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a U> for &'a T {}
+        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
+        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a mut U> for &'a mut T {}
+        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
+        impl<T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<*const U> for *const T {}
+        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
+        impl<T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<*mut U> for *mut T {}
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub use self::function::{Fn, FnMut, FnOnce};
+}
+
 pub mod panic {
     #![unstable(feature = "core_panic_info",
                 reason = "newly available in libcore",
