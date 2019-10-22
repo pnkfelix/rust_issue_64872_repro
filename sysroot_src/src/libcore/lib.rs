@@ -67,7 +67,6 @@
 #![feature(rtm_target_feature)]
 #![feature(f16c_target_feature)]
 #![feature(hexagon_target_feature)]
-#![feature(const_int_conversion)]
 #![feature(const_transmute)]
 #![feature(non_exhaustive)]
 #![feature(structural_match)]
@@ -104,8 +103,8 @@ mod internal_macros;
 #[stable(feature = "rust1", since = "1.0.0")] pub mod f32 { }
 #[stable(feature = "rust1", since = "1.0.0")] pub mod f64 { }
 
-#[macro_use]
-pub mod num;
+// #[macro_use]
+// pub mod num;
 
 /* The libcore prelude, not as all-encompassing as the libstd prelude */
 
