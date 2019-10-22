@@ -86,22 +86,7 @@ mod macros;
 #[macro_use]
 mod internal_macros;
 
-#[stable(feature = "rust1", since = "1.0.0")] pub mod isize { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod i8 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod i16 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod i32 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod i64 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod i128 { }
-
 #[stable(feature = "rust1", since = "1.0.0")] pub mod usize { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod u8 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod u16 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod u32 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod u64 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod u128 { }
-
-#[stable(feature = "rust1", since = "1.0.0")] pub mod f32 { }
-#[stable(feature = "rust1", since = "1.0.0")] pub mod f64 { }
 
 // #[macro_use]
 // pub mod num;
