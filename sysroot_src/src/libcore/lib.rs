@@ -145,7 +145,7 @@ pub mod borrow;
 pub mod any;
 pub mod array;
 pub mod ascii;
-pub mod sync;
+// pub mod sync;
 pub mod cell;
 pub mod char;
 pub mod panic;
@@ -177,7 +177,7 @@ pub mod iter {
 }
 pub mod option;
 pub mod result;
-pub mod ffi;
+// pub mod ffi;
 
 pub mod slice;
 pub mod str;
