@@ -72,7 +72,6 @@
 #![feature(structural_match)]
 #![feature(abi_unadjusted)]
 #![feature(adx_target_feature)]
-#![feature(maybe_uninit_slice)]
 #![feature(external_doc)]
 #![feature(associated_type_bounds)]
 
@@ -143,7 +142,7 @@ pub mod intrinsics {
         pub fn needs_drop<T>() -> bool;
     }
 }
-pub mod mem;
+
 pub mod ptr {
     #![stable(feature = "rust1", since = "1.0.0")]
 
