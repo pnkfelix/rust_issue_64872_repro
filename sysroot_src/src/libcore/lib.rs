@@ -167,7 +167,7 @@ pub mod array;
 // pub mod ascii;
 // pub mod sync;
 // pub mod cell;
-pub mod char;
+// pub mod char;
 pub mod panic;
 pub mod panicking;
 // pub mod pin;
