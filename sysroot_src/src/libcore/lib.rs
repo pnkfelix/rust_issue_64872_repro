@@ -208,7 +208,6 @@ pub mod fmt
     pub trait Display {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result;
     }
-    #[derive(Debug)]
     pub struct Error;
 }
 
@@ -283,7 +282,6 @@ pub mod any {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
     }
 
-    #[derive(Debug)]
     pub struct TypeId {
 
     }
@@ -327,7 +325,6 @@ pub mod iter {
     }
 }
 pub mod option {
-    #[derive(Debug)]
     pub enum Option<T> {
         None,
         Some(T),
