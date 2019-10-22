@@ -7,18 +7,6 @@ use crate::fmt;
 use crate::intrinsics;
 use crate::mem;
 
-macro_rules! impl_nonzero_fmt {
-    ( #[$stability: meta] ( $( $Trait: ident ),+ ) for $Ty: ident ) => {
-        $(
-            #[$stability]
-            impl fmt::$Trait for $Ty {
-                #[inline]
-                fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-            }
-        )+
-    }
-}
-
 macro_rules! doc_comment {
     ($x:expr, $($tt:tt)*) => {
         #[doc = $x]
@@ -26,71 +14,8 @@ macro_rules! doc_comment {
     };
 }
 
-macro_rules! nonzero_integers {
-    ( $( #[$stability: meta] $Ty: ident($Int: ty); )+ ) => {
-        $(
-            doc_comment! {
-                concat!("An integer that is known not to equal zero.
-
-This enables some memory layout optimization.
-For example, `Option<", stringify!($Ty), ">` is the same size as `", stringify!($Int), "`:
-
-```rust
-use std::mem::size_of;
-assert_eq!(size_of::<Option<core::num::", stringify!($Ty), ">>(), size_of::<", stringify!($Int),
-">());
-```"),
-                #[$stability]
-                #[derive(Copy, Clone, PartialEq, Eq)]
-                #[repr(transparent)]
-                #[rustc_layout_scalar_valid_range_start(1)]
-                #[rustc_nonnull_optimization_guaranteed]
-                pub struct $Ty($Int);
-            }
-
-            impl $Ty {
-                #[$stability]
-                #[inline]
-                pub const unsafe fn new_unchecked(n: $Int) -> Self {
-                    $Ty(n)
-                }
-
-                #[$stability]
-                #[inline]
-                pub fn new(n: $Int) -> Option<Self> { loop { } }
-
-                #[$stability]
-                #[inline]
-                pub const fn get(self) -> $Int {
-                    self.0
-                }
-
-            }
-
-            impl_nonzero_fmt! {
-                #[$stability] (Debug, Display, Binary, Octal, LowerHex, UpperHex) for $Ty
-            }
-        )+
-    }
-}
-
-nonzero_integers! {
-    #[stable(feature = "nonzero", since = "1.28.0")] NonZeroU8(u8);
-    #[stable(feature = "nonzero", since = "1.28.0")] NonZeroU16(u16);
-    #[stable(feature = "nonzero", since = "1.28.0")] NonZeroU32(u32);
-    #[stable(feature = "nonzero", since = "1.28.0")] NonZeroU64(u64);
-    #[stable(feature = "nonzero", since = "1.28.0")] NonZeroU128(u128);
-    #[stable(feature = "nonzero", since = "1.28.0")] NonZeroUsize(usize);
-    #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroI8(i8);
-    #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroI16(i16);
-    #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroI32(i32);
-    #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroI64(i64);
-    #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroI128(i128);
-    #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroIsize(isize);
-}
-
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct Wrapping<T>(#[stable(feature = "rust1", since = "1.0.0")]
                        pub T);
@@ -3598,7 +3523,7 @@ impl usize {
         usize_isize_to_xe_bytes_doc!(), usize_isize_from_xe_bytes_doc!() }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub enum FpCategory {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -3618,7 +3543,7 @@ pub enum FpCategory {
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TryFromIntError(());
 
 impl TryFromIntError {
@@ -3636,7 +3561,7 @@ impl fmt::Display for TryFromIntError {
 }
 
 #[doc(hidden)]
-trait FromStrRadixHelper: PartialOrd + Copy {
+trait FromStrRadixHelper: PartialOrd + Sized {
     fn min_value() -> Self;
     fn max_value() -> Self;
     fn from_u32(u: u32) -> Self;

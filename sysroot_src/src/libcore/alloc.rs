@@ -5,7 +5,6 @@
 use crate::fmt;
 use crate::usize;
 use crate::ptr::{NonNull};
-use crate::num::NonZeroUsize;
 
 #[unstable(feature = "allocator_api", issue = "32838")]
 #[derive(Debug)]
@@ -14,12 +13,11 @@ pub struct Excess(pub NonNull<u8>, pub usize);
 fn size_align<T>() -> (usize, usize) { loop { } }
 
 #[stable(feature = "alloc_layout", since = "1.28.0")]
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 #[lang = "alloc_layout"]
 pub struct Layout {
     size_: usize,
 
-    align_: NonZeroUsize,
 }
 
 impl Layout {
@@ -30,7 +28,7 @@ impl Layout {
     #[stable(feature = "alloc_layout", since = "1.28.0")]
     #[inline]
     pub const unsafe fn from_size_align_unchecked(size: usize, align: usize) -> Self {
-        Layout { size_: size, align_: NonZeroUsize::new_unchecked(align) }
+        Layout { size_: size,  }
     }
 
     #[stable(feature = "alloc_layout", since = "1.28.0")]

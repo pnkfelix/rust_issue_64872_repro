@@ -24,7 +24,7 @@ impl ParseCharError {
     pub fn __description(&self) -> &str { loop { } }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 enum CharErrorKind {
     EmptyString,
     TooManyChars,
@@ -37,7 +37,7 @@ impl fmt::Display for ParseCharError {
 
 
 #[stable(feature = "try_from", since = "1.34.0")]
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CharTryFromError(());
 
 #[stable(feature = "try_from", since = "1.34.0")]

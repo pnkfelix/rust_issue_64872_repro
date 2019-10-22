@@ -8,7 +8,7 @@
             issue = "0")]
 
 /// A custom 64-bit floating point type, representing `f * 2^e`.
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 #[doc(hidden)]
 pub struct Fp {
     /// The integer mantissa.

@@ -34,7 +34,7 @@ pub mod rt {
 pub type Result = result::Result<(), Error>;
 
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(Copy, Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Error;
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -77,7 +77,7 @@ struct Void {
     _oibit_remover: PhantomData<*mut dyn Fn()>,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 #[allow(missing_debug_implementations)]
 #[unstable(feature = "fmt_internals", reason = "internal to format_args!",
            issue = "0")]
@@ -105,7 +105,7 @@ impl<'a> ArgumentV1<'a> {
     fn as_usize(&self) -> Option<usize> { loop { } }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 enum FlagV1 { SignPlus, SignMinus, Alternate, SignAwareZeroPad, DebugLowerHex, DebugUpperHex }
 
 impl<'a> Arguments<'a> {
@@ -129,7 +129,7 @@ impl<'a> Arguments<'a> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 pub struct Arguments<'a> {
     pieces: &'a [&'a str],
 

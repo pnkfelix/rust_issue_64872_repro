@@ -23,7 +23,7 @@ unsafe impl<T, A: Unsize<[T]>> FixedSizeArray<T> for A {
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub struct TryFromSliceError(());
 
 #[stable(feature = "core_array", since = "1.36.0")]

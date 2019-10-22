@@ -3,7 +3,6 @@ use crate::mem::ManuallyDrop;
 #[allow(missing_debug_implementations)]
 #[stable(feature = "maybe_uninit", since = "1.36.0")]
 #[lang = "maybe_uninit"]
-#[derive(Copy)]
 #[repr(transparent)]
 pub union MaybeUninit<T> {
     uninit: (),
@@ -11,7 +10,7 @@ pub union MaybeUninit<T> {
 }
 
 #[stable(feature = "maybe_uninit", since = "1.36.0")]
-impl<T: Copy> Clone for MaybeUninit<T> {
+impl<T> Clone for MaybeUninit<T> {
     #[inline(always)]
     fn clone(&self) -> Self { loop { } }
 }

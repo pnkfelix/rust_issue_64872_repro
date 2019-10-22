@@ -46,7 +46,7 @@ pub macro Eq($item:item) { /* compiler built-in */ }
            issue = "0")]
 pub struct AssertParamIsEq<T: Eq + ?Sized> { _field: crate::marker::PhantomData<T> }
 
-#[derive(Clone, Copy, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub enum Ordering {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -71,7 +71,7 @@ impl Ordering {
     pub fn then_with<F: FnOnce() -> Ordering>(self, f: F) -> Ordering { loop { } }
 }
 
-#[derive(PartialEq, Eq, Debug, Copy, Clone)]
+#[derive(PartialEq, Eq, Debug, Clone)]
 #[stable(feature = "reverse_cmp_key", since = "1.19.0")]
 pub struct Reverse<T>(#[stable(feature = "reverse_cmp_key", since = "1.19.0")] pub T);
 

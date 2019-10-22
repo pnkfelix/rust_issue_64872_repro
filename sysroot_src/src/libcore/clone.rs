@@ -30,7 +30,7 @@ pub struct AssertParamIsClone<T: Clone + ?Sized> { _field: crate::marker::Phanto
 #[unstable(feature = "derive_clone_copy",
            reason = "deriving hack, should not be public",
            issue = "0")]
-pub struct AssertParamIsCopy<T: Copy + ?Sized> { _field: crate::marker::PhantomData<T> }
+pub struct AssertParamIsCopy<T: ?Sized> { _field: crate::marker::PhantomData<T> }
 
 mod impls {
 

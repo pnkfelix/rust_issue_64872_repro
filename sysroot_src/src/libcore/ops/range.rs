@@ -1,7 +1,7 @@
 use crate::fmt;
 
 #[doc(alias = "..")]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeFull;
 
@@ -60,7 +60,7 @@ impl<Idx: PartialOrd<Idx>> RangeFrom<Idx> {
 }
 
 #[doc(alias = "..")]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeTo<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -164,7 +164,7 @@ impl<Idx: PartialOrd<Idx>> RangeInclusive<Idx> {
 }
 
 #[doc(alias = "..=")]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 #[stable(feature = "inclusive_range", since = "1.26.0")]
 pub struct RangeToInclusive<Idx> {
     #[stable(feature = "inclusive_range", since = "1.26.0")]
@@ -187,7 +187,7 @@ impl<Idx: PartialOrd<Idx>> RangeToInclusive<Idx> {
 
 
 #[stable(feature = "collections_bound", since = "1.17.0")]
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Bound<T> {
     #[stable(feature = "collections_bound", since = "1.17.0")]
     Included(#[stable(feature = "collections_bound", since = "1.17.0")] T),

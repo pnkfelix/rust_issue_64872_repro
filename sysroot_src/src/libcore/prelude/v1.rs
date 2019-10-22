@@ -10,7 +10,7 @@
 // Re-exported core operators
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
-pub use crate::marker::{Copy, Send, Sized, Sync, /*Unpin*/};
+pub use crate::marker::{Send, Sized, Sync, /*Unpin*/};
 // Re-exported types and traits
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]

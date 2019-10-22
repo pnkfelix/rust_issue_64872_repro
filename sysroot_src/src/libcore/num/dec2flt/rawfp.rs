@@ -5,7 +5,7 @@ use crate::num::diy_float::Fp;
 use crate::num::FpCategory;
 use crate::num::dec2flt::num::{Big};
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct Unpacked {
     pub sig: u64,
     pub k: i16,
@@ -16,7 +16,7 @@ impl Unpacked {
 }
 
 pub trait RawFloat
-    : Copy
+    : Sized
     + Debug
     + LowerExp
     + Mul<Output=Self>
