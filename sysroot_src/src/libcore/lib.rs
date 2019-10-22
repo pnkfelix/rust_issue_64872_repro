@@ -79,9 +79,111 @@ use prelude::v1::*;
 
 pub mod ops;
 pub mod panic;
-pub mod fmt;
+pub mod fmt
+{
+    #![stable(feature = "rust1", since = "1.0.0")]
 
-/* The libcore prelude, not as all-encompassing as the libstd prelude */
+    #[stable(feature = "rust1", since = "1.0.0")]
+    #[doc(alias = "{:?}")]
+    #[rustc_diagnostic_item = "debug_trait"]
+    pub trait Debug {
+        #[stable(feature = "rust1", since = "1.0.0")]
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result;
+    }
+
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl<T: ?Sized + Debug> Debug for &T {
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
+    }
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl<T: ?Sized + Debug> Debug for &mut T {
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl Debug for usize {
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl Debug for u32 {
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl Debug for Arguments<'_> {
+        fn fmt(&self, fmt: &mut Formatter<'_>) -> Result { loop { } }
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl Debug for str {
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
+    }
+
+    pub(crate) mod macros {
+        #[rustc_builtin_macro]
+        #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
+        #[allow_internal_unstable(core_intrinsics)]
+        pub macro Debug($item:item) { /* compiler built-in */ }
+    }
+
+    #[allow(missing_debug_implementations)]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub struct Formatter<'a> {
+        inner: &'a (),
+    }
+
+    #[stable(feature = "debug_builders", since = "1.2.0")]
+    pub struct DebugTuple<'a, 'b: 'a> { inner: &'a &'b () }
+    impl<'a, 'b: 'a> DebugTuple<'a, 'b> {
+        #[stable(feature = "debug_builders", since = "1.2.0")]
+        pub fn field(&mut self, _value: &dyn Debug) -> &mut DebugTuple<'a, 'b> { loop { } }
+
+        #[stable(feature = "debug_builders", since = "1.2.0")]
+        pub fn finish(&mut self) -> Result { loop { } }
+
+        fn is_pretty(&self) -> bool { loop { } }
+    }
+
+    impl<'a, 'b: 'a> DebugStruct<'a, 'b> {
+        #[stable(feature = "debug_builders", since = "1.2.0")]
+        pub fn field(&mut self, name: &str, value: &dyn Debug) -> &mut DebugStruct<'a, 'b> { loop { } }
+
+        #[stable(feature = "debug_builders", since = "1.2.0")]
+        pub fn finish(&mut self) -> Result { loop { } }
+
+        fn is_pretty(&self) -> bool { loop { } }
+    }
+
+    #[stable(feature = "debug_builders", since = "1.2.0")]
+    pub struct DebugStruct<'a, 'b: 'a> { inner: &'a &'b () }
+
+    impl<'a> Formatter<'a> {
+        #[stable(feature = "debug_builders", since = "1.2.0")]
+        pub fn debug_tuple<'b>(&'b mut self, _name: &str) -> DebugTuple<'b, 'a> { loop { } }
+        #[stable(feature = "debug_builders", since = "1.2.0")]
+        pub fn debug_struct<'b>(&'b mut self, name: &str) -> DebugStruct<'b, 'a> { loop { } }
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub type Result = crate::result::Result<(), Error>;
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub struct Arguments<'a> {
+        inner: &'a (),
+    }
+
+    #[doc(alias = "{}")]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub trait Display {
+        #[stable(feature = "rust1", since = "1.0.0")]
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result;
+    }
+    #[stable(feature = "rust1", since = "1.0.0")]
+    #[derive(Debug)]
+    pub struct Error;
+}
 
 #[stable(feature = "rust1", since = "1.0.0")] pub mod usize { }
 pub mod prelude {
@@ -188,7 +290,7 @@ pub mod any {
     #[derive(Debug)]
     #[stable(feature = "rust1", since = "1.0.0")]
     pub struct TypeId {
-        t: u64,
+
     }
 }
 
