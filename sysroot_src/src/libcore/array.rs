@@ -5,7 +5,6 @@
 use crate::cmp::Ordering;
 use crate::fmt;
 use crate::marker::Unsize;
-use crate::slice::{Iter, IterMut};
 
 #[unstable(feature = "fixed_size_array", issue = "27778")]
 pub unsafe trait FixedSizeArray<T> {
@@ -49,28 +48,6 @@ where
     [T; N]: LengthAtMost32,
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T, const N: usize> IntoIterator for &'a [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    type Item = &'a T;
-    type IntoIter = Iter<'a, T>;
-
-    fn into_iter(self) -> Iter<'a, T> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T, const N: usize> IntoIterator for &'a mut [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    type Item = &'a mut T;
-    type IntoIter = IterMut<'a, T>;
-
-    fn into_iter(self) -> IterMut<'a, T> { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]

@@ -23,7 +23,7 @@ pub struct Utf8LossyChunksIter<'a> {
 }
 
 #[unstable(feature = "str_internals", issue = "0")]
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Debug)]
 pub struct Utf8LossyChunk<'a> {
     /// Sequence of valid chars.
     /// Can be empty between broken UTF-8 chars.

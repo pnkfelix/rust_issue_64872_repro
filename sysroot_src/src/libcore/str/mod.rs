@@ -10,7 +10,6 @@ use crate::char;
 use crate::fmt::{self};
 // use crate::iter::{Map, Cloned, FusedIterator, Filter};
 // use crate::iter::{Flatten, FlatMap, Chain};
-use crate::slice::{self, SliceIndex};
 
 pub mod pattern;
 
@@ -89,7 +88,7 @@ Section: Iterators
 #[derive(Clone)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct Chars<'a> {
-    iter: slice::Iter<'a, u8>
+    iter: &'a (),
 }
 
 #[inline]
@@ -359,7 +358,6 @@ Section: Trait implementations
 mod traits {
     use crate::cmp::Ordering;
     use crate::ops;
-    use crate::slice::{SliceIndex};
 
     #[stable(feature = "rust1", since = "1.0.0")]
     impl Ord for str {
@@ -386,129 +384,24 @@ mod traits {
 
     #[stable(feature = "rust1", since = "1.0.0")]
     impl<I> ops::Index<I> for str
-    where
-        I: SliceIndex<str>,
     {
-        type Output = I::Output;
+        type Output = ();
 
         #[inline]
-        fn index(&self, index: I) -> &I::Output { loop { } }
+        fn index(&self, index: I) -> &() { loop { } }
     }
 
     #[stable(feature = "rust1", since = "1.0.0")]
     impl<I> ops::IndexMut<I> for str
-    where
-        I: SliceIndex<str>,
     {
         #[inline]
-        fn index_mut(&mut self, index: I) -> &mut I::Output { loop { } }
+        fn index_mut(&mut self, index: I) -> &mut () { loop { } }
     }
 
     #[inline(never)]
     #[cold]
     fn str_index_overflow_fail() -> ! { loop { } }
 
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    impl SliceIndex<str> for ops::RangeFull {
-        type Output = str;
-        #[inline]
-        fn get(self, slice: &str) -> Option<&Self::Output> { loop { } }
-        #[inline]
-        fn get_mut(self, slice: &mut str) -> Option<&mut Self::Output> { loop { } }
-        #[inline]
-        unsafe fn get_unchecked(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        unsafe fn get_unchecked_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-        #[inline]
-        fn index(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        fn index_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-    }
-
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    impl SliceIndex<str> for ops::Range<usize> {
-        type Output = str;
-        #[inline]
-        fn get(self, slice: &str) -> Option<&Self::Output> { loop { } }
-        #[inline]
-        fn get_mut(self, slice: &mut str) -> Option<&mut Self::Output> { loop { } }
-        #[inline]
-        unsafe fn get_unchecked(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        unsafe fn get_unchecked_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-        #[inline]
-        fn index(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        fn index_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-    }
-
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    impl SliceIndex<str> for ops::RangeTo<usize> {
-        type Output = str;
-        #[inline]
-        fn get(self, slice: &str) -> Option<&Self::Output> { loop { } }
-        #[inline]
-        fn get_mut(self, slice: &mut str) -> Option<&mut Self::Output> { loop { } }
-        #[inline]
-        unsafe fn get_unchecked(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        unsafe fn get_unchecked_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-        #[inline]
-        fn index(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        fn index_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-    }
-
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    impl SliceIndex<str> for ops::RangeFrom<usize> {
-        type Output = str;
-        #[inline]
-        fn get(self, slice: &str) -> Option<&Self::Output> { loop { } }
-        #[inline]
-        fn get_mut(self, slice: &mut str) -> Option<&mut Self::Output> { loop { } }
-        #[inline]
-        unsafe fn get_unchecked(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        unsafe fn get_unchecked_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-        #[inline]
-        fn index(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        fn index_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-    }
-
-    #[stable(feature = "inclusive_range", since = "1.26.0")]
-    impl SliceIndex<str> for ops::RangeInclusive<usize> {
-        type Output = str;
-        #[inline]
-        fn get(self, slice: &str) -> Option<&Self::Output> { loop { } }
-        #[inline]
-        fn get_mut(self, slice: &mut str) -> Option<&mut Self::Output> { loop { } }
-        #[inline]
-        unsafe fn get_unchecked(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        unsafe fn get_unchecked_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-        #[inline]
-        fn index(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        fn index_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-    }
-
-    #[stable(feature = "inclusive_range", since = "1.26.0")]
-    impl SliceIndex<str> for ops::RangeToInclusive<usize> {
-        type Output = str;
-        #[inline]
-        fn get(self, slice: &str) -> Option<&Self::Output> { loop { } }
-        #[inline]
-        fn get_mut(self, slice: &mut str) -> Option<&mut Self::Output> { loop { } }
-        #[inline]
-        unsafe fn get_unchecked(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        unsafe fn get_unchecked_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-        #[inline]
-        fn index(self, slice: &str) -> &Self::Output { loop { } }
-        #[inline]
-        fn index_mut(self, slice: &mut str) -> &mut Self::Output { loop { } }
-    }
 }
 
 fn truncate_to_char_boundary(s: &str, mut max: usize) -> (bool, &str) { loop { } }
@@ -559,22 +452,6 @@ impl str {
     #[stable(feature = "str_as_mut_ptr", since = "1.36.0")]
     #[inline]
     pub fn as_mut_ptr(&mut self) -> *mut u8 { loop { } }
-
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    #[inline]
-    pub fn get<I: SliceIndex<str>>(&self, i: I) -> Option<&I::Output> { loop { } }
-
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    #[inline]
-    pub fn get_mut<I: SliceIndex<str>>(&mut self, i: I) -> Option<&mut I::Output> { loop { } }
-
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    #[inline]
-    pub unsafe fn get_unchecked<I: SliceIndex<str>>(&self, i: I) -> &I::Output { loop { } }
-
-    #[stable(feature = "str_checked_slicing", since = "1.20.0")]
-    #[inline]
-    pub unsafe fn get_unchecked_mut<I: SliceIndex<str>>(&mut self, i: I) -> &mut I::Output { loop { } }
 
     #[stable(feature = "rust1", since = "1.0.0")]
     #[rustc_deprecated(since = "1.29.0", reason = "use `get_unchecked(begin..end)` instead")]

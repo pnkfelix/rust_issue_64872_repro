@@ -32,7 +32,6 @@
 #![feature(extern_types)]
 #![feature(fundamental)]
 #![feature(intrinsics)]
-#![feature(is_sorted)]
 #![feature(lang_items)]
 #![feature(link_llvm_intrinsics)]
 #![feature(never_type)]
@@ -199,7 +198,7 @@ pub mod result {
 }
 // pub mod ffi;
 
-pub mod slice;
+// pub mod slice;
 pub mod str;
 pub mod fmt;
 

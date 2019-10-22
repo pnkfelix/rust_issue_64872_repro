@@ -4,7 +4,6 @@
 use crate::marker::PhantomData;
 // use crate::num::flt2dec;
 use crate::result;
-use crate::slice;
 use crate::str;
 
 mod float;
@@ -70,7 +69,6 @@ pub struct Formatter<'a> {
     precision: Option<usize>,
 
     buf: &'a mut (dyn Write+'a),
-    curarg: slice::Iter<'a, ArgumentV1<'a>>,
     args: &'a [ArgumentV1<'a>],
 }
 

@@ -6,7 +6,7 @@ pub enum Sign {
     Negative,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 pub struct Decimal<'a> {
     pub integral: &'a [u8],
     pub fractional: &'a [u8],
@@ -17,7 +17,7 @@ impl<'a> Decimal<'a> {
     pub fn new(integral: &'a [u8], fractional: &'a [u8], exp: i64) -> Decimal<'a> { loop { } }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 pub enum ParseResult<'a> {
     Valid(Decimal<'a>),
     ShortcutToInf,
