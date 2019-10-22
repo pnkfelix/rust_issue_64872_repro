@@ -65,13 +65,6 @@ pub struct PhantomData<T:?Sized>;
 
 // impls! { PhantomData }
 
-mod impls {
-    #[stable(feature = "rust1", since = "1.0.0")]
-    unsafe impl<T: ?Sized> Send for &T {}
-    #[stable(feature = "rust1", since = "1.0.0")]
-    unsafe impl<T: Send + ?Sized> Send for &mut T {}
-}
-
 #[lang = "freeze"]
 pub(crate) unsafe auto trait Freeze {}
 

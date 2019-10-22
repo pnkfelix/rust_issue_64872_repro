@@ -141,7 +141,28 @@ pub mod clone;
 
 /* Core types and methods on primitives */
 
-pub mod any;
+pub mod any {
+    #![stable(feature = "rust1", since = "1.0.0")]
+    use crate::fmt;
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub trait Any: 'static {
+        #[stable(feature = "get_type_id", since = "1.34.0")]
+        fn type_id(&self) -> TypeId;
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    impl fmt::Debug for dyn Any {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
+    }
+
+    #[derive(Clone, Debug)]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub struct TypeId {
+        t: u64,
+    }
+}
+
 pub mod array;
 // pub mod ascii;
 // pub mod sync;

@@ -11,7 +11,7 @@ use crate::fmt;
 #[stable(feature = "panic_hooks", since = "1.10.0")]
 #[derive(Debug)]
 pub struct PanicInfo<'a> {
-    payload: &'a (dyn Any + Send),
+    payload: &'a (dyn Any),
     message: Option<&'a fmt::Arguments<'a>>,
     location: Location<'a>,
 }
@@ -29,10 +29,10 @@ impl<'a> PanicInfo<'a> {
 
     #[doc(hidden)]
     #[inline]
-    pub fn set_payload(&mut self, info: &'a (dyn Any + Send)) { loop { } }
+    pub fn set_payload(&mut self, info: &'a (dyn Any)) { loop { } }
 
     #[stable(feature = "panic_hooks", since = "1.10.0")]
-    pub fn payload(&self) -> &(dyn Any + Send) { loop { } }
+    pub fn payload(&self) -> &(dyn Any) { loop { } }
 
     #[unstable(feature = "panic_info_message", issue = "44489")]
     pub fn message(&self) -> Option<&fmt::Arguments<'_>> { loop { } }
@@ -80,6 +80,6 @@ impl fmt::Display for Location<'_> {
 #[unstable(feature = "std_internals", issue = "0")]
 #[doc(hidden)]
 pub unsafe trait BoxMeUp {
-    fn box_me_up(&mut self) -> *mut (dyn Any + Send);
-    fn get(&mut self) -> &(dyn Any + Send);
+    fn box_me_up(&mut self) -> *mut (dyn Any);
+    fn get(&mut self) -> &(dyn Any);
 }
