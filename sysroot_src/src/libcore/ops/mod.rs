@@ -45,10 +45,3 @@ pub use self::range::{RangeInclusive, RangeToInclusive, RangeBounds, Bound};
 
 #[unstable(feature = "try_trait", issue = "42327")]
 pub use self::r#try::Try;
-
-
-#[unstable(feature = "coerce_unsized", issue = "27732")]
-pub use self::unsize::CoerceUnsized;
-
-#[unstable(feature = "dispatch_from_dyn", issue = "0")]
-pub use self::unsize::DispatchFromDyn;
