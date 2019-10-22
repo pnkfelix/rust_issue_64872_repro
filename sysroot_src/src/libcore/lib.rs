@@ -77,12 +77,6 @@
 #[allow(unused)]
 use prelude::v1::*;
 
-// #[macro_use]
-// mod macros;
-
-// #[macro_use]
-// mod internal_macros;
-
 pub mod ops;
 pub mod panic;
 pub mod fmt;
