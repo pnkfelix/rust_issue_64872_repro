@@ -98,10 +98,6 @@ macro_rules! define_bignum {
             fn cmp(&self, other: &$name) -> crate::cmp::Ordering { loop { } }
         }
 
-        impl crate::clone::Clone for $name {
-            fn clone(&self) -> $name { loop { } }
-        }
-
         impl crate::fmt::Debug for $name {
             fn fmt(&self, f: &mut crate::fmt::Formatter<'_>) -> crate::fmt::Result { loop { } }
         }

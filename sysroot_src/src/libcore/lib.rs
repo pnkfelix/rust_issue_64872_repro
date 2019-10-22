@@ -133,7 +133,7 @@ pub mod ptr {
 pub mod marker;
 pub mod ops;
 pub mod cmp;
-pub mod clone;
+// pub mod clone;
 // pub mod default;
 // pub mod convert;
 // pub mod borrow;
