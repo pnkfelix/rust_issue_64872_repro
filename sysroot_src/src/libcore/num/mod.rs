@@ -50,7 +50,7 @@ impl<T: fmt::UpperHex> fmt::UpperHex for Wrapping<T> {
 }
 
 // pub mod flt2dec;
-pub mod dec2flt;
+// pub mod dec2flt;
 pub mod bignum;
 pub mod diy_float;
 
@@ -3624,6 +3624,3 @@ impl ParseIntError {
 impl fmt::Display for ParseIntError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-pub use crate::num::dec2flt::ParseFloatError;

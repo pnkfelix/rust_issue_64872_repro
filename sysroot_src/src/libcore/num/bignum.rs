@@ -83,21 +83,6 @@ macro_rules! define_bignum {
             pub fn div_rem(&self, d: &$name, q: &mut $name, r: &mut $name) { loop { } }
         }
 
-        impl crate::cmp::PartialEq for $name {
-            fn eq(&self, other: &$name) -> bool { loop { } }
-        }
-
-        impl crate::cmp::Eq for $name {
-        }
-
-        impl crate::cmp::PartialOrd for $name {
-            fn partial_cmp(&self, other: &$name) -> crate::option::Option<crate::cmp::Ordering> { loop { } }
-        }
-
-        impl crate::cmp::Ord for $name {
-            fn cmp(&self, other: &$name) -> crate::cmp::Ordering { loop { } }
-        }
-
         impl crate::fmt::Debug for $name {
             fn fmt(&self, f: &mut crate::fmt::Formatter<'_>) -> crate::fmt::Result { loop { } }
         }

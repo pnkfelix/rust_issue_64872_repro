@@ -3,7 +3,6 @@ use crate::ops::{Add, Mul, Div, Neg};
 use crate::fmt::{Debug, LowerExp};
 use crate::num::diy_float::Fp;
 use crate::num::FpCategory;
-use crate::num::dec2flt::num::{Big};
 
 #[derive(Debug)]
 pub struct Unpacked {
@@ -79,9 +78,3 @@ pub fn round_normal<T: RawFloat>(x: Fp) -> Unpacked { loop { } }
 pub fn encode_normal<T: RawFloat>(x: Unpacked) -> T { loop { } }
 
 pub fn encode_subnormal<T: RawFloat>(significand: u64) -> T { loop { } }
-
-pub fn big_to_fp(f: &Big) -> Fp { loop { } }
-
-pub fn prev_float<T: RawFloat>(x: T) -> T { loop { } }
-
-pub fn next_float<T: RawFloat>(x: T) -> T { loop { } }
