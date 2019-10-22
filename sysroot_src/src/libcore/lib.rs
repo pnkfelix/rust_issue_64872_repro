@@ -227,9 +227,6 @@ pub mod prelude {
         #[stable(feature = "core_prelude", since = "1.4.0")]
         #[doc(no_inline)]
         pub use crate::result::Result::{self, Ok, Err};
-        #[stable(feature = "core_prelude", since = "1.4.0")]
-        #[doc(no_inline)]
-        pub use crate::ops::{Fn, FnMut, FnOnce};
     }
 }
 
