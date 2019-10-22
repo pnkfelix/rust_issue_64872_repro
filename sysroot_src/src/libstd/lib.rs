@@ -6,8 +6,6 @@
 #![feature(alloc_error_handler)]
 #![feature(allocator_internals)]
 
-#![default_lib_allocator]
-
 mod uw {
     #![allow(non_camel_case_types)]
     pub type _Unwind_Action = ();
@@ -48,11 +46,6 @@ pub mod prelude {
         pub use core::prelude::v1::{Debug};
     }
 }
-
-use core::alloc::Layout;
-
-#[alloc_error_handler]
-pub fn rust_oom(_layout: Layout) -> ! { loop { } }
 
 #[rustc_std_internal_symbol]
 pub unsafe extern fn __rdl_alloc(_size: usize, _align: usize) -> *mut u8 { loop { } }

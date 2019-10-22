@@ -479,14 +479,3 @@ pub mod result {
         Err(#[stable(feature = "rust1", since = "1.0.0")] E),
     }
 }
-
-pub mod alloc {
-    #![stable(feature = "alloc_module", since = "1.28.0")]
-
-    #[stable(feature = "alloc_layout", since = "1.28.0")]
-    #[derive(Debug)]
-    #[lang = "alloc_layout"]
-    pub struct Layout {
-        size_: usize,
-    }
-}
