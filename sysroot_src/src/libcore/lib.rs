@@ -143,7 +143,7 @@ pub mod clone;
 
 pub mod any;
 pub mod array;
-pub mod ascii;
+// pub mod ascii;
 // pub mod sync;
 // pub mod cell;
 pub mod char;
