@@ -175,8 +175,28 @@ pub mod iter {
         fn into_iter(self) -> Self::IntoIter;
     }
 }
-pub mod option;
-pub mod result;
+pub mod option {
+    #![stable(feature = "rust1", since = "1.0.0")]
+    #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub enum Option<T> {
+        #[stable(feature = "rust1", since = "1.0.0")]
+        None,
+        #[stable(feature = "rust1", since = "1.0.0")]
+        Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+    }
+}
+pub mod result {
+    #![stable(feature = "rust1", since = "1.0.0")]
+    #[must_use = "this `Result` may be an `Err` variant, which should be handled"]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub enum Result<T, E> {
+        #[stable(feature = "rust1", since = "1.0.0")]
+        Ok(#[stable(feature = "rust1", since = "1.0.0")] T),
+        #[stable(feature = "rust1", since = "1.0.0")]
+        Err(#[stable(feature = "rust1", since = "1.0.0")] E),
+    }
+}
 // pub mod ffi;
 
 pub mod slice;
