@@ -107,16 +107,7 @@ pub mod prelude {
         pub use crate::result::Result::{self, Ok, Err};
         #[stable(feature = "core_prelude", since = "1.4.0")]
         #[doc(no_inline)]
-        pub use crate::ops::{Drop, Fn, FnMut, FnOnce};
-        #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
-        #[doc(no_inline)]
-        pub use crate::{
-            // assert,
-            // cfg,
-            // concat,
-            // format_args,
-            // stringify,
-        };
+        pub use crate::ops::{Fn, FnMut, FnOnce};
     }
 }
 
