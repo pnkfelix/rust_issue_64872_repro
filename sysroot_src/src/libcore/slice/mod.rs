@@ -700,11 +700,6 @@ impl<T> Clone for Iter<'_, T> {
     fn clone(&self) -> Self { loop { } }
 }
 
-#[stable(feature = "slice_iter_as_ref", since = "1.13.0")]
-impl<T> AsRef<[T]> for Iter<'_, T> {
-    fn as_ref(&self) -> &[T] { loop { } }
-}
-
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct IterMut<'a, T: 'a> {
     ptr: *mut T,

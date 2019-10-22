@@ -663,12 +663,6 @@ impl_fn_for_zst! {
     struct CharEscapeDefault impl Fn = |c: char| -> char::EscapeDefault { loop { } };
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl AsRef<[u8]> for str {
-    #[inline]
-    fn as_ref(&self) -> &[u8] { loop { } }
-}
-
 #[stable(feature = "split_whitespace", since = "1.1.0")]
 #[derive(Clone, Debug)]
 pub struct SplitWhitespace<'a> {

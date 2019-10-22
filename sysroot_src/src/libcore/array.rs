@@ -3,7 +3,6 @@
 #![stable(feature = "core_array", since = "1.36.0")]
 
 use crate::cmp::Ordering;
-use crate::convert::{Infallible, TryFrom};
 use crate::fmt;
 use crate::marker::Unsize;
 use crate::slice::{Iter, IterMut};
@@ -42,60 +41,6 @@ impl TryFromSliceError {
     #[inline]
     #[doc(hidden)]
     pub fn __description(&self) -> &str { loop { } }
-}
-
-#[stable(feature = "try_from_slice_error", since = "1.36.0")]
-impl From<Infallible> for TryFromSliceError {
-    fn from(x: Infallible) -> TryFromSliceError { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T, const N: usize> AsRef<[T]> for [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    #[inline]
-    fn as_ref(&self) -> &[T] { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T, const N: usize> AsMut<[T]> for [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    #[inline]
-    fn as_mut(&mut self) -> &mut [T] { loop { } }
-}
-
-#[stable(feature = "try_from", since = "1.34.0")]
-impl<T, const N: usize> TryFrom<&[T]> for [T; N]
-where
-    T: Copy,
-    [T; N]: LengthAtMost32,
-{
-    type Error = TryFromSliceError;
-
-    fn try_from(slice: &[T]) -> Result<[T; N], TryFromSliceError> { loop { } }
-}
-
-#[stable(feature = "try_from", since = "1.34.0")]
-impl<'a, T, const N: usize> TryFrom<&'a [T]> for &'a [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    type Error = TryFromSliceError;
-
-    fn try_from(slice: &[T]) -> Result<&[T; N], TryFromSliceError> { loop { } }
-}
-
-#[stable(feature = "try_from", since = "1.34.0")]
-impl<'a, T, const N: usize> TryFrom<&'a mut [T]> for &'a mut [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    type Error = TryFromSliceError;
-
-    fn try_from(slice: &mut [T]) -> Result<&mut [T; N], TryFromSliceError> { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]

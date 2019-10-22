@@ -1,6 +1,5 @@
 //! Character conversions.
 
-use crate::convert::TryFrom;
 use crate::fmt;
 use crate::str::FromStr;
 
@@ -11,19 +10,6 @@ pub fn from_u32(i: u32) -> Option<char> { loop { } }
 #[inline]
 #[stable(feature = "char_from_unchecked", since = "1.5.0")]
 pub unsafe fn from_u32_unchecked(i: u32) -> char { loop { } }
-
-#[stable(feature = "char_convert", since = "1.13.0")]
-impl From<char> for u32 {
-    #[inline]
-    fn from(c: char) -> Self { loop { } }
-}
-
-#[stable(feature = "char_convert", since = "1.13.0")]
-impl From<u8> for char {
-    #[inline]
-    fn from(i: u8) -> Self { loop { } }
-}
-
 
 #[stable(feature = "char_from_str", since = "1.20.0")]
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -59,14 +45,6 @@ impl FromStr for char {
     fn from_str(s: &str) -> Result<Self, Self::Err> { loop { } }
 }
 
-
-#[stable(feature = "try_from", since = "1.34.0")]
-impl TryFrom<u32> for char {
-    type Error = CharTryFromError;
-
-    #[inline]
-    fn try_from(i: u32) -> Result<Self, Self::Error> { loop { } }
-}
 
 #[stable(feature = "try_from", since = "1.34.0")]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]

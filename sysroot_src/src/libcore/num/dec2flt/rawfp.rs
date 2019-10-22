@@ -1,5 +1,4 @@
 //! Bit fiddling on positive IEEE 754 floats. Negative numbers aren't and needn't be handled.
-use crate::convert::{TryFrom};
 use crate::ops::{Add, Mul, Div, Neg};
 use crate::fmt::{Debug, LowerExp};
 use crate::num::diy_float::Fp;
@@ -28,7 +27,7 @@ pub trait RawFloat
     const NAN: Self;
     const ZERO: Self;
 
-    type Bits: Add<Output = Self::Bits> + From<u8> + TryFrom<u64>;
+    type Bits: Add<Output = Self::Bits>;
 
     fn to_bits(self) -> Self::Bits;
 

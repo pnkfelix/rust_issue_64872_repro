@@ -37,9 +37,6 @@ pub use crate::option::Option::{self, Some, None};
 pub use crate::result::Result::{self, Ok, Err};
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
-pub use crate::convert::{AsRef, AsMut, Into, From};
-#[stable(feature = "core_prelude", since = "1.4.0")]
-#[doc(no_inline)]
 pub use crate::ops::{Drop, Fn, FnMut, FnOnce};
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[doc(no_inline)]
