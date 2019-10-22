@@ -75,6 +75,10 @@ pub mod fmt
         fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
     }
 
+    impl Debug for () {
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
+    }
+
     pub(crate) mod macros {
         #[rustc_builtin_macro]
         pub macro Debug($item:item) { /* compiler built-in */ }
