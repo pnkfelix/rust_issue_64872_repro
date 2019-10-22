@@ -191,7 +191,7 @@ pub mod iter {
 }
 pub mod option {
     #![stable(feature = "rust1", since = "1.0.0")]
-    #[derive(Debug, PartialEq, Eq)]
+    #[derive(Debug)]
     #[stable(feature = "rust1", since = "1.0.0")]
     pub enum Option<T> {
         #[stable(feature = "rust1", since = "1.0.0")]

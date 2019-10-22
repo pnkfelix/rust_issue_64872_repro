@@ -79,7 +79,7 @@ unsafe impl<T: ?Sized> Freeze for &mut T {}
 pub auto trait Unpin {}
 
 #[stable(feature = "pin", since = "1.33.0")]
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug)]
 pub struct PhantomPinned;
 
 #[stable(feature = "pin", since = "1.33.0")]

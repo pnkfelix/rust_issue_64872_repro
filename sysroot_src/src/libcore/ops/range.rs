@@ -1,7 +1,6 @@
 use crate::fmt;
 
 #[doc(alias = "..")]
-#[derive(PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeFull;
 
@@ -11,7 +10,6 @@ impl fmt::Debug for RangeFull {
 }
 
 #[doc(alias = "..")]
-#[derive(PartialEq, Eq)] // not Copy -- see #27186
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct Range<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -25,20 +23,7 @@ impl<Idx: fmt::Debug> fmt::Debug for Range<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-impl<Idx: PartialOrd<Idx>> Range<Idx> {
-    #[stable(feature = "range_contains", since = "1.35.0")]
-    pub fn contains<U>(&self, item: &U) -> bool
-    where
-        Idx: PartialOrd<U>,
-        U: ?Sized + PartialOrd<Idx>,
-    { loop { } }
-
-    #[unstable(feature = "range_is_empty", reason = "recently added", issue = "48111")]
-    pub fn is_empty(&self) -> bool { loop { } }
-}
-
 #[doc(alias = "..")]
-#[derive(PartialEq, Eq)] // not Copy -- see #27186
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeFrom<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -50,17 +35,7 @@ impl<Idx: fmt::Debug> fmt::Debug for RangeFrom<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-impl<Idx: PartialOrd<Idx>> RangeFrom<Idx> {
-    #[stable(feature = "range_contains", since = "1.35.0")]
-    pub fn contains<U>(&self, item: &U) -> bool
-    where
-        Idx: PartialOrd<U>,
-        U: ?Sized + PartialOrd<Idx>,
-    { loop { } }
-}
-
 #[doc(alias = "..")]
-#[derive(PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeTo<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -70,15 +45,6 @@ pub struct RangeTo<Idx> {
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<Idx: fmt::Debug> fmt::Debug for RangeTo<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-}
-
-impl<Idx: PartialOrd<Idx>> RangeTo<Idx> {
-    #[stable(feature = "range_contains", since = "1.35.0")]
-    pub fn contains<U>(&self, item: &U) -> bool
-    where
-        Idx: PartialOrd<U>,
-        U: ?Sized + PartialOrd<Idx>,
-    { loop { } }
 }
 
 #[doc(alias = "..=")]
@@ -97,20 +63,6 @@ impl<T> RangeInclusiveEquality for T {
     #[inline]
     default fn canonicalized_is_empty(range: &RangeInclusive<Self>) -> bool { loop { } }
 }
-
-impl<T: PartialOrd> RangeInclusiveEquality for T {
-    #[inline]
-    fn canonicalized_is_empty(range: &RangeInclusive<Self>) -> bool { loop { } }
-}
-
-#[stable(feature = "inclusive_range", since = "1.26.0")]
-impl<Idx: PartialEq> PartialEq for RangeInclusive<Idx> {
-    #[inline]
-    fn eq(&self, other: &Self) -> bool { loop { } }
-}
-
-#[stable(feature = "inclusive_range", since = "1.26.0")]
-impl<Idx: Eq> Eq for RangeInclusive<Idx> {}
 
 impl<Idx> RangeInclusive<Idx> {
     #[stable(feature = "inclusive_range_methods", since = "1.27.0")]
@@ -146,24 +98,7 @@ impl<Idx: fmt::Debug> fmt::Debug for RangeInclusive<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-impl<Idx: PartialOrd<Idx>> RangeInclusive<Idx> {
-    #[stable(feature = "range_contains", since = "1.35.0")]
-    pub fn contains<U>(&self, item: &U) -> bool
-    where
-        Idx: PartialOrd<U>,
-        U: ?Sized + PartialOrd<Idx>,
-    { loop { } }
-
-    #[unstable(feature = "range_is_empty", reason = "recently added", issue = "48111")]
-    #[inline]
-    pub fn is_empty(&self) -> bool { loop { } }
-
-    #[inline]
-    pub(crate) fn compute_is_empty(&mut self) { loop { } }
-}
-
 #[doc(alias = "..=")]
-#[derive(PartialEq, Eq)]
 #[stable(feature = "inclusive_range", since = "1.26.0")]
 pub struct RangeToInclusive<Idx> {
     #[stable(feature = "inclusive_range", since = "1.26.0")]
@@ -175,18 +110,8 @@ impl<Idx: fmt::Debug> fmt::Debug for RangeToInclusive<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-impl<Idx: PartialOrd<Idx>> RangeToInclusive<Idx> {
-    #[stable(feature = "range_contains", since = "1.35.0")]
-    pub fn contains<U>(&self, item: &U) -> bool
-    where
-        Idx: PartialOrd<U>,
-        U: ?Sized + PartialOrd<Idx>,
-    { loop { } }
-}
-
-
 #[stable(feature = "collections_bound", since = "1.17.0")]
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 pub enum Bound<T> {
     #[stable(feature = "collections_bound", since = "1.17.0")]
     Included(#[stable(feature = "collections_bound", since = "1.17.0")] T),
@@ -207,8 +132,7 @@ pub trait RangeBounds<T: ?Sized> {
     #[stable(feature = "range_contains", since = "1.35.0")]
     fn contains<U>(&self, item: &U) -> bool
     where
-        T: PartialOrd<U>,
-        U: ?Sized + PartialOrd<T>,
+        U: ?Sized
     { loop { } }
 }
 

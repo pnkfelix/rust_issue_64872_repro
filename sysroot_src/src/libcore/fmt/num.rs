@@ -5,7 +5,7 @@ use crate::fmt;
 use crate::ops::{Div, Rem, Sub};
 
 #[doc(hidden)]
-trait Int: PartialEq + PartialOrd + Div<Output=Self> + Rem<Output=Self> +
+trait Int: Div<Output=Self> + Rem<Output=Self> +
            Sub<Output=Self> + Sized {
     fn zero() -> Self;
     fn from_u8(u: u8) -> Self;
@@ -40,16 +40,12 @@ trait GenericRadix {
     fn fmt_int<T: Int>(&self, mut x: T, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-#[derive(PartialEq)]
 struct Binary;
 
-#[derive(PartialEq)]
 struct Octal;
 
-#[derive(PartialEq)]
 struct LowerHex;
 
-#[derive(PartialEq)]
 struct UpperHex;
 
 macro_rules! radix {

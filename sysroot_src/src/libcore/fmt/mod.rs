@@ -34,7 +34,7 @@ pub mod rt {
 pub type Result = result::Result<(), Error>;
 
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(Debug)]
 pub struct Error;
 
 #[stable(feature = "rust1", since = "1.0.0")]

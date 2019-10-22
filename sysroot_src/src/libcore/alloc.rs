@@ -13,7 +13,7 @@ pub struct Excess(pub NonNull<u8>, pub usize);
 fn size_align<T>() -> (usize, usize) { loop { } }
 
 #[stable(feature = "alloc_layout", since = "1.28.0")]
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 #[lang = "alloc_layout"]
 pub struct Layout {
     size_: usize,
@@ -81,7 +81,7 @@ impl Layout {
 }
 
 #[stable(feature = "alloc_layout", since = "1.28.0")]
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Debug)]
 pub struct LayoutErr {
     private: ()
 }
@@ -92,7 +92,7 @@ impl fmt::Display for LayoutErr {
 }
 
 #[unstable(feature = "allocator_api", issue = "32838")]
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Debug)]
 pub struct AllocErr;
 
 #[unstable(feature = "allocator_api", issue = "32838")]
@@ -101,7 +101,7 @@ impl fmt::Display for AllocErr {
 }
 
 #[unstable(feature = "allocator_api", issue = "32838")]
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Debug)]
 pub struct CannotReallocInPlace;
 
 #[unstable(feature = "allocator_api", issue = "32838")]

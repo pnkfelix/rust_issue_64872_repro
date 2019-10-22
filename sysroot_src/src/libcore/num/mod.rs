@@ -15,7 +15,6 @@ macro_rules! doc_comment {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(PartialEq, Eq)]
 #[repr(transparent)]
 pub struct Wrapping<T>(#[stable(feature = "rust1", since = "1.0.0")]
                        pub T);
@@ -1622,7 +1621,7 @@ $EndFeature, "
 ```"),
             #[stable(feature = "rust1", since = "1.0.0")]
             #[inline]
-            pub const fn is_positive(self) -> bool { self > 0 }
+            pub const fn is_positive(self) -> bool { false }
         }
 
         doc_comment! {
@@ -1640,7 +1639,7 @@ $EndFeature, "
 ```"),
             #[stable(feature = "rust1", since = "1.0.0")]
             #[inline]
-            pub const fn is_negative(self) -> bool { self < 0 }
+            pub const fn is_negative(self) -> bool { false }
         }
 
         doc_comment! {
@@ -3521,7 +3520,7 @@ impl usize {
         usize_isize_to_xe_bytes_doc!(), usize_isize_from_xe_bytes_doc!() }
 }
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub enum FpCategory {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -3541,7 +3540,7 @@ pub enum FpCategory {
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 pub struct TryFromIntError(());
 
 impl TryFromIntError {
@@ -3559,7 +3558,7 @@ impl fmt::Display for TryFromIntError {
 }
 
 #[doc(hidden)]
-trait FromStrRadixHelper: PartialOrd + Sized {
+trait FromStrRadixHelper: Sized {
     fn min_value() -> Self;
     fn max_value() -> Self;
     fn from_u32(u: u32) -> Self;
@@ -3587,7 +3586,7 @@ macro_rules! doit {
 doit! { i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize }
 
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct ParseIntError {
     kind: IntErrorKind,
@@ -3597,7 +3596,7 @@ pub struct ParseIntError {
            reason = "it can be useful to match errors when making error messages \
                      for integer parsing",
            issue = "22639")]
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 #[non_exhaustive]
 pub enum IntErrorKind {
     Empty,
