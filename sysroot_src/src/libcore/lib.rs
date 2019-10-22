@@ -216,14 +216,13 @@ pub mod fmt
 
     #[stable(feature = "debug_builders", since = "1.2.0")]
     pub struct DebugTuple<'a, 'b: 'a> { inner: &'a &'b () }
+
     impl<'a, 'b: 'a> DebugTuple<'a, 'b> {
         #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn field(&mut self, _value: &dyn Debug) -> &mut DebugTuple<'a, 'b> { loop { } }
 
         #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn finish(&mut self) -> Result { loop { } }
-
-        fn is_pretty(&self) -> bool { loop { } }
     }
 
     impl<'a, 'b: 'a> DebugStruct<'a, 'b> {
@@ -232,8 +231,6 @@ pub mod fmt
 
         #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn finish(&mut self) -> Result { loop { } }
-
-        fn is_pretty(&self) -> bool { loop { } }
     }
 
     #[stable(feature = "debug_builders", since = "1.2.0")]
