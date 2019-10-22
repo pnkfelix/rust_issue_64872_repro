@@ -25,7 +25,6 @@
 #![feature(prelude_import)]
 #![feature(rustc_attrs)]
 #![feature(unboxed_closures)]
-#![feature(doc_alias)]
 #![feature(structural_match)]
 
 #[prelude_import]
@@ -109,7 +108,6 @@ struct UnusedWithFieldOfTypeU32 {
 pub mod fmt
 {
 
-    #[doc(alias = "{:?}")]
     pub trait Debug {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result;
     }
@@ -162,7 +160,6 @@ pub mod fmt
         inner: &'a (),
     }
 
-    #[doc(alias = "{}")]
     pub trait Display {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result;
     }
