@@ -1,7 +1,6 @@
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use crate::cell::{UnsafeCell, Cell, RefCell, Ref, RefMut};
 use crate::marker::PhantomData;
 // use crate::num::flt2dec;
 use crate::result;
@@ -477,29 +476,3 @@ impl Debug for () {
 impl<T: ?Sized> Debug for PhantomData<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T: Copy + Debug> Debug for Cell<T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T: ?Sized + Debug> Debug for RefCell<T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T: ?Sized + Debug> Debug for Ref<'_, T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T: ?Sized + Debug> Debug for RefMut<'_, T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-}
-
-#[stable(feature = "core_impl_debug", since = "1.9.0")]
-impl<T: ?Sized + Debug> Debug for UnsafeCell<T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-}
-
