@@ -27,13 +27,6 @@ unsafe extern "C" fn rust_eh_personality(version: isize,
     loop { }
 }
 
-use core::panic::PanicInfo;
-
-#[panic_handler]
-pub fn rust_begin_panic(_info: &PanicInfo<'_>) -> ! {
-    loop { }
-}
-
 pub mod fmt {
     pub use core::fmt::Debug;
     pub use core::fmt::Formatter;

@@ -173,35 +173,18 @@ pub mod ops {
     pub use self::function::{Fn, FnMut, FnOnce};
 }
 
-pub mod panic {
-    #![unstable(feature = "core_panic_info",
-                reason = "newly available in libcore",
-                issue = "44489")]
-
-    #[lang = "panic_info"]
-    #[stable(feature = "panic_hooks", since = "1.10.0")]
-    #[derive(Debug)]
-    pub struct PanicInfo<'a> {
-        payload: &'a (dyn crate::any::Any),
-        message: Option<&'a crate::fmt::Arguments<'a>>,
-        location: Location<'a>,
-    }
-
-    #[derive(Debug)]
-    #[stable(feature = "panic_hooks", since = "1.10.0")]
-    pub struct Location<'a> {
-        file: &'a str,
-        line: u32,
-        col: u32,
-    }
+#[derive(Debug)]
+#[stable(feature = "panic_hooks", since = "1.10.0")]
+struct UnusedWithFieldOfTypeU32 {
+    inner: u32,
 }
+
 pub mod fmt
 {
     #![stable(feature = "rust1", since = "1.0.0")]
 
     #[stable(feature = "rust1", since = "1.0.0")]
     #[doc(alias = "{:?}")]
-    #[rustc_diagnostic_item = "debug_trait"]
     pub trait Debug {
         #[stable(feature = "rust1", since = "1.0.0")]
         fn fmt(&self, f: &mut Formatter<'_>) -> Result;
@@ -212,28 +195,9 @@ pub mod fmt
     impl<T: ?Sized + Debug> Debug for &T {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
-    impl<T: ?Sized + Debug> Debug for &mut T {
-        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-    }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    impl Debug for usize {
-        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-    }
 
     #[stable(feature = "rust1", since = "1.0.0")]
     impl Debug for u32 {
-        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-    }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    impl Debug for Arguments<'_> {
-        fn fmt(&self, fmt: &mut Formatter<'_>) -> Result { loop { } }
-    }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    impl Debug for str {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
     }
 
