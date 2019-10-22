@@ -337,4 +337,13 @@ pub mod result {
 }
 
 pub mod fmt;
-pub mod alloc;
+pub mod alloc {
+    #![stable(feature = "alloc_module", since = "1.28.0")]
+
+    #[stable(feature = "alloc_layout", since = "1.28.0")]
+    #[derive(Debug)]
+    #[lang = "alloc_layout"]
+    pub struct Layout {
+        size_: usize,
+    }
+}
