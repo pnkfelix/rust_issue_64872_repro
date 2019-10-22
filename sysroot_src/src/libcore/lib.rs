@@ -125,7 +125,17 @@ pub mod prelude;
 
 pub mod intrinsics;
 pub mod mem;
-pub mod ptr;
+pub mod ptr {
+    #![stable(feature = "rust1", since = "1.0.0")]
+
+    #[stable(feature = "nonnull", since = "1.25.0")]
+    #[derive(Debug)]
+    pub struct NonNull<X: ?Sized>(*const X);
+
+    #[lang = "drop_in_place"]
+    #[allow(unconditional_recursion)]
+    unsafe fn real_drop_in_place<T: ?Sized>(to_drop: &mut T) { loop { } }
+}
 // pub mod hint;
 
 /* Core language traits */
@@ -174,34 +184,13 @@ pub mod iter {
     }
 }
 pub mod option;
-// pub mod raw;
 pub mod result;
 pub mod ffi;
 
 pub mod slice;
 pub mod str;
-// pub mod hash;
 pub mod fmt;
-// pub mod time;
-
-// pub mod unicode;
-
-// /* Async */
-// pub mod future;
-// pub mod task;
 
 /* Heap memory allocator trait */
 #[allow(missing_docs)]
 pub mod alloc;
-
-// mod bool;
-// mod tuple;
-// mod unit;
-
-// #[path = "../stdarch/crates/core_arch/src/mod.rs"]
-// #[allow(missing_docs, missing_debug_implementations, dead_code, unused_imports)]
-// #[unstable(feature = "stdsimd", issue = "48556")]
-// mod core_arch;
-
-// #[stable(feature = "simd_arch", since = "1.27.0")]
-// pub use core_arch::arch;

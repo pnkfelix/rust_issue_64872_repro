@@ -25,11 +25,7 @@ impl<T> [T] {
     #[inline]
     #[allow(unused_attributes)]
     #[allow_internal_unstable(const_fn_union)]
-    pub const fn len(&self) -> usize {
-        unsafe {
-            crate::ptr::Repr { rust: self }.raw.len
-        }
-    }
+    pub const fn len(&self) -> usize { 0 }
 
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]

@@ -7,11 +7,6 @@
             issue = "0")]
 #![allow(missing_docs)]
 
-#[stable(feature = "drop_in_place", since = "1.8.0")]
-#[rustc_deprecated(reason = "no longer an intrinsic - use `ptr::drop_in_place` directly",
-                   since = "1.18.0")]
-pub use crate::ptr::drop_in_place;
-
 extern "rust-intrinsic" {
 
     pub fn atomic_cxchg<T>(dst: *mut T, old: T, src: T) -> (T, bool);
