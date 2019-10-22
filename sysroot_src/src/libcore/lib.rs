@@ -85,13 +85,13 @@ mod macros;
 #[macro_use]
 mod internal_macros;
 
-#[stable(feature = "rust1", since = "1.0.0")] pub mod usize { }
-
-// #[macro_use]
-// pub mod num;
+pub mod ops;
+pub mod panic;
+pub mod fmt;
 
 /* The libcore prelude, not as all-encompassing as the libstd prelude */
 
+#[stable(feature = "rust1", since = "1.0.0")] pub mod usize { }
 pub mod prelude {
     #![stable(feature = "core_prelude", since = "1.4.0")]
     pub mod v1 {
@@ -238,7 +238,7 @@ pub mod marker {
     }
 }
 
-pub mod ops;
+
 
 pub mod any {
     #![stable(feature = "rust1", since = "1.0.0")]
@@ -262,8 +262,6 @@ pub mod any {
     }
 }
 
-// pub mod array;
-pub mod panic;
 pub mod panicking {
     #![allow(dead_code, missing_docs)]
     #![unstable(feature = "core_panic",
@@ -325,6 +323,7 @@ pub mod option {
         Some(#[stable(feature = "rust1", since = "1.0.0")] T),
     }
 }
+
 pub mod result {
     #![stable(feature = "rust1", since = "1.0.0")]
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -336,7 +335,6 @@ pub mod result {
     }
 }
 
-pub mod fmt;
 pub mod alloc {
     #![stable(feature = "alloc_module", since = "1.28.0")]
 
