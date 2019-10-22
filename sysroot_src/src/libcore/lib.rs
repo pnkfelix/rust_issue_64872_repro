@@ -18,9 +18,7 @@
 
 #![feature(allow_internal_unstable)]
 #![feature(arbitrary_self_types)]
-#![feature(asm)]
 #![feature(cfg_target_has_atomic)]
-#![feature(concat_idents)]
 #![feature(const_fn)]
 #![feature(const_fn_union)]
 #![feature(const_generics)]
@@ -79,8 +77,8 @@
 #[allow(unused)]
 use prelude::v1::*;
 
-#[macro_use]
-mod macros;
+// #[macro_use]
+// mod macros;
 
 #[macro_use]
 mod internal_macros;
@@ -119,11 +117,11 @@ pub mod prelude {
         #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
         #[doc(no_inline)]
         pub use crate::{
-            assert,
-            cfg,
-            concat,
-            format_args,
-            stringify,
+            // assert,
+            // cfg,
+            // concat,
+            // format_args,
+            // stringify,
         };
     }
 }
@@ -154,7 +152,6 @@ pub mod ptr {
     #[allow(unconditional_recursion)]
     unsafe fn real_drop_in_place<T: ?Sized>(to_drop: &mut T) { loop { } }
 }
-// pub mod hint;
 
 /* Core language traits */
 

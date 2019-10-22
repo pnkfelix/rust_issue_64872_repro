@@ -10,7 +10,6 @@
     html_playground_url = "https://play.rust-lang.org/",
     test(attr(deny(warnings)))
 )]
-#![feature(asm)]
 #![feature(compiler_builtins)]
 #![feature(core_intrinsics)]
 #![feature(naked_functions)]
