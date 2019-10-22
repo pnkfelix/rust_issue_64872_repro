@@ -2,7 +2,6 @@
 
 #![stable(feature = "core_array", since = "1.36.0")]
 
-use crate::borrow::{Borrow, BorrowMut};
 use crate::cmp::Ordering;
 use crate::convert::{Infallible, TryFrom};
 use crate::fmt;
@@ -66,22 +65,6 @@ where
 {
     #[inline]
     fn as_mut(&mut self) -> &mut [T] { loop { } }
-}
-
-#[stable(feature = "array_borrow", since = "1.4.0")]
-impl<T, const N: usize> Borrow<[T]> for [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    fn borrow(&self) -> &[T] { loop { } }
-}
-
-#[stable(feature = "array_borrow", since = "1.4.0")]
-impl<T, const N: usize> BorrowMut<[T]> for [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    fn borrow_mut(&mut self) -> &mut [T] { loop { } }
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
