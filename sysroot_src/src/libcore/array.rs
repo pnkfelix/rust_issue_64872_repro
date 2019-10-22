@@ -6,7 +6,6 @@ use crate::borrow::{Borrow, BorrowMut};
 use crate::cmp::Ordering;
 use crate::convert::{Infallible, TryFrom};
 use crate::fmt;
-use crate::hash::{Hash, self};
 use crate::marker::Unsize;
 use crate::slice::{Iter, IterMut};
 
@@ -114,14 +113,6 @@ where
     type Error = TryFromSliceError;
 
     fn try_from(slice: &mut [T]) -> Result<&mut [T; N], TryFromSliceError> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T: Hash, const N: usize> Hash for [T; N]
-where
-    [T; N]: LengthAtMost32,
-{
-    fn hash<H: hash::Hasher>(&self, state: &mut H) { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]

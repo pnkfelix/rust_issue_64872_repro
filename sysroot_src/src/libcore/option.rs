@@ -4,7 +4,7 @@
 use crate::{fmt, ops::{self, Deref, DerefMut}};
 
 
-#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
+#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub enum Option<T> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -305,7 +305,7 @@ impl<A> Iterator for IntoIter<A> {
 }
 
 #[unstable(feature = "try_trait", issue = "42327")]
-#[derive(Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Debug)]
 pub struct NoneError;
 
 #[unstable(feature = "try_trait", issue = "42327")]

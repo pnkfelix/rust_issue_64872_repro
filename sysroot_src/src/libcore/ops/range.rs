@@ -1,8 +1,7 @@
 use crate::fmt;
-use crate::hash::{Hash, Hasher};
 
 #[doc(alias = "..")]
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeFull;
 
@@ -12,7 +11,7 @@ impl fmt::Debug for RangeFull {
 }
 
 #[doc(alias = "..")]
-#[derive(Clone, PartialEq, Eq, Hash)] // not Copy -- see #27186
+#[derive(Clone, PartialEq, Eq)] // not Copy -- see #27186
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct Range<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -39,7 +38,7 @@ impl<Idx: PartialOrd<Idx>> Range<Idx> {
 }
 
 #[doc(alias = "..")]
-#[derive(Clone, PartialEq, Eq, Hash)] // not Copy -- see #27186
+#[derive(Clone, PartialEq, Eq)] // not Copy -- see #27186
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeFrom<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -61,7 +60,7 @@ impl<Idx: PartialOrd<Idx>> RangeFrom<Idx> {
 }
 
 #[doc(alias = "..")]
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeTo<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -114,11 +113,6 @@ impl<Idx: PartialEq> PartialEq for RangeInclusive<Idx> {
 #[stable(feature = "inclusive_range", since = "1.26.0")]
 impl<Idx: Eq> Eq for RangeInclusive<Idx> {}
 
-#[stable(feature = "inclusive_range", since = "1.26.0")]
-impl<Idx: Hash> Hash for RangeInclusive<Idx> {
-    fn hash<H: Hasher>(&self, state: &mut H) { loop { } }
-}
-
 impl<Idx> RangeInclusive<Idx> {
     #[stable(feature = "inclusive_range_methods", since = "1.27.0")]
     #[inline]
@@ -170,7 +164,7 @@ impl<Idx: PartialOrd<Idx>> RangeInclusive<Idx> {
 }
 
 #[doc(alias = "..=")]
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 #[stable(feature = "inclusive_range", since = "1.26.0")]
 pub struct RangeToInclusive<Idx> {
     #[stable(feature = "inclusive_range", since = "1.26.0")]
@@ -193,7 +187,7 @@ impl<Idx: PartialOrd<Idx>> RangeToInclusive<Idx> {
 
 
 #[stable(feature = "collections_bound", since = "1.17.0")]
-#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Bound<T> {
     #[stable(feature = "collections_bound", since = "1.17.0")]
     Included(#[stable(feature = "collections_bound", since = "1.17.0")] T),

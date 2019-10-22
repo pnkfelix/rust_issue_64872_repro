@@ -47,7 +47,7 @@ use crate::ops::{Deref, DerefMut};
 /// [`MaybeUninit<T>`]: union.MaybeUninit.html
 #[stable(feature = "manually_drop", since = "1.20.0")]
 #[lang = "manually_drop"]
-#[derive(Copy, Clone, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Copy, Clone, Debug, Default, PartialEq, Eq, PartialOrd, Ord)]
 #[repr(transparent)]
 pub struct ManuallyDrop<T: ?Sized> {
     value: T,

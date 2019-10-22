@@ -3,7 +3,6 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use crate::fmt;
-use crate::hash;
 use crate::cmp::Ordering::{self};
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -362,9 +361,6 @@ impl<T: ?Sized> Eq for *mut T {}
 #[inline]
 pub fn eq<T: ?Sized>(a: *const T, b: *const T) -> bool { loop { } }
 
-#[stable(feature = "ptr_hash", since = "1.35.0")]
-pub fn hash<T: ?Sized, S: hash::Hasher>(hashee: *const T, into: &mut S) { loop { } }
-
 macro_rules! fnptr_impls_safety_abi {
     ($FnTy: ty, $($Arg: ident),*) => {
         #[stable(feature = "fnptr_impls", since = "1.4.0")]
@@ -386,11 +382,6 @@ macro_rules! fnptr_impls_safety_abi {
         impl<Ret, $($Arg),*> Ord for $FnTy {
             #[inline]
             fn cmp(&self, other: &Self) -> Ordering { loop { } }
-        }
-
-        #[stable(feature = "fnptr_impls", since = "1.4.0")]
-        impl<Ret, $($Arg),*> hash::Hash for $FnTy {
-            fn hash<HH: hash::Hasher>(&self, state: &mut HH) { loop { } }
         }
 
         #[stable(feature = "fnptr_impls", since = "1.4.0")]

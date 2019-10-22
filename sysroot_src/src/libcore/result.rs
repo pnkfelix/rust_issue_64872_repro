@@ -4,7 +4,7 @@ use crate::fmt;
 // use crate::iter::{FromIterator};
 use crate::ops::{self, Deref, DerefMut};
 
-#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
+#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug)]
 #[must_use = "this `Result` may be an `Err` variant, which should be handled"]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub enum Result<T, E> {

@@ -43,7 +43,7 @@ assert_eq!(size_of::<Option<core::num::", stringify!($Ty), ">>(), size_of::<", s
 ">());
 ```"),
                 #[$stability]
-                #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+                #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
                 #[repr(transparent)]
                 #[rustc_layout_scalar_valid_range_start(1)]
                 #[rustc_nonnull_optimization_guaranteed]
@@ -110,7 +110,7 @@ from_str_radix_nzint_impl! { NonZeroU8 NonZeroU16 NonZeroU32 NonZeroU64 NonZeroU
                              NonZeroI8 NonZeroI16 NonZeroI32 NonZeroI64 NonZeroI128 NonZeroIsize }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default, Hash)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default)]
 #[repr(transparent)]
 pub struct Wrapping<T>(#[stable(feature = "rust1", since = "1.0.0")]
                        pub T);

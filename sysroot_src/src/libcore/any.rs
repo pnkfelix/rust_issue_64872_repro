@@ -76,7 +76,7 @@ impl dyn Any+Send+Sync {
 }
 
 
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct TypeId {
     t: u64,

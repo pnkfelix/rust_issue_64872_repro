@@ -2,8 +2,6 @@
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use crate::hash::Hash;
-
 #[stable(feature = "rust1", since = "1.0.0")]
 #[rustc_on_unimplemented(
     message="`{Self}` cannot be sent between threads safely",
@@ -88,7 +86,7 @@ unsafe impl<T: ?Sized> Freeze for &mut T {}
 pub auto trait Unpin {}
 
 #[stable(feature = "pin", since = "1.33.0")]
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 pub struct PhantomPinned;
 
 #[stable(feature = "pin", since = "1.33.0")]

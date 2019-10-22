@@ -18,6 +18,7 @@ pub use crate::clone::Clone;
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
 pub use crate::cmp::{PartialEq, PartialOrd, Eq, Ord};
+#[cfg(not_now)]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[doc(no_inline)]
 pub use crate::hash::macros::Hash;

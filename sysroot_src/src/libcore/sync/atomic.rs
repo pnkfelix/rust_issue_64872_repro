@@ -51,7 +51,7 @@ unsafe impl<T> Send for AtomicPtr<T> {}
 unsafe impl<T> Sync for AtomicPtr<T> {}
 
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub enum Ordering {
     #[stable(feature = "rust1", since = "1.0.0")]
