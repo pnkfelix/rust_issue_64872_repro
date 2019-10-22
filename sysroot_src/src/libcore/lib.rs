@@ -6,7 +6,6 @@
 #![feature(fundamental)]
 #![feature(lang_items)]
 #![feature(no_core)]
-#![feature(optin_builtin_traits)]
 #![feature(prelude_import)]
 #![feature(rustc_attrs)]
 #![feature(unboxed_closures)]
@@ -18,7 +17,6 @@ use prelude::v1::*;
 pub mod ops {
     mod deref {
         #[lang = "receiver"]
-        #[doc(hidden)]
         pub trait Receiver { }
 
         impl<T: ?Sized> Receiver for &T {}
@@ -31,26 +29,9 @@ pub mod ops {
         #[rustc_paren_sugar]
         #[fundamental] // so that regex can rely that `&str: !FnMut`
         #[must_use = "closures are lazy and do nothing unless called"]
-        pub trait Fn<Args> : FnMut<Args> {
-            extern "rust-call" fn call(&self, args: Args) -> Self::Output;
-        }
-
-        #[lang = "fn_mut"]
-        #[rustc_paren_sugar]
-        #[fundamental] // so that regex can rely that `&str: !FnMut`
-        #[must_use = "closures are lazy and do nothing unless called"]
-        pub trait FnMut<Args> : FnOnce<Args> {
-            extern "rust-call" fn call_mut(&mut self, args: Args) -> Self::Output;
-        }
-
-        #[lang = "fn_once"]
-        #[rustc_paren_sugar]
-        #[fundamental] // so that regex can rely that `&str: !FnMut`
-        #[must_use = "closures are lazy and do nothing unless called"]
-        pub trait FnOnce<Args> {
+        pub trait Fn<Args> {
             type Output;
-
-            extern "rust-call" fn call_once(self, args: Args) -> Self::Output;
+            extern "rust-call" fn call(&self, args: Args) -> Self::Output;
         }
     }
     mod unsize {
@@ -61,27 +42,18 @@ pub mod ops {
 
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a mut U> for &'a mut T {}
         impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b mut T {}
-        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*mut U> for &'a mut T {}
-        impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for &'a mut T {}
 
         impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b T {}
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for &'a T {}
-
-        impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*mut U> for *mut T {}
-        impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for *mut T {}
-
-        impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for *const T {}
 
         #[lang = "dispatch_from_dyn"]
         pub trait DispatchFromDyn<T> { }
 
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a U> for &'a T {}
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a mut U> for &'a mut T {}
-        impl<T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<*const U> for *const T {}
-        impl<T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<*mut U> for *mut T {}
     }
 
-    pub use self::function::{Fn, FnMut, FnOnce};
+    pub use self::function::{Fn};
 }
 
 #[derive(Debug)]
@@ -91,11 +63,9 @@ struct UnusedWithFieldOfTypeU32 {
 
 pub mod fmt
 {
-
     pub trait Debug {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result;
     }
-
 
     impl<T: ?Sized + Debug> Debug for &T {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
@@ -142,9 +112,6 @@ pub mod fmt
         inner: &'a (),
     }
 
-    pub trait Display {
-        fn fmt(&self, f: &mut Formatter<'_>) -> Result;
-    }
     pub struct Error;
 }
 
@@ -164,9 +131,7 @@ pub mod marker {
     pub trait Copy { }
 
     #[lang = "freeze"]
-    pub(crate) unsafe auto trait Freeze {}
-    unsafe impl<T: ?Sized> Freeze for &T {}
-    unsafe impl<T: ?Sized> Freeze for &mut T {}
+    pub /*unsafe auto*/ trait Freeze {}
 
     #[lang = "sized"]
     #[fundamental] // for Default, for example, which requires that `[T]: !Default` be evaluatable
