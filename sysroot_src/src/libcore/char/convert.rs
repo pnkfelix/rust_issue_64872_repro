@@ -1,7 +1,6 @@
 //! Character conversions.
 
 use crate::fmt;
-use crate::str::FromStr;
 
 #[inline]
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -34,15 +33,6 @@ enum CharErrorKind {
 #[stable(feature = "char_from_str", since = "1.20.0")]
 impl fmt::Display for ParseCharError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-}
-
-
-#[stable(feature = "char_from_str", since = "1.20.0")]
-impl FromStr for char {
-    type Err = ParseCharError;
-
-    #[inline]
-    fn from_str(s: &str) -> Result<Self, Self::Err> { loop { } }
 }
 
 

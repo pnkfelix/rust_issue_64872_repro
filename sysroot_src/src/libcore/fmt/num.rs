@@ -3,7 +3,6 @@
 
 use crate::fmt;
 use crate::ops::{Div, Rem, Sub};
-use crate::str;
 
 #[doc(hidden)]
 trait Int: PartialEq + PartialOrd + Div<Output=Self> + Rem<Output=Self> +

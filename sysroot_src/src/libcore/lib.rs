@@ -199,7 +199,7 @@ pub mod result {
 // pub mod ffi;
 
 // pub mod slice;
-pub mod str;
+// pub mod str;
 pub mod fmt;
 
 /* Heap memory allocator trait */

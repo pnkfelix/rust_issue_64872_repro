@@ -6,7 +6,6 @@
 use crate::fmt;
 use crate::intrinsics;
 use crate::mem;
-use crate::str::FromStr;
 
 macro_rules! impl_nonzero_fmt {
     ( #[$stability: meta] ( $( $Trait: ident ),+ ) for $Ty: ident ) => {
@@ -89,19 +88,6 @@ nonzero_integers! {
     #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroI128(i128);
     #[stable(feature = "signed_nonzero", since = "1.34.0")] NonZeroIsize(isize);
 }
-
-macro_rules! from_str_radix_nzint_impl {
-    ($($t:ty)*) => {$(
-        #[stable(feature = "nonzero_parse", since = "1.35.0")]
-        impl FromStr for $t {
-            type Err = ParseIntError;
-            fn from_str(src: &str) -> Result<Self, Self::Err> { loop { } }
-        }
-    )*}
-}
-
-from_str_radix_nzint_impl! { NonZeroU8 NonZeroU16 NonZeroU32 NonZeroU64 NonZeroU128 NonZeroUsize
-                             NonZeroI8 NonZeroI16 NonZeroI32 NonZeroI64 NonZeroI128 NonZeroIsize }
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -3630,17 +3616,6 @@ pub enum FpCategory {
     #[stable(feature = "rust1", since = "1.0.0")]
     Normal,
 }
-
-macro_rules! from_str_radix_int_impl {
-    ($($t:ty)*) => {$(
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl FromStr for $t {
-            type Err = ParseIntError;
-            fn from_str(src: &str) -> Result<Self, ParseIntError> { loop { } }
-        }
-    )*}
-}
-from_str_radix_int_impl! { isize i8 i16 i32 i64 i128 usize u8 u16 u32 u64 u128 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]

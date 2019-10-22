@@ -6,7 +6,6 @@
             issue = "0")]
 
 use crate::fmt;
-use crate::str::FromStr;
 
 use self::parse::{Decimal, Sign};
 use self::rawfp::RawFloat;
@@ -16,20 +15,6 @@ mod table;
 mod num;
 pub mod rawfp;
 pub mod parse;
-
-macro_rules! from_str_float_impl {
-    ($t:ty) => {
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl FromStr for $t {
-            type Err = ParseFloatError;
-
-            #[inline]
-            fn from_str(src: &str) -> Result<Self, ParseFloatError> { loop { } }
-        }
-    }
-}
-from_str_float_impl!(f32);
-from_str_float_impl!(f64);
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]

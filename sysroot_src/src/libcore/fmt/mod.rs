@@ -4,7 +4,6 @@
 use crate::marker::PhantomData;
 // use crate::num::flt2dec;
 use crate::result;
-use crate::str;
 
 mod float;
 mod num;
