@@ -67,7 +67,7 @@ pub struct PhantomData<T:?Sized>;
 
 mod impls {
     #[stable(feature = "rust1", since = "1.0.0")]
-    unsafe impl<T: Sync + ?Sized> Send for &T {}
+    unsafe impl<T: ?Sized> Send for &T {}
     #[stable(feature = "rust1", since = "1.0.0")]
     unsafe impl<T: Send + ?Sized> Send for &mut T {}
 }

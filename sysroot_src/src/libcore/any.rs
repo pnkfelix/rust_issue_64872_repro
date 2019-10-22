@@ -28,11 +28,6 @@ impl fmt::Debug for dyn Any + Send {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-#[stable(feature = "any_send_sync_methods", since = "1.28.0")]
-impl fmt::Debug for dyn Any + Send + Sync {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
-}
-
 impl dyn Any {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[inline]
@@ -48,20 +43,6 @@ impl dyn Any {
 }
 
 impl dyn Any+Send {
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn is<T: Any>(&self) -> bool { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn downcast_ref<T: Any>(&self) -> Option<&T> { loop { } }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[inline]
-    pub fn downcast_mut<T: Any>(&mut self) -> Option<&mut T> { loop { } }
-}
-
-impl dyn Any+Send+Sync {
     #[stable(feature = "any_send_sync_methods", since = "1.28.0")]
     #[inline]
     pub fn is<T: Any>(&self) -> bool { loop { } }
