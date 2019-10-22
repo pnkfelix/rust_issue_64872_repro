@@ -5,7 +5,7 @@ use crate::num::diy_float::Fp;
 use crate::num::FpCategory;
 use crate::num::dec2flt::num::{Big};
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct Unpacked {
     pub sig: u64,
     pub k: i16,

@@ -12,9 +12,9 @@
 #[doc(no_inline)]
 pub use crate::marker::{Sized, /*Unpin*/};
 // Re-exported types and traits
-#[stable(feature = "core_prelude", since = "1.4.0")]
-#[doc(no_inline)]
-pub use crate::clone::Clone;
+// #[stable(feature = "core_prelude", since = "1.4.0")]
+// #[doc(no_inline)]
+// pub use crate::clone::Clone;
 #[stable(feature = "core_prelude", since = "1.4.0")]
 #[doc(no_inline)]
 pub use crate::cmp::{PartialEq, PartialOrd, Eq, Ord};

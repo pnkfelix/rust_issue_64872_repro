@@ -40,16 +40,16 @@ trait GenericRadix {
     fn fmt_int<T: Int>(&self, mut x: T, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(PartialEq)]
 struct Binary;
 
-#[derive(Clone, PartialEq)]
+#[derive(PartialEq)]
 struct Octal;
 
-#[derive(Clone, PartialEq)]
+#[derive(PartialEq)]
 struct LowerHex;
 
-#[derive(Clone, PartialEq)]
+#[derive(PartialEq)]
 struct UpperHex;
 
 macro_rules! radix {

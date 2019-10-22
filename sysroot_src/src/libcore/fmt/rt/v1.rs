@@ -5,13 +5,11 @@
 //! these can be statically allocated and are slightly optimized for the runtime
 #![allow(missing_debug_implementations)]
 
-#[derive(Clone)]
 pub struct Argument {
     pub position: Position,
     pub format: FormatSpec,
 }
 
-#[derive(Clone)]
 pub struct FormatSpec {
     pub fill: char,
     pub align: Alignment,
@@ -21,7 +19,7 @@ pub struct FormatSpec {
 }
 
 /// Possible alignments that can be requested as part of a formatting directive.
-#[derive(Clone, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 pub enum Alignment {
     /// Indication that contents should be left-aligned.
     Left,
@@ -33,7 +31,6 @@ pub enum Alignment {
     Unknown,
 }
 
-#[derive(Clone)]
 pub enum Count {
     Is(usize),
     Param(usize),
@@ -41,7 +38,6 @@ pub enum Count {
     Implied,
 }
 
-#[derive(Clone)]
 pub enum Position {
     Next,
     At(usize),

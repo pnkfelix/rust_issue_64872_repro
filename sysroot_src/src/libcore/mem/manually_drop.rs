@@ -2,7 +2,7 @@ use crate::ops::{Deref, DerefMut};
 
 #[stable(feature = "manually_drop", since = "1.20.0")]
 #[lang = "manually_drop"]
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 #[repr(transparent)]
 pub struct ManuallyDrop<T: ?Sized> {
     value: T,

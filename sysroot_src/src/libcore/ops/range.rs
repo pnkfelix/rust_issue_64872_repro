@@ -1,7 +1,7 @@
 use crate::fmt;
 
 #[doc(alias = "..")]
-#[derive(Clone, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeFull;
 
@@ -11,7 +11,7 @@ impl fmt::Debug for RangeFull {
 }
 
 #[doc(alias = "..")]
-#[derive(Clone, PartialEq, Eq)] // not Copy -- see #27186
+#[derive(PartialEq, Eq)] // not Copy -- see #27186
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct Range<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -38,7 +38,7 @@ impl<Idx: PartialOrd<Idx>> Range<Idx> {
 }
 
 #[doc(alias = "..")]
-#[derive(Clone, PartialEq, Eq)] // not Copy -- see #27186
+#[derive(PartialEq, Eq)] // not Copy -- see #27186
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeFrom<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -60,7 +60,7 @@ impl<Idx: PartialOrd<Idx>> RangeFrom<Idx> {
 }
 
 #[doc(alias = "..")]
-#[derive(Clone, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct RangeTo<Idx> {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -82,7 +82,6 @@ impl<Idx: PartialOrd<Idx>> RangeTo<Idx> {
 }
 
 #[doc(alias = "..=")]
-#[derive(Clone)] // not Copy -- see #27186
 #[stable(feature = "inclusive_range", since = "1.26.0")]
 pub struct RangeInclusive<Idx> {
     pub(crate) start: Idx,
@@ -164,7 +163,7 @@ impl<Idx: PartialOrd<Idx>> RangeInclusive<Idx> {
 }
 
 #[doc(alias = "..=")]
-#[derive(Clone, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 #[stable(feature = "inclusive_range", since = "1.26.0")]
 pub struct RangeToInclusive<Idx> {
     #[stable(feature = "inclusive_range", since = "1.26.0")]
@@ -187,7 +186,7 @@ impl<Idx: PartialOrd<Idx>> RangeToInclusive<Idx> {
 
 
 #[stable(feature = "collections_bound", since = "1.17.0")]
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Bound<T> {
     #[stable(feature = "collections_bound", since = "1.17.0")]
     Included(#[stable(feature = "collections_bound", since = "1.17.0")] T),
@@ -195,11 +194,6 @@ pub enum Bound<T> {
     Excluded(#[stable(feature = "collections_bound", since = "1.17.0")] T),
     #[stable(feature = "collections_bound", since = "1.17.0")]
     Unbounded,
-}
-
-impl<T: Clone> Bound<&T> {
-    #[unstable(feature = "bound_cloned", issue = "61356")]
-    pub fn cloned(self) -> Bound<T> { loop { } }
 }
 
 #[stable(feature = "collections_range", since = "1.28.0")]

@@ -16,13 +16,13 @@ mod num;
 pub mod rawfp;
 pub mod parse;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct ParseFloatError {
     kind: FloatErrorKind
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 enum FloatErrorKind {
     Empty,
     Invalid,

@@ -15,7 +15,7 @@ macro_rules! doc_comment {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-#[derive(Clone, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 #[repr(transparent)]
 pub struct Wrapping<T>(#[stable(feature = "rust1", since = "1.0.0")]
                        pub T);
@@ -1125,8 +1125,7 @@ $EndFeature, "
             #[stable(feature = "no_panic_abs", since = "1.13.0")]
             #[inline]
             pub const fn wrapping_abs(self) -> Self {
-                let sign = self >> ($BITS - 1);
-                (self ^ sign).wrapping_sub(sign)
+                self
             }
         }
 
@@ -1365,7 +1364,7 @@ assert_eq!(", stringify!($SelfT), "::MIN.overflowing_neg(), (", stringify!($Self
             #[inline]
             #[stable(feature = "wrapping", since = "1.7.0")]
             pub const fn overflowing_neg(self) -> (Self, bool) {
-                ((!self).wrapping_add(1), self == Self::min_value())
+                (self, false)
             }
         }
 
@@ -1390,7 +1389,7 @@ $EndFeature, "
                           without modifying the original"]
             #[inline]
             pub const fn overflowing_shl(self, rhs: u32) -> (Self, bool) {
-                (self.wrapping_shl(rhs), (rhs > ($BITS - 1)))
+                (self, false)
             }
         }
 
@@ -1415,7 +1414,7 @@ $EndFeature, "
                           without modifying the original"]
             #[inline]
             pub const fn overflowing_shr(self, rhs: u32) -> (Self, bool) {
-                (self.wrapping_shr(rhs), (rhs > ($BITS - 1)))
+                (self, false)
             }
         }
 
@@ -1441,7 +1440,7 @@ $EndFeature, "
             #[stable(feature = "no_panic_abs", since = "1.13.0")]
             #[inline]
             pub const fn overflowing_abs(self) -> (Self, bool) {
-                (self.wrapping_abs(), self == Self::min_value())
+                (self, false)
             }
         }
 
@@ -1581,8 +1580,7 @@ $EndFeature, "
             #[rustc_inherit_overflow_checks]
             pub const fn abs(self) -> Self {
 
-                let sign = self >> ($BITS - 1);
-                (self ^ sign) - sign
+                self
             }
         }
 
@@ -1606,7 +1604,7 @@ $EndFeature, "
             #[stable(feature = "rust1", since = "1.0.0")]
             #[rustc_const_unstable(feature = "const_int_sign")]
             #[inline]
-            pub const fn signum(self) -> Self { loop { } }
+            pub const fn signum(self) -> Self { self }
         }
 
         doc_comment! {
@@ -2987,7 +2985,7 @@ assert_eq!(2", stringify!($SelfT), ".overflowing_neg(), (-2i32 as ", stringify!(
             #[inline]
             #[stable(feature = "wrapping", since = "1.7.0")]
             pub const fn overflowing_neg(self) -> (Self, bool) {
-                ((!self).wrapping_add(1), self != 0)
+                (self, false)
             }
         }
 
@@ -3013,7 +3011,7 @@ assert_eq!(0x1", stringify!($SelfT), ".overflowing_shl(132), (0x10, true));", $E
                           without modifying the original"]
             #[inline]
             pub const fn overflowing_shl(self, rhs: u32) -> (Self, bool) {
-                (self.wrapping_shl(rhs), (rhs > ($BITS - 1)))
+                (self, false)
             }
         }
 
@@ -3039,7 +3037,7 @@ assert_eq!(0x10", stringify!($SelfT), ".overflowing_shr(132), (0x1, true));", $E
                           without modifying the original"]
             #[inline]
             pub const fn overflowing_shr(self, rhs: u32) -> (Self, bool) {
-                (self.wrapping_shr(rhs), (rhs > ($BITS - 1)))
+                (self, false)
             }
         }
 
@@ -3523,7 +3521,7 @@ impl usize {
         usize_isize_to_xe_bytes_doc!(), usize_isize_from_xe_bytes_doc!() }
 }
 
-#[derive(Clone, PartialEq, Eq, Debug)]
+#[derive(PartialEq, Eq, Debug)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub enum FpCategory {
     #[stable(feature = "rust1", since = "1.0.0")]
@@ -3543,7 +3541,7 @@ pub enum FpCategory {
 }
 
 #[stable(feature = "try_from", since = "1.34.0")]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct TryFromIntError(());
 
 impl TryFromIntError {
@@ -3589,7 +3587,7 @@ macro_rules! doit {
 doit! { i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize }
 
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct ParseIntError {
     kind: IntErrorKind,
@@ -3599,7 +3597,7 @@ pub struct ParseIntError {
            reason = "it can be useful to match errors when making error messages \
                      for integer parsing",
            issue = "22639")]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum IntErrorKind {
     Empty,

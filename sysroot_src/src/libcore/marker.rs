@@ -35,7 +35,7 @@ pub trait Unsize<T: ?Sized> {
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[lang = "copy"]
-pub trait Copy : Clone {
+pub trait Copy {
 }
 
 #[rustc_builtin_macro]
@@ -79,7 +79,7 @@ unsafe impl<T: ?Sized> Freeze for &mut T {}
 pub auto trait Unpin {}
 
 #[stable(feature = "pin", since = "1.33.0")]
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub struct PhantomPinned;
 
 #[stable(feature = "pin", since = "1.33.0")]

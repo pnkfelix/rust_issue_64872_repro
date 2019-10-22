@@ -9,12 +9,6 @@ pub union MaybeUninit<T> {
     value: ManuallyDrop<T>,
 }
 
-#[stable(feature = "maybe_uninit", since = "1.36.0")]
-impl<T> Clone for MaybeUninit<T> {
-    #[inline(always)]
-    fn clone(&self) -> Self { loop { } }
-}
-
 impl<T> MaybeUninit<T> {
     #[stable(feature = "maybe_uninit", since = "1.36.0")]
     #[inline(always)]

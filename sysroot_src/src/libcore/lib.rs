@@ -19,7 +19,6 @@
 #![feature(allow_internal_unstable)]
 #![feature(arbitrary_self_types)]
 #![feature(asm)]
-#![feature(bound_cloned)]
 #![feature(cfg_target_has_atomic)]
 #![feature(concat_idents)]
 #![feature(const_fn)]
@@ -156,7 +155,7 @@ pub mod any {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
     }
 
-    #[derive(Clone, Debug)]
+    #[derive(Debug)]
     #[stable(feature = "rust1", since = "1.0.0")]
     pub struct TypeId {
         t: u64,
@@ -192,7 +191,7 @@ pub mod iter {
 }
 pub mod option {
     #![stable(feature = "rust1", since = "1.0.0")]
-    #[derive(Clone, Debug, PartialEq, Eq)]
+    #[derive(Debug, PartialEq, Eq)]
     #[stable(feature = "rust1", since = "1.0.0")]
     pub enum Option<T> {
         #[stable(feature = "rust1", since = "1.0.0")]
