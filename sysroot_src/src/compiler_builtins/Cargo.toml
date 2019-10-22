@@ -29,12 +29,5 @@ panic = "abort"
 [profile.release]
 panic = "abort"
 
-[lib]
-test = false
-
 [dependencies]
 core = { path = "../libcore" }
-
-[features]
-compiler-builtins = []
-default = ["compiler-builtins"]
