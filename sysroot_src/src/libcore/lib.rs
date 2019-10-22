@@ -163,14 +163,9 @@ pub mod any {
     }
 }
 
-pub mod array;
-// pub mod ascii;
-// pub mod sync;
-// pub mod cell;
-// pub mod char;
+// pub mod array;
 pub mod panic;
 pub mod panicking;
-// pub mod pin;
 pub mod iter {
     #![stable(feature = "rust1", since = "1.0.0")]
 
@@ -208,7 +203,6 @@ pub mod option {
 }
 pub mod result {
     #![stable(feature = "rust1", since = "1.0.0")]
-    #[must_use = "this `Result` may be an `Err` variant, which should be handled"]
     #[stable(feature = "rust1", since = "1.0.0")]
     pub enum Result<T, E> {
         #[stable(feature = "rust1", since = "1.0.0")]
@@ -217,12 +211,6 @@ pub mod result {
         Err(#[stable(feature = "rust1", since = "1.0.0")] E),
     }
 }
-// pub mod ffi;
 
-// pub mod slice;
-// pub mod str;
 pub mod fmt;
-
-/* Heap memory allocator trait */
-#[allow(missing_docs)]
 pub mod alloc;
