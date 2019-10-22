@@ -175,10 +175,6 @@ pub mod prelude {
         #[doc(no_inline)]
         pub use crate::fmt::macros::Debug;
         #[doc(no_inline)]
-        pub use crate::iter::{Iterator, IntoIterator};
-        #[doc(no_inline)]
-        pub use crate::option::Option::{self, Some, None};
-        #[doc(no_inline)]
         pub use crate::result::Result::{self, Ok, Err};
     }
 }
@@ -262,28 +258,6 @@ pub mod panicking {
     #[cfg_attr(not(feature="panic_immediate_abort"),inline(never))]
     #[cfg_attr(    feature="panic_immediate_abort" ,inline)]
     pub fn panic_fmt(fmt: fmt::Arguments<'_>, file_line_col: &(&'static str, u32, u32)) -> ! { loop { } }
-}
-
-pub mod iter {
-    pub trait Iterator {
-        type Item;
-
-        fn next(&mut self) -> Option<Self::Item>;
-    }
-
-    pub trait IntoIterator {
-        type Item;
-
-        type IntoIter: Iterator<Item=Self::Item>;
-
-        fn into_iter(self) -> Self::IntoIter;
-    }
-}
-pub mod option {
-    pub enum Option<T> {
-        None,
-        Some(T),
-    }
 }
 
 pub mod result {
