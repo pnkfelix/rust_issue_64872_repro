@@ -129,16 +129,10 @@ pub mod intrinsics {
 pub mod ptr {
     #![stable(feature = "rust1", since = "1.0.0")]
 
-    #[stable(feature = "nonnull", since = "1.25.0")]
-    #[derive(Debug)]
-    pub struct NonNull<X: ?Sized>(*const X);
-
     #[lang = "drop_in_place"]
     #[allow(unconditional_recursion)]
     unsafe fn real_drop_in_place<T: ?Sized>(to_drop: &mut T) { loop { } }
 }
-
-/* Core language traits */
 
 pub mod marker {
     #![stable(feature = "rust1", since = "1.0.0")]
@@ -164,11 +158,6 @@ pub mod marker {
     pub unsafe auto trait Send { }
 
     #[stable(feature = "rust1", since = "1.0.0")]
-    impl<T: ?Sized> !Send for *const T { }
-    #[stable(feature = "rust1", since = "1.0.0")]
-    impl<T: ?Sized> !Send for *mut T { }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
     #[lang = "sized"]
     #[fundamental] // for Default, for example, which requires that `[T]: !Default` be evaluatable
     pub trait Sized { }
@@ -176,11 +165,6 @@ pub mod marker {
     #[stable(feature = "rust1", since = "1.0.0")]
     #[lang = "sync"]
     pub unsafe auto trait Sync { }
-
-    #[stable(feature = "rust1", since = "1.0.0")]
-    impl<T: ?Sized> !Sync for *const T { }
-    #[stable(feature = "rust1", since = "1.0.0")]
-    impl<T: ?Sized> !Sync for *mut T { }
 
     #[unstable(feature = "unsize", issue = "27732")]
     #[lang = "unsize"]
