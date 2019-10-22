@@ -93,11 +93,42 @@ mod internal_macros;
 
 /* The libcore prelude, not as all-encompassing as the libstd prelude */
 
-pub mod prelude;
+pub mod prelude {
+    #![stable(feature = "core_prelude", since = "1.4.0")]
+    pub mod v1 {
+        #![stable(feature = "core_prelude", since = "1.4.0")]
 
-/* Core modules for ownership management */
+        // Re-exported core operators
+        #[stable(feature = "core_prelude", since = "1.4.0")]
+        #[doc(no_inline)]
+        pub use crate::marker::{Sized};
+        #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
+        #[doc(no_inline)]
+        pub use crate::fmt::macros::Debug;
+        #[stable(feature = "core_prelude", since = "1.4.0")]
+        #[doc(no_inline)]
+        pub use crate::iter::{Iterator, IntoIterator};
+        #[stable(feature = "core_prelude", since = "1.4.0")]
+        #[doc(no_inline)]
+        pub use crate::option::Option::{self, Some, None};
+        #[stable(feature = "core_prelude", since = "1.4.0")]
+        #[doc(no_inline)]
+        pub use crate::result::Result::{self, Ok, Err};
+        #[stable(feature = "core_prelude", since = "1.4.0")]
+        #[doc(no_inline)]
+        pub use crate::ops::{Drop, Fn, FnMut, FnOnce};
+        #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
+        #[doc(no_inline)]
+        pub use crate::{
+            assert,
+            cfg,
+            concat,
+            format_args,
+            stringify,
+        };
+    }
+}
 
-// pub mod intrinsics;
 pub mod intrinsics {
     #![unstable(feature = "core_intrinsics",
                 reason = "intrinsics are unlikely to ever be stabilized, instead \
@@ -209,13 +240,6 @@ pub mod marker {
 }
 
 pub mod ops;
-// pub mod cmp;
-// pub mod clone;
-// pub mod default;
-// pub mod convert;
-// pub mod borrow;
-
-/* Core types and methods on primitives */
 
 pub mod any {
     #![stable(feature = "rust1", since = "1.0.0")]
