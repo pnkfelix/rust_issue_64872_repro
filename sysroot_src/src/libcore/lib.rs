@@ -112,7 +112,21 @@ pub mod prelude;
 
 /* Core modules for ownership management */
 
-pub mod intrinsics;
+// pub mod intrinsics;
+pub mod intrinsics {
+    #![unstable(feature = "core_intrinsics",
+                reason = "intrinsics are unlikely to ever be stabilized, instead \
+                          they should be used through stabilized interfaces \
+                          in the rest of the standard library",
+                issue = "0")]
+    extern "rust-intrinsic" {
+        #[stable(feature = "rust1", since = "1.0.0")]
+        pub fn transmute<T, U>(e: T) -> U;
+        pub fn size_of<T>() -> usize;
+        pub fn min_align_of<T>() -> usize;
+        pub fn needs_drop<T>() -> bool;
+    }
+}
 pub mod mem;
 pub mod ptr {
     #![stable(feature = "rust1", since = "1.0.0")]
