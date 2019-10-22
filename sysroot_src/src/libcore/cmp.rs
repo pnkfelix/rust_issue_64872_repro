@@ -71,7 +71,7 @@ impl Ordering {
     pub fn then_with<F: FnOnce() -> Ordering>(self, f: F) -> Ordering { loop { } }
 }
 
-#[derive(PartialEq, Eq, Debug, Copy, Clone, Default)]
+#[derive(PartialEq, Eq, Debug, Copy, Clone)]
 #[stable(feature = "reverse_cmp_key", since = "1.19.0")]
 pub struct Reverse<T>(#[stable(feature = "reverse_cmp_key", since = "1.19.0")] pub T);
 

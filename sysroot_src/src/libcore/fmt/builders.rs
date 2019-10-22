@@ -9,10 +9,6 @@ struct PadAdapterState {
     on_newline: bool,
 }
 
-impl Default for PadAdapterState {
-    fn default() -> Self { loop { } }
-}
-
 impl<'buf, 'state> PadAdapter<'buf, 'state> {
     fn wrap<'slot, 'fmt: 'buf+'slot>(fmt: &'fmt mut fmt::Formatter<'_>,
                                      slot: &'slot mut Option<Self>,

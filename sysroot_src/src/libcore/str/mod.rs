@@ -669,16 +669,6 @@ impl AsRef<[u8]> for str {
     fn as_ref(&self) -> &[u8] { loop { } }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl Default for &str {
-    fn default() -> Self { loop { } }
-}
-
-#[stable(feature = "default_mut_str", since = "1.28.0")]
-impl Default for &mut str {
-    fn default() -> Self { loop { } }
-}
-
 #[stable(feature = "split_whitespace", since = "1.1.0")]
 #[derive(Clone, Debug)]
 pub struct SplitWhitespace<'a> {

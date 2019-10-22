@@ -81,10 +81,6 @@ pub unsafe fn uninitialized<T>() -> T { loop { } }
 pub fn swap<T>(x: &mut T, y: &mut T) { loop { } }
 
 #[inline]
-#[stable(feature = "mem_take", since = "1.40.0")]
-pub fn take<T: Default>(dest: &mut T) -> T { loop { } }
-
-#[inline]
 #[stable(feature = "rust1", since = "1.0.0")]
 pub fn replace<T>(dest: &mut T, mut src: T) -> T { loop { } }
 

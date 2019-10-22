@@ -621,17 +621,6 @@ impl<T> SliceIndex<[T]> for ops::RangeToInclusive<usize> {
 
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T> Default for &[T] {
-    fn default() -> Self { loop { } }
-}
-
-#[stable(feature = "mut_slice_default", since = "1.5.0")]
-impl<T> Default for &mut [T] {
-    fn default() -> Self { loop { } }
-}
-
-
-#[stable(feature = "rust1", since = "1.0.0")]
 impl<'a, T> IntoIterator for &'a [T] {
     type Item = &'a T;
     type IntoIter = Iter<'a, T>;
