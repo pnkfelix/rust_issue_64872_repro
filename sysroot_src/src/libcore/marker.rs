@@ -60,48 +60,6 @@ impl<T: ?Sized> !Sync for *const T { }
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<T: ?Sized> !Sync for *mut T { }
 
-macro_rules! impls{
-    ($t: ident) => (
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> Hash for $t<T> {
-            #[inline]
-            fn hash<H: Hasher>(&self, _: &mut H) { loop { } }
-        }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> cmp::PartialEq for $t<T> {
-            fn eq(&self, _other: &$t<T>) -> bool { loop { } }
-        }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> cmp::Eq for $t<T> {
-        }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> cmp::PartialOrd for $t<T> {
-            fn partial_cmp(&self, _other: &$t<T>) -> Option<cmp::Ordering> { loop { } }
-        }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> cmp::Ord for $t<T> {
-            fn cmp(&self, _other: &$t<T>) -> cmp::Ordering { loop { } }
-        }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> Copy for $t<T> { }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> Clone for $t<T> {
-            fn clone(&self) -> $t<T> { loop { } }
-        }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T:?Sized> Default for $t<T> {
-            fn default() -> $t<T> { loop { } }
-        }
-        )
-}
-
 #[lang = "phantom_data"]
 #[structural_match]
 #[stable(feature = "rust1", since = "1.0.0")]

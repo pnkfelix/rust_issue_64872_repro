@@ -91,14 +91,6 @@ impl Iterator for EscapeUnicode {
     type Item = char;
 
     fn next(&mut self) -> Option<char> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    fn last(self) -> Option<char> { loop { } }
 }
 
 #[stable(feature = "char_struct_display", since = "1.16.0")]
@@ -125,16 +117,6 @@ impl Iterator for EscapeDefault {
     type Item = char;
 
     fn next(&mut self) -> Option<char> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    fn nth(&mut self, n: usize) -> Option<char> { loop { } }
-
-    fn last(self) -> Option<char> { loop { } }
 }
 
 
@@ -151,7 +133,6 @@ pub struct EscapeDebug(EscapeDefault);
 impl Iterator for EscapeDebug {
     type Item = char;
     fn next(&mut self) -> Option<char> { loop { } }
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 #[stable(feature = "char_escape_debug", since = "1.20.0")]
@@ -167,7 +148,6 @@ pub struct ToLowercase(CaseMappingIter);
 impl Iterator for ToLowercase {
     type Item = char;
     fn next(&mut self) -> Option<char> { loop { } }
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 
@@ -179,7 +159,6 @@ pub struct ToUppercase(CaseMappingIter);
 impl Iterator for ToUppercase {
     type Item = char;
     fn next(&mut self) -> Option<char> { loop { } }
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 #[derive(Debug, Clone)]
@@ -197,8 +176,6 @@ impl CaseMappingIter {
 impl Iterator for CaseMappingIter {
     type Item = char;
     fn next(&mut self) -> Option<char> { loop { } }
-
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 impl fmt::Display for CaseMappingIter {

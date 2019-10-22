@@ -674,57 +674,14 @@ macro_rules! iterator {
         }
 
         #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T> ExactSizeIterator for $name<'_, T> {
-            #[inline(always)]
-            fn len(&self) -> usize { loop { } }
-
-            #[inline(always)]
-            fn is_empty(&self) -> bool { loop { } }
-        }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
         impl<'a, T> Iterator for $name<'a, T> {
             type Item = $elem;
 
             #[inline]
             fn next(&mut self) -> Option<$elem> { loop { } }
 
-            #[inline]
-            fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-            #[inline]
-            fn count(self) -> usize { loop { } }
-
-            #[inline]
-            fn nth(&mut self, n: usize) -> Option<$elem> { loop { } }
-
-            #[inline]
-            fn last(mut self) -> Option<$elem> { loop { } }
-
-            #[inline]
-            #[rustc_inherit_overflow_checks]
-            fn position<P>(&mut self, mut predicate: P) -> Option<usize> where
-                Self: Sized,
-                P: FnMut(Self::Item) -> bool,
-            { loop { } }
-
             $($extra)*
         }
-
-        #[stable(feature = "rust1", since = "1.0.0")]
-        impl<'a, T> DoubleEndedIterator for $name<'a, T> {
-            #[inline]
-            fn next_back(&mut self) -> Option<$elem> { loop { } }
-
-            #[inline]
-            fn nth_back(&mut self, n: usize) -> Option<$elem> { loop { } }
-        }
-
-        #[stable(feature = "fused", since = "1.26.0")]
-        impl<T> FusedIterator for $name<'_, T> {}
-
-        #[unstable(feature = "trusted_len", issue = "37572")]
-        unsafe impl<T> TrustedLen for $name<'_, T> {}
     }
 }
 
@@ -751,11 +708,6 @@ impl<'a, T> Iter<'a, T> {
 }
 
 iterator!{struct Iter -> *const T, &'a T, const, {/* no mut */}, {
-    fn is_sorted_by<F>(self, mut compare: F) -> bool
-    where
-        Self: Sized,
-        F: FnMut(&Self::Item, &Self::Item) -> Option<Ordering>,
-    { loop { } }
 }}
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -795,11 +747,6 @@ impl<'a, T> IterMut<'a, T> {
 
 iterator!{struct IterMut -> *mut T, &'a mut T, mut, {mut}, {}}
 
-#[doc(hidden)]
-trait SplitIter: DoubleEndedIterator {
-    fn finish(&mut self) -> Option<Self::Item>;
-}
-
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct Split<'a, T:'a, P> where P: FnMut(&T) -> bool { inner: &'a (T, P) }
 
@@ -819,24 +766,7 @@ impl<'a, T, P> Iterator for Split<'a, T, P> where P: FnMut(&T) -> bool {
 
     #[inline]
     fn next(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T, P> DoubleEndedIterator for Split<'a, T, P> where P: FnMut(&T) -> bool {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a [T]> { loop { } }
-}
-
-impl<'a, T, P> SplitIter for Split<'a, T, P> where P: FnMut(&T) -> bool {
-    #[inline]
-    fn finish(&mut self) -> Option<&'a [T]> { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T, P> FusedIterator for Split<'_, T, P> where P: FnMut(&T) -> bool {}
 
 #[stable(feature = "rust1", since = "1.0.0")]
 pub struct SplitMut<'a, T:'a, P> where P: FnMut(&T) -> bool {
@@ -850,32 +780,13 @@ impl<T: fmt::Debug, P> fmt::Debug for SplitMut<'_, T, P> where P: FnMut(&T) -> b
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
 }
 
-impl<'a, T, P> SplitIter for SplitMut<'a, T, P> where P: FnMut(&T) -> bool {
-    #[inline]
-    fn finish(&mut self) -> Option<&'a mut [T]> { loop { } }
-}
-
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<'a, T, P> Iterator for SplitMut<'a, T, P> where P: FnMut(&T) -> bool {
     type Item = &'a mut [T];
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T, P> DoubleEndedIterator for SplitMut<'a, T, P> where
-    P: FnMut(&T) -> bool,
-{
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut [T]> { loop { } }
-}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T, P> FusedIterator for SplitMut<'_, T, P> where P: FnMut(&T) -> bool {}
 
 #[stable(feature = "slice_rsplit", since = "1.27.0")]
 #[derive(Clone)] // Is this correct, or does it incorrectly require `T: Clone`?
@@ -894,25 +805,7 @@ impl<'a, T, P> Iterator for RSplit<'a, T, P> where P: FnMut(&T) -> bool {
 
     #[inline]
     fn next(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "slice_rsplit", since = "1.27.0")]
-impl<'a, T, P> DoubleEndedIterator for RSplit<'a, T, P> where P: FnMut(&T) -> bool {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a [T]> { loop { } }
-}
-
-#[stable(feature = "slice_rsplit", since = "1.27.0")]
-impl<'a, T, P> SplitIter for RSplit<'a, T, P> where P: FnMut(&T) -> bool {
-    #[inline]
-    fn finish(&mut self) -> Option<&'a [T]> { loop { } }
-}
-
-#[stable(feature = "slice_rsplit", since = "1.27.0")]
-impl<T, P> FusedIterator for RSplit<'_, T, P> where P: FnMut(&T) -> bool {}
 
 #[stable(feature = "slice_rsplit", since = "1.27.0")]
 pub struct RSplitMut<'a, T:'a, P> where P: FnMut(&T) -> bool {
@@ -925,32 +818,12 @@ impl<T: fmt::Debug, P> fmt::Debug for RSplitMut<'_, T, P> where P: FnMut(&T) -> 
 }
 
 #[stable(feature = "slice_rsplit", since = "1.27.0")]
-impl<'a, T, P> SplitIter for RSplitMut<'a, T, P> where P: FnMut(&T) -> bool {
-    #[inline]
-    fn finish(&mut self) -> Option<&'a mut [T]> { loop { } }
-}
-
-#[stable(feature = "slice_rsplit", since = "1.27.0")]
 impl<'a, T, P> Iterator for RSplitMut<'a, T, P> where P: FnMut(&T) -> bool {
     type Item = &'a mut [T];
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "slice_rsplit", since = "1.27.0")]
-impl<'a, T, P> DoubleEndedIterator for RSplitMut<'a, T, P> where
-    P: FnMut(&T) -> bool,
-{
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut [T]> { loop { } }
-}
-
-#[stable(feature = "slice_rsplit", since = "1.27.0")]
-impl<T, P> FusedIterator for RSplitMut<'_, T, P> where P: FnMut(&T) -> bool {}
 
 #[derive(Debug)]
 struct GenericSplitN<I> {
@@ -958,14 +831,11 @@ struct GenericSplitN<I> {
     count: usize,
 }
 
-impl<T, I: SplitIter<Item=T>> Iterator for GenericSplitN<I> {
-    type Item = T;
+impl<I> Iterator for GenericSplitN<I> {
+    type Item = ();
 
     #[inline]
-    fn next(&mut self) -> Option<T> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
+    fn next(&mut self) -> Option<()> { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -1018,14 +888,7 @@ macro_rules! forward_iterator {
 
             #[inline]
             fn next(&mut self) -> Option<$iter_of> { loop { } }
-
-            #[inline]
-            fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
         }
-
-        #[stable(feature = "fused", since = "1.26.0")]
-        impl<'a, $elem, P> FusedIterator for $name<'a, $elem, P>
-            where P: FnMut(&T) -> bool {}
     }
 }
 
@@ -1052,42 +915,6 @@ impl<'a, T> Iterator for Windows<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn last(self) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T> DoubleEndedIterator for Windows<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Windows<'_, T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for Windows<'_, T> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T> FusedIterator for Windows<'_, T> {}
-
-#[doc(hidden)]
-unsafe impl<'a, T> TrustedRandomAccess for Windows<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
 }
 
 #[derive(Debug)]
@@ -1108,42 +935,6 @@ impl<'a, T> Iterator for Chunks<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn last(self) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T> DoubleEndedIterator for Chunks<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Chunks<'_, T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for Chunks<'_, T> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T> FusedIterator for Chunks<'_, T> {}
-
-#[doc(hidden)]
-unsafe impl<'a, T> TrustedRandomAccess for Chunks<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
 }
 
 #[derive(Debug)]
@@ -1159,42 +950,6 @@ impl<'a, T> Iterator for ChunksMut<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn last(self) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<'a, T> DoubleEndedIterator for ChunksMut<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for ChunksMut<'_, T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for ChunksMut<'_, T> {}
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl<T> FusedIterator for ChunksMut<'_, T> {}
-
-#[doc(hidden)]
-unsafe impl<'a, T> TrustedRandomAccess for ChunksMut<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a mut [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
 }
 
 #[derive(Debug)]
@@ -1221,46 +976,8 @@ impl<'a, T> Iterator for ChunksExact<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<Self::Item> { loop { } }
 }
 
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-impl<'a, T> DoubleEndedIterator for ChunksExact<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-impl<T> ExactSizeIterator for ChunksExact<'_, T> {
-    fn is_empty(&self) -> bool { loop { } }
-}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for ChunksExact<'_, T> {}
-
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-impl<T> FusedIterator for ChunksExact<'_, T> {}
-
-#[doc(hidden)]
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-unsafe impl<'a, T> TrustedRandomAccess for ChunksExact<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
-}
 
 #[derive(Debug)]
 #[stable(feature = "chunks_exact", since = "1.31.0")]
@@ -1281,46 +998,8 @@ impl<'a, T> Iterator for ChunksExactMut<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<Self::Item> { loop { } }
 }
 
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-impl<'a, T> DoubleEndedIterator for ChunksExactMut<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-impl<T> ExactSizeIterator for ChunksExactMut<'_, T> {
-    fn is_empty(&self) -> bool { loop { } }
-}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for ChunksExactMut<'_, T> {}
-
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-impl<T> FusedIterator for ChunksExactMut<'_, T> {}
-
-#[doc(hidden)]
-#[stable(feature = "chunks_exact", since = "1.31.0")]
-unsafe impl<'a, T> TrustedRandomAccess for ChunksExactMut<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a mut [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
-}
 
 #[derive(Debug)]
 #[stable(feature = "rchunks", since = "1.31.0")]
@@ -1340,43 +1019,6 @@ impl<'a, T> Iterator for RChunks<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn last(self) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<'a, T> DoubleEndedIterator for RChunks<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> ExactSizeIterator for RChunks<'_, T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunks<'_, T> {}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> FusedIterator for RChunks<'_, T> {}
-
-#[doc(hidden)]
-#[stable(feature = "rchunks", since = "1.31.0")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunks<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
 }
 
 #[derive(Debug)]
@@ -1392,43 +1034,6 @@ impl<'a, T> Iterator for RChunksMut<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn last(self) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<'a, T> DoubleEndedIterator for RChunksMut<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> ExactSizeIterator for RChunksMut<'_, T> {}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunksMut<'_, T> {}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> FusedIterator for RChunksMut<'_, T> {}
-
-#[doc(hidden)]
-#[stable(feature = "rchunks", since = "1.31.0")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunksMut<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a mut [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
 }
 
 #[derive(Debug)]
@@ -1455,45 +1060,6 @@ impl<'a, T> Iterator for RChunksExact<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<'a, T> DoubleEndedIterator for RChunksExact<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<'a, T> ExactSizeIterator for RChunksExact<'a, T> {
-    fn is_empty(&self) -> bool { loop { } }
-}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunksExact<'_, T> {}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> FusedIterator for RChunksExact<'_, T> {}
-
-#[doc(hidden)]
-#[stable(feature = "rchunks", since = "1.31.0")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunksExact<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
 }
 
 #[derive(Debug)]
@@ -1515,47 +1081,7 @@ impl<'a, T> Iterator for RChunksExactMut<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<Self::Item> { loop { } }
 }
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<'a, T> DoubleEndedIterator for RChunksExactMut<'a, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<&'a mut [T]> { loop { } }
-
-    #[inline]
-    fn nth_back(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> ExactSizeIterator for RChunksExactMut<'_, T> {
-    fn is_empty(&self) -> bool { loop { } }
-}
-
-#[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunksExactMut<'_, T> {}
-
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> FusedIterator for RChunksExactMut<'_, T> {}
-
-#[doc(hidden)]
-#[stable(feature = "rchunks", since = "1.31.0")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunksExactMut<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a mut [T] { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
-}
-
 
 #[inline]
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -1673,18 +1199,6 @@ macro_rules! impl_marker_for {
 
 impl_marker_for!(BytewiseEquality,
                  u8 i8 u16 i16 u32 i32 u64 i64 u128 i128 usize isize char bool);
-
-#[doc(hidden)]
-unsafe impl<'a, T> TrustedRandomAccess for Iter<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a T { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
-}
-
-#[doc(hidden)]
-unsafe impl<'a, T> TrustedRandomAccess for IterMut<'a, T> {
-    unsafe fn get_unchecked(&mut self, i: usize) -> &'a mut T { loop { } }
-    fn may_have_side_effect() -> bool { loop { } }
-}
 
 trait SliceContains: Sized {
     fn slice_contains(&self, x: &[Self]) -> bool;

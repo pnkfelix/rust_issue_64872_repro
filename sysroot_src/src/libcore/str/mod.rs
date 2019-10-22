@@ -8,11 +8,9 @@ use self::pattern::{ReverseSearcher};
 
 use crate::char;
 use crate::fmt::{self};
-use crate::iter::{Map, Cloned, FusedIterator, Filter};
-use crate::iter::{Flatten, FlatMap, Chain};
-use crate::slice::{self, SliceIndex, Split as SliceSplit};
-use crate::ops::Try;
-use crate::option;
+// use crate::iter::{Map, Cloned, FusedIterator, Filter};
+// use crate::iter::{Flatten, FlatMap, Chain};
+use crate::slice::{self, SliceIndex};
 
 pub mod pattern;
 
@@ -116,15 +114,6 @@ impl<'a> Iterator for Chars<'a> {
 
     #[inline]
     fn next(&mut self) -> Option<char> { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<char> { loop { } }
 }
 
 #[stable(feature = "chars_debug_impl", since = "1.38.0")]
@@ -151,15 +140,6 @@ impl<'a> Iterator for CharIndices<'a> {
 
     #[inline]
     fn next(&mut self) -> Option<(usize, char)> { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<(usize, char)> { loop { } }
 }
 
 impl<'a> CharIndices<'a> {
@@ -170,7 +150,7 @@ impl<'a> CharIndices<'a> {
 
 #[stable(feature = "rust1", since = "1.0.0")]
 #[derive(Clone, Debug)]
-pub struct Bytes<'a>(Cloned<slice::Iter<'a, u8>>);
+pub struct Bytes<'a>(&'a ());
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl Iterator for Bytes<'_> {
@@ -178,35 +158,6 @@ impl Iterator for Bytes<'_> {
 
     #[inline]
     fn next(&mut self) -> Option<u8> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn count(self) -> usize { loop { } }
-
-    #[inline]
-    fn last(self) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn nth(&mut self, n: usize) -> Option<Self::Item> { loop { } }
-
-    #[inline]
-    fn all<F>(&mut self, f: F) -> bool where F: FnMut(Self::Item) -> bool { loop { } }
-
-    #[inline]
-    fn any<F>(&mut self, f: F) -> bool where F: FnMut(Self::Item) -> bool { loop { } }
-
-    #[inline]
-    fn find<P>(&mut self, predicate: P) -> Option<Self::Item> where
-        P: FnMut(&Self::Item) -> bool
-    { loop { } }
-
-    #[inline]
-    fn position<P>(&mut self, predicate: P) -> Option<usize> where
-        P: FnMut(Self::Item) -> bool
-    { loop { } }
-
 }
 
 macro_rules! derive_pattern_clone {
@@ -339,12 +290,6 @@ impl<'a> Iterator for Lines<'a> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a str> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<&'a str> { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -367,9 +312,6 @@ impl<'a> Iterator for LinesAny<'a> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a str> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 /*
@@ -746,7 +688,7 @@ pub struct SplitWhitespace<'a> {
 #[stable(feature = "split_ascii_whitespace", since = "1.34.0")]
 #[derive(Clone, Debug)]
 pub struct SplitAsciiWhitespace<'a> {
-    inner: Map<Filter<SliceSplit<'a, u8, IsAsciiWhitespace>, BytesIsNotEmpty>, UnsafeBytesToStr>,
+    inner: &'a (),
 }
 
 impl_fn_for_zst! {
@@ -772,12 +714,6 @@ impl<'a> Iterator for SplitWhitespace<'a> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a str> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<&'a str> { loop { } }
 }
 
 #[stable(feature = "split_ascii_whitespace", since = "1.34.0")]
@@ -786,12 +722,6 @@ impl<'a> Iterator for SplitAsciiWhitespace<'a> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a str> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-    #[inline]
-    fn last(mut self) -> Option<&'a str> { loop { } }
 }
 
 #[derive(Clone)]
@@ -812,33 +742,24 @@ impl<'a> Iterator for EncodeUtf16<'a> {
 
     #[inline]
     fn next(&mut self) -> Option<u16> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
-
-#[stable(feature = "fused", since = "1.26.0")]
-impl FusedIterator for EncodeUtf16<'_> {}
 
 #[stable(feature = "str_escape", since = "1.34.0")]
 #[derive(Clone, Debug)]
 pub struct EscapeDebug<'a> {
-    inner: Chain<
-        Flatten<option::IntoIter<char::EscapeDebug>>,
-        FlatMap<Chars<'a>, char::EscapeDebug, CharEscapeDebugContinue>
-    >,
+    inner: &'a (),
 }
 
 #[stable(feature = "str_escape", since = "1.34.0")]
 #[derive(Clone, Debug)]
 pub struct EscapeDefault<'a> {
-    inner: FlatMap<Chars<'a>, char::EscapeDefault, CharEscapeDefault>,
+    inner: &'a (),
 }
 
 #[stable(feature = "str_escape", since = "1.34.0")]
 #[derive(Clone, Debug)]
 pub struct EscapeUnicode<'a> {
-    inner: FlatMap<Chars<'a>, char::EscapeUnicode, CharEscapeUnicode>,
+    inner: &'a (),
 }
 
 macro_rules! escape_types_impls {
@@ -854,23 +775,7 @@ macro_rules! escape_types_impls {
 
             #[inline]
             fn next(&mut self) -> Option<char> { loop { } }
-
-            #[inline]
-            fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-
-            #[inline]
-            fn try_fold<Acc, Fold, R>(&mut self, init: Acc, fold: Fold) -> R where
-                Self: Sized, Fold: FnMut(Acc, Self::Item) -> R, R: Try<Ok=Acc>
-            { loop { } }
-
-            #[inline]
-            fn fold<Acc, Fold>(self, init: Acc, fold: Fold) -> Acc
-                where Fold: FnMut(Acc, Self::Item) -> Acc,
-            { loop { } }
         }
-
-        #[stable(feature = "str_escape", since = "1.34.0")]
-        impl<'a> FusedIterator for $Name<'a> {}
     )+}
 }
 

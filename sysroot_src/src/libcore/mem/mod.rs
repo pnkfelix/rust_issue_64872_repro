@@ -2,12 +2,8 @@
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use crate::clone;
-use crate::cmp;
-use crate::fmt;
-use crate::hash;
 use crate::intrinsics;
-use crate::marker::{Copy, PhantomData, Sized};
+use crate::marker::{Sized};
 
 mod manually_drop;
 #[stable(feature = "manually_drop", since = "1.20.0")]

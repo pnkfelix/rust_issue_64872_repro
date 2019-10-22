@@ -33,7 +33,6 @@
 #![feature(fundamental)]
 #![feature(intrinsics)]
 #![feature(is_sorted)]
-#![feature(iter_once_with)]
 #![feature(lang_items)]
 #![feature(link_llvm_intrinsics)]
 #![feature(never_type)]
@@ -150,7 +149,30 @@ pub mod char;
 pub mod panic;
 pub mod panicking;
 // pub mod pin;
-pub mod iter;
+pub mod iter {
+    #![stable(feature = "rust1", since = "1.0.0")]
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub trait Iterator {
+        #[stable(feature = "rust1", since = "1.0.0")]
+        type Item;
+
+        #[stable(feature = "rust1", since = "1.0.0")]
+        fn next(&mut self) -> Option<Self::Item>;
+    }
+
+    #[stable(feature = "rust1", since = "1.0.0")]
+    pub trait IntoIterator {
+        #[stable(feature = "rust1", since = "1.0.0")]
+        type Item;
+
+        #[stable(feature = "rust1", since = "1.0.0")]
+        type IntoIter: Iterator<Item=Self::Item>;
+
+        #[stable(feature = "rust1", since = "1.0.0")]
+        fn into_iter(self) -> Self::IntoIter;
+    }
+}
 pub mod option;
 // pub mod raw;
 pub mod result;

@@ -1,7 +1,7 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use crate::fmt;
-use crate::iter::{FromIterator};
+// use crate::iter::{FromIterator};
 use crate::ops::{self, Deref, DerefMut};
 
 #[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
@@ -242,8 +242,6 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a T> { loop { } }
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -262,8 +260,6 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut T> { loop { } }
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 #[derive(Clone, Debug)]
@@ -276,14 +272,6 @@ impl<T> Iterator for IntoIter<T> {
 
     #[inline]
     fn next(&mut self) -> Option<T> { loop { } }
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A, E, V: FromIterator<A>> FromIterator<Result<A, E>> for Result<V, E> {
-    #[inline]
-    fn from_iter<I: IntoIterator<Item=Result<A, E>>>(iter: I) -> Result<V, E> { loop { } }
 }
 
 #[unstable(feature = "try_trait", issue = "42327")]

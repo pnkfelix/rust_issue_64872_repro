@@ -1,6 +1,6 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use crate::iter::{FromIterator};
+// use crate::iter::{FromIterator};
 use crate::{fmt, ops::{self, Deref, DerefMut}};
 
 
@@ -260,9 +260,6 @@ impl<A> Iterator for Item<A> {
 
     #[inline]
     fn next(&mut self) -> Option<A> { loop { } }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -275,8 +272,6 @@ impl<'a, A> Iterator for Iter<'a, A> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a A> { loop { } }
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
@@ -295,8 +290,6 @@ impl<'a, A> Iterator for IterMut<'a, A> {
 
     #[inline]
     fn next(&mut self) -> Option<&'a mut A> { loop { } }
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
 }
 
 #[derive(Clone, Debug)]
@@ -309,14 +302,6 @@ impl<A> Iterator for IntoIter<A> {
 
     #[inline]
     fn next(&mut self) -> Option<A> { loop { } }
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A, V: FromIterator<A>> FromIterator<Option<A>> for Option<V> {
-    #[inline]
-    fn from_iter<I: IntoIterator<Item=Option<A>>>(iter: I) -> Option<V> { loop { } }
 }
 
 #[unstable(feature = "try_trait", issue = "42327")]

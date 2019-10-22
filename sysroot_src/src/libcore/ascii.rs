@@ -17,8 +17,6 @@ pub fn escape_default(c: u8) -> EscapeDefault { loop { } }
 impl Iterator for EscapeDefault {
     type Item = u8;
     fn next(&mut self) -> Option<u8> { loop { } }
-    fn size_hint(&self) -> (usize, Option<usize>) { loop { } }
-    fn last(mut self) -> Option<u8> { loop { } }
 }
 
 #[stable(feature = "ascii_escape_display", since = "1.39.0")]
