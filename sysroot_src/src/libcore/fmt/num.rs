@@ -16,19 +16,6 @@ trait Int: Div<Output=Self> + Rem<Output=Self> +
     fn to_u128(&self) -> u128;
 }
 
-macro_rules! doit {
-    ($($t:ident)*) => ($(impl Int for $t {
-        fn zero() -> $t { loop { } }
-        fn from_u8(u: u8) -> $t { loop { } }
-        fn to_u8(&self) -> u8 { loop { } }
-        fn to_u16(&self) -> u16 { loop { } }
-        fn to_u32(&self) -> u32 { loop { } }
-        fn to_u64(&self) -> u64 { loop { } }
-        fn to_u128(&self) -> u128 { loop { } }
-    })*)
-}
-doit! { i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize }
-
 #[doc(hidden)]
 trait GenericRadix {
     const BASE: u8;
