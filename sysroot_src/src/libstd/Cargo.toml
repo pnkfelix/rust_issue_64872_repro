@@ -14,7 +14,5 @@ path = "lib.rs"
 crate-type = ["dylib", "rlib"]
 
 [dependencies]
-alloc = { path = "../liballoc" }
-
 core = { path = "../libcore" }
 compiler_builtins = { path = "../compiler_builtins" }
