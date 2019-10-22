@@ -11,7 +11,6 @@
     test(attr(deny(warnings)))
 )]
 #![feature(compiler_builtins)]
-#![feature(core_intrinsics)]
 #![feature(naked_functions)]
 #![feature(repr_simd)]
 #![feature(abi_unadjusted)]

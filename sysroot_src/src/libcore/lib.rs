@@ -2,7 +2,6 @@
 
 #![cfg(not(test))]
 
-#![stable(feature = "core", since = "1.6.0")]
 #![doc(html_root_url = "https://doc.rust-lang.org/nightly/",
        html_playground_url = "https://play.rust-lang.org/",
        issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/",
@@ -43,7 +42,6 @@
 #![feature(rustc_const_unstable)]
 #![feature(simd_ffi)]
 #![feature(specialization)]
-#![feature(staged_api)]
 #![feature(stmt_expr_attributes)]
 #![feature(transparent_unions)]
 #![feature(unboxed_closures)]
@@ -77,224 +75,162 @@
 use prelude::v1::*;
 
 pub mod ops {
-    #![stable(feature = "rust1", since = "1.0.0")]
-
     mod deref {
         #[lang = "receiver"]
-        #[unstable(feature = "receiver_trait", issue = "0")]
         #[doc(hidden)]
         pub trait Receiver { }
 
-        #[unstable(feature = "receiver_trait", issue = "0")]
         impl<T: ?Sized> Receiver for &T {}
 
-        #[unstable(feature = "receiver_trait", issue = "0")]
         impl<T: ?Sized> Receiver for &mut T {}
     }
 
     mod function {
         #[lang = "fn"]
-        #[stable(feature = "rust1", since = "1.0.0")]
         #[rustc_paren_sugar]
         #[fundamental] // so that regex can rely that `&str: !FnMut`
         #[must_use = "closures are lazy and do nothing unless called"]
         pub trait Fn<Args> : FnMut<Args> {
-            #[unstable(feature = "fn_traits", issue = "29625")]
             extern "rust-call" fn call(&self, args: Args) -> Self::Output;
         }
 
         #[lang = "fn_mut"]
-        #[stable(feature = "rust1", since = "1.0.0")]
         #[rustc_paren_sugar]
         #[fundamental] // so that regex can rely that `&str: !FnMut`
         #[must_use = "closures are lazy and do nothing unless called"]
         pub trait FnMut<Args> : FnOnce<Args> {
-            #[unstable(feature = "fn_traits", issue = "29625")]
             extern "rust-call" fn call_mut(&mut self, args: Args) -> Self::Output;
         }
 
         #[lang = "fn_once"]
-        #[stable(feature = "rust1", since = "1.0.0")]
         #[rustc_paren_sugar]
         #[fundamental] // so that regex can rely that `&str: !FnMut`
         #[must_use = "closures are lazy and do nothing unless called"]
         pub trait FnOnce<Args> {
-            #[stable(feature = "fn_once_output", since = "1.12.0")]
             type Output;
 
-            #[unstable(feature = "fn_traits", issue = "29625")]
             extern "rust-call" fn call_once(self, args: Args) -> Self::Output;
         }
     }
     mod unsize {
         use crate::marker::Unsize;
 
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         #[lang = "coerce_unsized"]
         pub trait CoerceUnsized<T: ?Sized> { }
 
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a mut U> for &'a mut T {}
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b mut T {}
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*mut U> for &'a mut T {}
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for &'a mut T {}
 
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b T {}
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for &'a T {}
 
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*mut U> for *mut T {}
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for *mut T {}
 
-        #[unstable(feature = "coerce_unsized", issue = "27732")]
         impl<T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for *const T {}
 
-        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
         #[lang = "dispatch_from_dyn"]
         pub trait DispatchFromDyn<T> { }
 
-        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a U> for &'a T {}
-        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
         impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a mut U> for &'a mut T {}
-        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
         impl<T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<*const U> for *const T {}
-        #[unstable(feature = "dispatch_from_dyn", issue = "0")]
         impl<T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<*mut U> for *mut T {}
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub use self::function::{Fn, FnMut, FnOnce};
 }
 
 #[derive(Debug)]
-#[stable(feature = "panic_hooks", since = "1.10.0")]
 struct UnusedWithFieldOfTypeU32 {
     inner: u32,
 }
 
 pub mod fmt
 {
-    #![stable(feature = "rust1", since = "1.0.0")]
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     #[doc(alias = "{:?}")]
     pub trait Debug {
-        #[stable(feature = "rust1", since = "1.0.0")]
         fn fmt(&self, f: &mut Formatter<'_>) -> Result;
     }
 
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     impl<T: ?Sized + Debug> Debug for &T {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     impl Debug for u32 {
         fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
     }
 
     pub(crate) mod macros {
         #[rustc_builtin_macro]
-        #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
         #[allow_internal_unstable(core_intrinsics)]
         pub macro Debug($item:item) { /* compiler built-in */ }
     }
 
     #[allow(missing_debug_implementations)]
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub struct Formatter<'a> {
         inner: &'a (),
     }
 
-    #[stable(feature = "debug_builders", since = "1.2.0")]
     pub struct DebugTuple<'a, 'b: 'a> { inner: &'a &'b () }
 
     impl<'a, 'b: 'a> DebugTuple<'a, 'b> {
-        #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn field(&mut self, _value: &dyn Debug) -> &mut DebugTuple<'a, 'b> { loop { } }
 
-        #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn finish(&mut self) -> Result { loop { } }
     }
 
     impl<'a, 'b: 'a> DebugStruct<'a, 'b> {
-        #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn field(&mut self, name: &str, value: &dyn Debug) -> &mut DebugStruct<'a, 'b> { loop { } }
 
-        #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn finish(&mut self) -> Result { loop { } }
     }
 
-    #[stable(feature = "debug_builders", since = "1.2.0")]
     pub struct DebugStruct<'a, 'b: 'a> { inner: &'a &'b () }
 
     impl<'a> Formatter<'a> {
-        #[stable(feature = "debug_builders", since = "1.2.0")]
         pub fn debug_tuple<'b>(&'b mut self, _name: &str) -> DebugTuple<'b, 'a> { loop { } }
-        #[stable(feature = "debug_builders", since = "1.2.0")]
+
         pub fn debug_struct<'b>(&'b mut self, name: &str) -> DebugStruct<'b, 'a> { loop { } }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub type Result = crate::result::Result<(), Error>;
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub struct Arguments<'a> {
         inner: &'a (),
     }
 
     #[doc(alias = "{}")]
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub trait Display {
-        #[stable(feature = "rust1", since = "1.0.0")]
         fn fmt(&self, f: &mut Formatter<'_>) -> Result;
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
     #[derive(Debug)]
     pub struct Error;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")] pub mod usize { }
 pub mod prelude {
-    #![stable(feature = "core_prelude", since = "1.4.0")]
     pub mod v1 {
-        #![stable(feature = "core_prelude", since = "1.4.0")]
 
         // Re-exported core operators
-        #[stable(feature = "core_prelude", since = "1.4.0")]
         #[doc(no_inline)]
         pub use crate::marker::{Sized};
-        #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
         #[doc(no_inline)]
         pub use crate::fmt::macros::Debug;
-        #[stable(feature = "core_prelude", since = "1.4.0")]
         #[doc(no_inline)]
         pub use crate::iter::{Iterator, IntoIterator};
-        #[stable(feature = "core_prelude", since = "1.4.0")]
         #[doc(no_inline)]
         pub use crate::option::Option::{self, Some, None};
-        #[stable(feature = "core_prelude", since = "1.4.0")]
         #[doc(no_inline)]
         pub use crate::result::Result::{self, Ok, Err};
     }
 }
 
 pub mod intrinsics {
-    #![unstable(feature = "core_intrinsics",
-                reason = "intrinsics are unlikely to ever be stabilized, instead \
-                          they should be used through stabilized interfaces \
-                          in the rest of the standard library",
-                issue = "0")]
     extern "rust-intrinsic" {
-        #[stable(feature = "rust1", since = "1.0.0")]
         pub fn transmute<T, U>(e: T) -> U;
         pub fn size_of<T>() -> usize;
         pub fn min_align_of<T>() -> usize;
@@ -303,17 +239,12 @@ pub mod intrinsics {
 }
 
 pub mod ptr {
-    #![stable(feature = "rust1", since = "1.0.0")]
-
     #[lang = "drop_in_place"]
     #[allow(unconditional_recursion)]
     unsafe fn real_drop_in_place<T: ?Sized>(to_drop: &mut T) { loop { } }
 }
 
 pub mod marker {
-    #![stable(feature = "rust1", since = "1.0.0")]
-
-    #[stable(feature = "rust1", since = "1.0.0")]
     #[lang = "copy"]
     pub trait Copy { }
 
@@ -324,22 +255,17 @@ pub mod marker {
 
     #[lang = "phantom_data"]
     #[structural_match]
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub struct PhantomData<T:?Sized>;
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub unsafe auto trait Send { }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     #[lang = "sized"]
     #[fundamental] // for Default, for example, which requires that `[T]: !Default` be evaluatable
     pub trait Sized { }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     #[lang = "sync"]
     pub unsafe auto trait Sync { }
 
-    #[unstable(feature = "unsize", issue = "27732")]
     #[lang = "unsize"]
     pub trait Unsize<T: ?Sized> { }
 }
@@ -347,22 +273,17 @@ pub mod marker {
 
 
 pub mod any {
-    #![stable(feature = "rust1", since = "1.0.0")]
     use crate::fmt;
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub trait Any: 'static {
-        #[stable(feature = "get_type_id", since = "1.34.0")]
         fn type_id(&self) -> TypeId;
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     impl fmt::Debug for dyn Any {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result { loop { } }
     }
 
     #[derive(Debug)]
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub struct TypeId {
 
     }
@@ -370,10 +291,6 @@ pub mod any {
 
 pub mod panicking {
     #![allow(dead_code, missing_docs)]
-    #![unstable(feature = "core_panic",
-                reason = "internal details of the implementation of the `panic!` \
-                          and related macros",
-                issue = "0")]
 
     use crate::fmt;
 
@@ -395,48 +312,31 @@ pub mod panicking {
 }
 
 pub mod iter {
-    #![stable(feature = "rust1", since = "1.0.0")]
-
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub trait Iterator {
-        #[stable(feature = "rust1", since = "1.0.0")]
         type Item;
 
-        #[stable(feature = "rust1", since = "1.0.0")]
         fn next(&mut self) -> Option<Self::Item>;
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub trait IntoIterator {
-        #[stable(feature = "rust1", since = "1.0.0")]
         type Item;
 
-        #[stable(feature = "rust1", since = "1.0.0")]
         type IntoIter: Iterator<Item=Self::Item>;
 
-        #[stable(feature = "rust1", since = "1.0.0")]
         fn into_iter(self) -> Self::IntoIter;
     }
 }
 pub mod option {
-    #![stable(feature = "rust1", since = "1.0.0")]
     #[derive(Debug)]
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub enum Option<T> {
-        #[stable(feature = "rust1", since = "1.0.0")]
         None,
-        #[stable(feature = "rust1", since = "1.0.0")]
-        Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+        Some(T),
     }
 }
 
 pub mod result {
-    #![stable(feature = "rust1", since = "1.0.0")]
-    #[stable(feature = "rust1", since = "1.0.0")]
     pub enum Result<T, E> {
-        #[stable(feature = "rust1", since = "1.0.0")]
-        Ok(#[stable(feature = "rust1", since = "1.0.0")] T),
-        #[stable(feature = "rust1", since = "1.0.0")]
-        Err(#[stable(feature = "rust1", since = "1.0.0")] E),
+        Ok(T),
+        Err(E),
     }
 }
