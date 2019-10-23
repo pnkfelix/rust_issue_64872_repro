@@ -29,7 +29,6 @@ impl<T: ?Sized> Receiver for &T {}
 impl<T: ?Sized> Receiver for &mut T {}
 
 #[lang = "fn"]
-#[must_use = "closures are lazy and do nothing unless called"]
 pub trait Fn<Args> {
     type Output;
     extern "rust-call" fn call(&self, args: Args) -> Self::Output;
@@ -38,11 +37,7 @@ pub trait Fn<Args> {
 #[lang = "coerce_unsized"]
 pub trait CoerceUnsized<T: ?Sized> { }
 
-impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a mut U> for &'a mut T {}
-impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b mut T {}
-
 impl<'a, 'b: 'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<&'a U> for &'b T {}
-impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> CoerceUnsized<*const U> for &'a T {}
 
 #[lang = "dispatch_from_dyn"]
 pub trait DispatchFromDyn<T> { }
@@ -72,16 +67,10 @@ pub mod fmt
 
     pub struct Formatter<'a> { _inner: &'a () }
 
-    pub type Result = crate::Result<(), Error>;
-
-    pub struct Error;
+    pub struct Result;
 }
 
-pub mod prelude {
-    pub mod v1 {
-        pub use crate::{Sized};
-    }
-}
+pub mod prelude { pub mod v1 { } }
 
 #[lang = "drop_in_place"]
 unsafe fn real_drop_in_place<T: ?Sized>(_: &mut T) { loop { } }
@@ -97,5 +86,3 @@ pub trait Sized { }
 
 #[lang = "unsize"]
 pub trait Unsize<T: ?Sized> { }
-
-pub enum Result<T, E> { Ok(T), Err(E) }
