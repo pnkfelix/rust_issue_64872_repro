@@ -6,14 +6,16 @@
 #![feature(rustc_attrs)]
 #![feature(unboxed_closures)]
 
-struct Unused;
+pub trait Object { fn method(&self) { } }
 
-impl crate::fmt::Debug for Unused {
-    fn fmt(&self, _: &mut crate::fmt::Formatter) -> crate::fmt::Result {
-        let ref u = 0_u32;
-        let _d = &u as &dyn crate::fmt::Debug;
-        loop { }
-    }
+impl Object for u32 { }
+impl Object for () { }
+impl<T> Object for &T { }
+
+pub fn unused() {
+    let ref u = 0_u32;
+    let _d = &u as &dyn crate::Object;
+    loop { }
 }
 
 #[lang = "receiver"]
@@ -39,31 +41,6 @@ pub trait DispatchFromDyn<T> { }
 
 impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a U> for &'a T {}
 impl<'a, T: ?Sized+Unsize<U>, U: ?Sized> DispatchFromDyn<&'a mut U> for &'a mut T {}
-
-pub mod fmt
-{
-    use crate::Sized;
-
-    pub trait Debug {
-        fn fmt(&self, f: &mut Formatter<'_>) -> Result;
-    }
-
-    impl<T: ?Sized + Debug> Debug for &T {
-        fn fmt(&self, _: &mut Formatter<'_>) -> Result { loop { } }
-    }
-
-    impl Debug for u32 {
-        fn fmt(&self, _: &mut Formatter<'_>) -> Result { loop { } }
-    }
-
-    impl Debug for () {
-        fn fmt(&self, _: &mut Formatter<'_>) -> Result { loop { } }
-    }
-
-    pub struct Formatter<'a> { _inner: &'a () }
-
-    pub struct Result;
-}
 
 pub mod prelude { pub mod v1 { } }
 

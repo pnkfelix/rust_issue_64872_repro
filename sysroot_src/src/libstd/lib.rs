@@ -6,6 +6,8 @@
 #![feature(alloc_error_handler)]
 #![feature(allocator_internals)]
 
+pub use core::Object;
+
 mod uw {
     #![allow(non_camel_case_types)]
     pub type _Unwind_Action = ();
@@ -25,12 +27,6 @@ unsafe extern "C" fn rust_eh_personality(version: isize,
                                          context: *mut uw::_Unwind_Context)
                                          -> uw::_Unwind_Reason_Code {
     loop { }
-}
-
-pub mod fmt {
-    pub use core::fmt::Debug;
-    pub use core::fmt::Formatter;
-    pub use core::fmt::Result;
 }
 
 pub mod prelude {
