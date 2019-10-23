@@ -31,7 +31,6 @@ pub mod fmt {
     pub use core::fmt::Debug;
     pub use core::fmt::Formatter;
     pub use core::fmt::Result;
-    pub use core::fmt::DebugTuple;
 }
 
 pub mod prelude {

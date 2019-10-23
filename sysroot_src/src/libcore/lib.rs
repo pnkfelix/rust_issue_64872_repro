@@ -11,11 +11,10 @@ struct UnusedWithFieldOfTypeU32 {
 }
 
 impl crate::fmt::Debug for UnusedWithFieldOfTypeU32 {
-    fn fmt(&self, f: &mut crate::fmt::Formatter) -> crate::fmt::Result {
+    fn fmt(&self, _: &mut crate::fmt::Formatter) -> crate::fmt::Result {
         match self {
             UnusedWithFieldOfTypeU32 { inner: ref u } => {
-                let mut debug_trait_builder: crate::fmt::DebugStruct = f.debug_struct("UnusedWithFieldOfTypeU32");
-                debug_trait_builder.field("inner", &u);
+                let _d = &u as &dyn crate::fmt::Debug;
                 loop { }
             }
         }
@@ -73,31 +72,7 @@ pub mod fmt
 
     pub struct Formatter<'a> { _inner: &'a () }
 
-    pub struct DebugTuple<'a, 'b: 'a> { _inner: &'a &'b () }
-
-    impl<'a, 'b: 'a> DebugTuple<'a, 'b> {
-        pub fn field(&mut self, _value: &dyn Debug) -> &mut DebugTuple<'a, 'b> { loop { } }
-
-        pub fn finish(&mut self) -> Result { loop { } }
-    }
-
-    impl<'a, 'b: 'a> DebugStruct<'a, 'b> {
-        pub fn field(&mut self, _: &str, _: &dyn Debug) -> &mut DebugStruct<'a, 'b> { loop { } }
-
-        pub fn finish(&mut self) -> Result { loop { } }
-    }
-
-    pub struct DebugStruct<'a, 'b: 'a> { _inner: &'a &'b () }
-
-    impl<'a> Formatter<'a> {
-        pub fn debug_tuple<'b>(&'b mut self, _: &str) -> DebugTuple<'b, 'a> { loop { } }
-
-        pub fn debug_struct<'b>(&'b mut self, _: &str) -> DebugStruct<'b, 'a> { loop { } }
-    }
-
     pub type Result = crate::Result<(), Error>;
-
-    pub struct Arguments<'a> { _inner: &'a () }
 
     pub struct Error;
 }
