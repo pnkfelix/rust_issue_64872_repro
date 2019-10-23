@@ -18,6 +18,7 @@ error: linking with `cc` failed: exit code: 1
 This linker failure is arising due to a mix of:
 
 1. the `&u as &dyn crate::Object` in `sysroot_src/src/libcore/lib.rs` ([link][libcorelink]):
+
 [libcorelink]: https://github.com/pnkfelix/rust_issue_64872_repro/blob/e32bd083f3dd0218f60abb2f479d18beae168d8c/sysroot_src/src/libcore/lib.rs#L9
 
 ```rust
@@ -37,6 +38,7 @@ pub fn unused() {
 and
 
 2. the `&u as &dyn crate::Object` in `sysroot_src/src/getopts/lib.rs` ([link][getoptslink]):
+
 [getoptslink]: https://github.com/pnkfelix/rust_issue_64872_repro/blob/e32bd083f3dd0218f60abb2f479d18beae168d8c/sysroot_src/src/getopts/src/lib.rs#L1
 
 ```rust
