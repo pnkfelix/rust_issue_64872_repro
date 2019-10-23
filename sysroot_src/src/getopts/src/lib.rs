@@ -1,12 +1,9 @@
-enum Name { _Short(u32) }
+struct Name;
 
 impl std::fmt::Debug for Name {
     fn fmt(&self, _: &mut std::fmt::Formatter) -> std::fmt::Result {
-        match self {
-            Name::_Short(ref u) => {
-                let _d = &u as &dyn std::fmt::Debug;
-                loop { }
-            }
-        }
+        let ref u = 1_u32;
+        let _d = &u as &dyn std::fmt::Debug;
+        loop { }
     }
 }

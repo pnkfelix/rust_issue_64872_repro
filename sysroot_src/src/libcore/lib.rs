@@ -6,18 +6,13 @@
 #![feature(rustc_attrs)]
 #![feature(unboxed_closures)]
 
-struct UnusedWithFieldOfTypeU32 {
-    inner: u32,
-}
+struct Unused;
 
-impl crate::fmt::Debug for UnusedWithFieldOfTypeU32 {
+impl crate::fmt::Debug for Unused {
     fn fmt(&self, _: &mut crate::fmt::Formatter) -> crate::fmt::Result {
-        match self {
-            UnusedWithFieldOfTypeU32 { inner: ref u } => {
-                let _d = &u as &dyn crate::fmt::Debug;
-                loop { }
-            }
-        }
+        let ref u = 0_u32;
+        let _d = &u as &dyn crate::fmt::Debug;
+        loop { }
     }
 }
 
