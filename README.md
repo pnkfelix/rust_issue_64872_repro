@@ -1,5 +1,7 @@
-To reproduce the bug (rust-lang/rust#64872), just do `cargo build` in
+To reproduce the bug ([rust-lang/rust#64872][issue]), just do `cargo build` in
 the root of the repository.
+
+[issue]: https://github.com/rust-lang/rust/issues/64872
 
 When I do this, I observe a linker failure of the form:
 
