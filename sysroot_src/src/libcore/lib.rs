@@ -6,12 +6,21 @@
 #![feature(rustc_attrs)]
 #![feature(unboxed_closures)]
 
-#[derive(Debug)]
 struct UnusedWithFieldOfTypeU32 {
     inner: u32,
 }
 
-use crate::fmt::macros::Debug;
+impl crate::fmt::Debug for UnusedWithFieldOfTypeU32 {
+    fn fmt(&self, f: &mut crate::fmt::Formatter) -> crate::fmt::Result {
+        match self {
+            UnusedWithFieldOfTypeU32 { inner: ref u } => {
+                let mut debug_trait_builder: crate::fmt::DebugStruct = f.debug_struct("UnusedWithFieldOfTypeU32");
+                debug_trait_builder.field("inner", &u);
+                loop { }
+            }
+        }
+    }
+}
 
 #[lang = "receiver"]
 pub trait Receiver { }
@@ -59,12 +68,7 @@ pub mod fmt
     }
 
     impl Debug for () {
-        fn fmt(&self, f: &mut Formatter<'_>) -> Result { loop { } }
-    }
-
-    pub(crate) mod macros {
-        #[rustc_builtin_macro]
-        pub macro Debug($item:item) { /* compiler built-in */ }
+        fn fmt(&self, _: &mut Formatter<'_>) -> Result { loop { } }
     }
 
     pub struct Formatter<'a> { _inner: &'a () }
@@ -101,7 +105,6 @@ pub mod fmt
 pub mod prelude {
     pub mod v1 {
         pub use crate::{Sized};
-        pub use crate::fmt::macros::Debug;
     }
 }
 
